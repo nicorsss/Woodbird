@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodbird · Lienzo de modelo de negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --corteza:#191E14; --duramen:#47542F; --musgo:#6E7C4F;
+  --albura:#E7D9AE; --arena:#F4EEDC; --tiza:#FCFAF3;
+  --resina:#A9682A; --linea:#C9C0A2; --gris:#6B6959;
+  --display:"Fraunces",Georgia,serif;
+  --texto:"Archivo",system-ui,-apple-system,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--arena);color:var(--corteza);font-family:var(--texto);line-height:1.5;}
+h1,h2{font-family:var(--display);font-variation-settings:"SOFT" 24,"WONK" 1;margin:0;line-height:1.15;}
+.envase{max-width:1500px;margin:0 auto;padding:0 22px;}
+
+.tope{background:var(--corteza);color:var(--albura);padding:34px 0 28px;margin-bottom:26px;}
+.tope h1{font-size:34px;font-weight:700;color:var(--albura);letter-spacing:-.02em;}
+.tope p{margin:9px 0 0;color:#A8AE90;font-size:14px;max-width:74ch;}
+.datos{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 0;padding:0;list-style:none;font-size:12.5px;color:#9AA284;}
+.datos li{border:1px solid #333A28;border-radius:100px;padding:5px 14px;}
+
+/* ---- Lienzo ---- */
+.lienzo{
+  display:grid;
+  grid-template-columns:repeat(10,1fr);
+  gap:2px;
+  background:var(--linea);
+  border:2px solid var(--corteza);
+  border-radius:4px;
+  overflow:hidden;
+}
+.bloque{background:var(--tiza);padding:13px 14px 15px;display:flex;flex-direction:column;}
+.bloque.eje{background:#F1EFE2;}
+.bloque.franja{background:#EFEADC;}
+
+.rotulo{display:flex;align-items:flex-start;gap:8px;margin-bottom:9px;}
+.rotulo svg{width:17px;height:17px;stroke:var(--duramen);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none;margin-top:1px;}
+.rotulo h2{font-size:14px;font-weight:600;color:var(--duramen);}
+.bloque.eje .rotulo h2,.bloque.eje .rotulo svg{color:var(--resina);stroke:var(--resina);}
+
+.bloque ul{margin:0;padding:0;list-style:none;font-size:12px;color:#2A2E22;}
+.bloque li{padding:0 0 7px 13px;position:relative;line-height:1.42;}
+.bloque li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:1px;background:var(--musgo);}
+.bloque.eje li::before{background:var(--resina);}
+.bloque li b{font-weight:600;}
+
+.socios{grid-column:1/3;grid-row:1/3;}
+.actividades{grid-column:3/5;grid-row:1;}
+.recursos{grid-column:3/5;grid-row:2;}
+.propuesta{grid-column:5/7;grid-row:1/3;}
+.relaciones{grid-column:7/9;grid-row:1;}
+.canales{grid-column:7/9;grid-row:2;}
+.segmentos{grid-column:9/11;grid-row:1/3;}
+.costos{grid-column:1/6;grid-row:3;}
+.ingresos{grid-column:6/11;grid-row:3;}
+
+.costos ul,.ingresos ul{columns:2;column-gap:26px;}
+
+/* ---- Adaptación digital ---- */
+.adaptacion{margin:40px 0 0;}
+.adaptacion > h2{font-size:26px;padding-bottom:11px;border-bottom:2px solid var(--corteza);margin-bottom:22px;}
+.envoltorio{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--tiza);border:1px solid var(--linea);}
+th{background:var(--corteza);color:var(--albura);text-align:left;padding:12px 15px;font-size:13px;font-weight:600;}
+td{padding:11px 15px;border-top:1px solid var(--linea);vertical-align:top;}
+tr:nth-child(even) td{background:#F1EFE2;}
+td:first-child{font-weight:500;width:26%;}
+
+footer{border-top:1px solid var(--linea);margin-top:44px;padding:22px 0 56px;font-size:13px;color:var(--gris);}
+
+@media print{
+  @page{size:A4 landscape;margin:9mm;}
+  body{background:#fff;}
+  .tope{background:#fff;color:var(--corteza);padding:0 0 14px;margin-bottom:14px;border-bottom:2px solid var(--corteza);}
+  .tope h1{color:var(--corteza);font-size:26px;}
+  .tope p{color:var(--gris);}
+  .datos{color:var(--gris);}
+  .datos li{border-color:var(--linea);}
+  .adaptacion{break-before:page;}
+  .bloque li{font-size:10.5px;}
+}
+@media (max-width:1000px){
+  .lienzo{grid-template-columns:1fr;}
+  .lienzo > *{grid-column:1/-1!important;grid-row:auto!important;}
+  .costos ul,.ingresos ul{columns:1;}
+}
+</style>
+</head>
+<body>
+
+<header class="tope">
+  <div class="envase">
+    <h1>Lienzo de modelo de negocio · Woodbird</h1>
+    <p>Business Model Canvas adaptado al entorno digital. Aves decorativas talladas en maderas nativas del Chaco, comercializadas por tienda en línea propia.</p>
+    <ul class="datos">
+      <li>Sprint 1 · Semana 1 · Actividad 2</li>
+      <li>EDC</li>
+      <li>Reiss Jorge Nicolás</li>
+      <li>08/09/2026</li>
+    </ul>
+  </div>
+</header>
+
+<main class="envase">
+
+  <div class="lienzo">
+
+    <!-- 1 -->
+    <section class="bloque socios">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 20c0-3 2.2-5 5-5M21 20c0-3-2.2-5-5-5"/></svg>
+        <h2>Socios clave</h2>
+      </div>
+      <ul>
+        <li><b>Proveedores de madera nativa</b> con acreditación de origen legal y trazabilidad, requisito por tratarse de una especie protegida</li>
+        <li>Talleres artesanos tercerizados para cubrir picos de demanda</li>
+        <li>Operadores logísticos para envío a todo el país</li>
+        <li>Proveedor de hosting y NIC Argentina para el dominio</li>
+        <li><b>Pasarela de pagos:</b> socio crítico, porque el cobro en línea es un objetivo central del sistema</li>
+        <li>Plataformas publicitarias para captación</li>
+      </ul>
+    </section>
+
+    <!-- 2 -->
+    <section class="bloque actividades">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M6 16V9M11 16V5M16 16v-4"/></svg>
+        <h2>Actividades clave</h2>
+      </div>
+      <ul>
+        <li>Desarrollo y mantenimiento de la tienda en línea</li>
+        <li>Tallado, terminación y control de calidad de las piezas</li>
+        <li>Gestión del catálogo, del stock y de la fotografía de producto</li>
+        <li>Procesamiento de pedidos y de pagos</li>
+        <li>Marketing de contenido y publicidad digital</li>
+        <li>Atención al cliente y posventa</li>
+      </ul>
+    </section>
+
+    <!-- 3 -->
+    <section class="bloque recursos">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
+        <h2>Recursos clave</h2>
+      </div>
+      <ul>
+        <li><b>Digitales:</b> sitio propio con catálogo, carrito y checkout; base de datos de productos y pedidos; dominio .com.ar</li>
+        <li><b>Físicos:</b> materia prima trazable, herramientas de tallado, espacio de producción y embalaje</li>
+        <li><b>De marca:</b> nombre Woodbird, identidad visual, fotografía de producto</li>
+        <li><b>Humanos:</b> desarrollo, diseño, tallado y atención</li>
+        <li>Comunidad propia en redes sociales</li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section class="bloque propuesta eje">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6.1L12 16.8 6.6 19.7l1.2-6.1L3.3 9.4l6.1-.8z"/></svg>
+        <h2>Propuesta de valor</h2>
+      </div>
+      <ul>
+        <li><b>Aves decorativas talladas a mano</b> en maderas nativas del Chaco, principalmente palo santo</li>
+        <li>Cada pieza sale de un solo bloque de madera: no hay dos iguales</li>
+        <li><b>Origen verificable.</b> La madera tiene trazabilidad documentada, algo que la venta informal de artesanía no ofrece</li>
+        <li>Compra íntegramente en línea, con pago digital seguro y sin necesidad de contactar al vendedor</li>
+        <li>Piezas por encargo y personalizadas</li>
+        <li>Envío a todo el país desde una producción regional</li>
+      </ul>
+    </section>
+
+    <!-- 5 -->
+    <section class="bloque relaciones">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 11-3-6.2"/><path d="M8 12l3 3 5-6"/></svg>
+        <h2>Relaciones con los clientes</h2>
+      </div>
+      <ul>
+        <li><b>Autoservicio</b> como modo principal: el cliente compra sin intervención humana</li>
+        <li>Asistencia personal por WhatsApp y redes para consultas y encargos</li>
+        <li>Confirmación automática del pedido y seguimiento del envío</li>
+        <li>Posventa: cuidado y mantenimiento de la pieza</li>
+        <li>Cuenta de usuario con historial de compras (etapa posterior)</li>
+      </ul>
+    </section>
+
+    <!-- 6 -->
+    <section class="bloque canales">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+        <h2>Canales</h2>
+      </div>
+      <ul>
+        <li><b>Sitio web propio: canal de conversión.</b> Es donde ocurre la compra y el pago</li>
+        <li>Instagram y Facebook: descubrimiento y tráfico hacia la tienda</li>
+        <li>WhatsApp: consulta previa y cierre de encargos</li>
+        <li>Publicidad paga en redes: captación de clientes nuevos</li>
+        <li>Correo electrónico: recompra y novedades</li>
+      </ul>
+    </section>
+
+    <!-- 7 -->
+    <section class="bloque segmentos">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></svg>
+        <h2>Segmentos de clientes</h2>
+      </div>
+      <ul>
+        <li><b>Principal:</b> personas de 18 a 50 años interesadas en decoración del hogar, diseño y producto artesanal</li>
+        <li>Compradores de regalos originales, con estacionalidad marcada en fechas festivas</li>
+        <li>Consumidores que valoran el origen local y la producción responsable</li>
+        <li><b>Secundario:</b> tiendas de decoración que compran por volumen</li>
+        <li>Alcance nacional: el canal digital elimina la restricción geográfica de un local físico</li>
+      </ul>
+    </section>
+
+    <!-- 8 -->
+    <section class="bloque costos franja">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+        <h2>Estructura de costos</h2>
+      </div>
+      <ul>
+        <li><b>Variables:</b> madera y materiales</li>
+        <li><b>Variables:</b> mano de obra de tallado</li>
+        <li><b>Variables:</b> embalaje y envío por pedido</li>
+        <li><b>Variables:</b> comisión de la pasarela por cada transacción</li>
+        <li><b>Fijos:</b> hosting y renovación anual del dominio</li>
+        <li><b>Fijos:</b> mantenimiento y evolución del sitio</li>
+        <li><b>Fijos:</b> herramientas y software de gestión</li>
+        <li><b>Inversión:</b> registro de marca ante el INPI</li>
+        <li><b>Adquisición:</b> publicidad digital, medida como costo por cliente nuevo</li>
+        <li><b>Adquisición:</b> producción de contenido y fotografía</li>
+      </ul>
+    </section>
+
+    <!-- 9 -->
+    <section class="bloque ingresos franja">
+      <div class="rotulo">
+        <svg viewBox="0 0 24 24"><path d="M4 18l5-5 4 3 7-8"/><path d="M15 8h5v5"/></svg>
+        <h2>Fuentes de ingresos</h2>
+      </div>
+      <ul>
+        <li><b>Principal:</b> venta directa por el sitio web, con pago en línea</li>
+        <li>Piezas personalizadas por encargo, con margen superior</li>
+        <li>Packs y colecciones temáticas</li>
+        <li>Venta mayorista a comercios de decoración</li>
+        <li>Ediciones limitadas y diseños exclusivos</li>
+        <li><b>Modelo:</b> pago único por unidad, sin suscripción</li>
+        <li><b>Precio:</b> fijado por pieza según madera, tamaño y complejidad del tallado</li>
+        <li><b>Cobro:</b> anticipado e íntegro al confirmar el pedido, lo que evita financiar la producción</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <section class="adaptacion">
+    <h2>Qué cambia respecto de un negocio artesanal tradicional</h2>
+    <div class="envoltorio">
+      <table>
+        <thead>
+          <tr><th>Bloque</th><th>Negocio artesanal tradicional</th><th>Woodbird en el entorno digital</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Canales</td><td>Feria, local a la calle o consignación en tiendas de terceros.</td><td>Sitio propio como único canal de conversión. Las redes generan descubrimiento pero no cierran la venta.</td></tr>
+          <tr><td>Segmentos</td><td>Limitado a quien pasa físicamente por el punto de venta.</td><td>Alcance nacional sin costo marginal por llegar a una provincia nueva.</td></tr>
+          <tr><td>Relaciones</td><td>Trato cara a cara con cada comprador.</td><td>Autoservicio por defecto, con asistencia humana solo en consultas y encargos. Permite vender fuera del horario comercial.</td></tr>
+          <tr><td>Ingresos</td><td>Cobro en efectivo o transferencia, a menudo contra entrega.</td><td>Cobro anticipado por pasarela al confirmar el pedido: la producción no se financia con capital propio.</td></tr>
+          <tr><td>Costos</td><td>Alquiler del local, personal de atención, stock exhibido.</td><td>Hosting, dominio, comisión por transacción y publicidad digital. Sin alquiler, pero con un costo de adquisición de cliente que hay que medir.</td></tr>
+          <tr><td>Recursos</td><td>Local, vidriera y stock físico.</td><td>Sitio web, base de datos y fotografía de producto. El catálogo digital reemplaza a la vidriera.</td></tr>
+          <tr><td>Socios</td><td>Proveedor de madera y poco más.</td><td>Se agregan pasarela de pagos, hosting, NIC Argentina y operadores logísticos: la operación depende de terceros técnicos.</td></tr>
+          <tr><td>Actividades</td><td>Producir y vender.</td><td>Se suma sostener la plataforma: catálogo, stock, mantenimiento del sitio y contenido para redes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="envase">
+  <p>Woodbird · Lienzo de modelo de negocio · Sprint 1, Semana 1, Actividad 2 · Reiss Jorge Nicolás</p>
+</footer>
+
+</body>
+</html>

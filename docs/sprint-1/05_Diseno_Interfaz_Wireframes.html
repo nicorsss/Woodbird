@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodbird · Arquitectura visual — Sprint 1, Semana 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   WOODBIRD — SISTEMA DE DISEÑO
+   Paleta derivada de la propia madera de palo santo:
+   duramen verde oliva, albura amarilla pálida, resina ámbar.
+   ============================================================ */
+:root{
+  --corteza:#191E14;   /* verde-negro: duramen profundo, texto y CTA */
+  --duramen:#47542F;   /* verde oliva: color característico de la especie */
+  --musgo:#6E7C4F;     /* oliva claro: texto secundario sobre oscuro */
+  --albura:#E7D9AE;    /* amarillo pálido: la capa externa de la madera */
+  --arena:#F4EEDC;     /* fondo de página */
+  --tiza:#FCFAF3;      /* superficies y tarjetas */
+  --resina:#A9682A;    /* ámbar: precios y acentos puntuales */
+  --linea:#D8CEB0;     /* bordes de 1px */
+  --gris:#6B6959;      /* texto terciario */
+
+  --u:4px;             /* unidad base de espaciado */
+  --r-chico:6px;
+  --r-medio:12px;
+  --r-grande:20px;
+
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --texto:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--arena);
+  color:var(--corteza);
+  font-family:var(--texto);
+  font-size:16px;
+  line-height:1.6;
+}
+h1,h2,h3,h4{
+  font-family:var(--display);
+  font-variation-settings:"SOFT" 24,"WONK" 1;
+  font-weight:600;
+  line-height:1.15;
+  margin:0;
+}
+:focus-visible{outline:3px solid var(--resina);outline-offset:2px;}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ---------- Estructura del documento ---------- */
+.doc{max-width:1180px;margin:0 auto;padding:0 24px 96px;}
+
+.doc-head{
+  background:var(--corteza);
+  color:var(--albura);
+  margin:0 0 56px;
+  padding:64px 0 56px;
+}
+.doc-head .doc{padding-bottom:0;}
+.doc-head p{max-width:56ch;color:#BFC4A8;margin:16px 0 0;}
+.doc-head h1{
+  font-size:clamp(38px,6vw,70px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  color:var(--albura);
+}
+.meta{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin:28px 0 0;padding:0;list-style:none;
+  font-size:13px;color:#9AA284;
+}
+.meta li{border:1px solid #333A28;border-radius:100px;padding:5px 14px;}
+
+section.bloque{margin:0 0 88px;}
+.bloque > h2{
+  font-size:clamp(26px,3.2vw,36px);
+  padding-bottom:12px;
+  border-bottom:2px solid var(--corteza);
+  margin-bottom:8px;
+}
+.bloque > h2 + p{max-width:68ch;color:var(--gris);margin:14px 0 32px;}
+
+/* ---------- Sistema de diseño ---------- */
+.tokens{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));}
+.token-caja{background:var(--tiza);border:1px solid var(--linea);border-radius:var(--r-medio);padding:24px;}
+.token-caja h3{font-size:19px;margin-bottom:16px;}
+.token-caja p{font-size:14px;color:var(--gris);margin:0 0 14px;}
+
+.paleta{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+.paleta li{display:flex;align-items:center;gap:12px;font-size:13.5px;}
+.muestra{width:38px;height:38px;border-radius:var(--r-chico);border:1px solid rgba(25,30,20,.18);flex:none;}
+.paleta code{font-family:var(--texto);color:var(--gris);font-size:12.5px;}
+
+.escala{list-style:none;margin:0;padding:0;}
+.escala li{border-bottom:1px solid var(--linea);padding:10px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px;}
+.escala li:last-child{border-bottom:0;}
+.escala span:last-child{font-size:12px;color:var(--gris);white-space:nowrap;}
+.e-display{font-family:var(--display);font-variation-settings:"SOFT" 24,"WONK" 1;font-weight:700;font-size:30px;}
+.e-titulo{font-family:var(--display);font-variation-settings:"SOFT" 24,"WONK" 1;font-weight:600;font-size:21px;}
+.e-cuerpo{font-size:15px;}
+.e-menor{font-size:13px;}
+.e-micro{font-size:11.5px;letter-spacing:.02em;}
+
+.reglas{margin:0;padding-left:20px;font-size:14px;color:var(--gris);}
+.reglas li{margin-bottom:9px;}
+.reglas strong{color:var(--corteza);font-weight:600;}
+
+/* ---------- Bloques de pantalla ---------- */
+.pantalla{
+  display:grid;gap:44px;align-items:start;
+  grid-template-columns:minmax(0,340px) minmax(0,1fr);
+  padding-top:8px;
+}
+.pantalla + .pantalla{margin-top:72px;padding-top:56px;border-top:1px solid var(--linea);}
+@media (max-width:860px){.pantalla{grid-template-columns:1fr;}}
+
+.ficha h3{font-size:24px;margin-bottom:6px;}
+.ficha > p{color:var(--gris);font-size:15px;margin:0 0 22px;max-width:60ch;}
+.ficha h4{font-size:15px;margin:26px 0 10px;letter-spacing:.01em;}
+.detalle{margin:0;padding:0;list-style:none;font-size:14.5px;}
+.detalle li{padding:11px 0;border-bottom:1px solid var(--linea);display:grid;grid-template-columns:150px 1fr;gap:16px;}
+.detalle li:last-child{border-bottom:0;}
+.detalle dt,.detalle b{font-weight:600;}
+@media (max-width:520px){.detalle li{grid-template-columns:1fr;gap:2px;}}
+
+/* ---------- Marco de teléfono ---------- */
+.telefono{
+  width:320px;max-width:100%;
+  background:var(--corteza);
+  border-radius:34px;
+  padding:9px;
+  box-shadow:0 18px 44px -22px rgba(25,30,20,.65);
+}
+.pantalla-int{
+  background:var(--arena);
+  border-radius:26px;
+  overflow:hidden;
+  height:706px;
+  display:flex;flex-direction:column;
+  font-size:13px;
+}
+.barra-estado{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 18px 5px;font-size:11px;font-weight:600;flex:none;
+}
+.barra-estado.oscura{background:var(--corteza);color:var(--albura);}
+.senal{display:flex;gap:3px;align-items:flex-end;}
+.senal i{display:block;width:3px;background:currentColor;border-radius:1px;}
+.senal i:nth-child(1){height:4px;}
+.senal i:nth-child(2){height:6px;}
+.senal i:nth-child(3){height:8px;}
+.senal i:nth-child(4){height:10px;}
+.lienzo{flex:1;overflow:hidden;position:relative;}
+
+/* ---------- Componentes de la app ---------- */
+.app-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 18px;flex:none;
+}
+.app-nav.sobre-oscuro{background:var(--corteza);color:var(--albura);}
+.marca{font-family:var(--display);font-variation-settings:"SOFT" 24,"WONK" 1;font-weight:700;font-size:17px;letter-spacing:-.01em;}
+.icono{width:20px;height:20px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+
+.hero{background:var(--corteza);color:var(--albura);padding:2px 18px 26px;text-align:center;}
+.hero-arte{display:flex;justify-content:center;padding:0 0 6px;}
+.hero h2{font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.08;color:var(--albura);}
+.hero p{font-size:12.5px;color:#A8AE90;margin:8px auto 16px;max-width:26ch;line-height:1.5;}
+
+.boton{
+  display:inline-block;border:0;cursor:default;
+  font-family:var(--texto);font-weight:600;font-size:13.5px;
+  padding:12px 26px;border-radius:100px;
+  background:var(--albura);color:var(--corteza);
+}
+.boton.solido{background:var(--corteza);color:var(--albura);}
+.boton.ancho{display:block;width:100%;text-align:center;}
+
+.tira{padding:20px 18px 0;}
+.tira h3{font-size:16px;margin-bottom:12px;}
+.fila-chips{display:flex;gap:7px;overflow:hidden;}
+.chip{
+  flex:none;font-size:11.5px;padding:7px 13px;border-radius:100px;
+  border:1px solid var(--linea);background:var(--tiza);color:var(--gris);
+}
+.chip.activo{background:var(--corteza);color:var(--albura);border-color:var(--corteza);}
+
+.carrusel{display:flex;gap:11px;padding:14px 18px 0;overflow:hidden;}
+.tarjeta{
+  background:var(--tiza);border:1px solid var(--linea);border-radius:var(--r-medio);
+  padding:9px;flex:none;width:132px;
+}
+.tarjeta .lamina{
+  background:var(--albura);border-radius:var(--r-chico);
+  height:96px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;
+  position:relative;overflow:hidden;
+}
+.nombre{font-family:var(--display);font-variation-settings:"SOFT" 24,"WONK" 1;font-weight:600;font-size:14px;line-height:1.2;}
+.madera{font-size:10.5px;color:var(--gris);margin:2px 0 6px;}
+.precio{font-size:13.5px;font-weight:600;color:var(--resina);}
+.sello{
+  position:absolute;top:6px;right:6px;
+  background:rgba(25,30,20,.86);color:var(--albura);
+  font-size:8.5px;font-weight:500;letter-spacing:.02em;
+  padding:3px 7px;border-radius:100px;
+}
+
+.grilla-cat{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:14px 18px 18px;}
+.buscador{
+  margin:12px 18px 0;display:flex;align-items:center;gap:9px;
+  background:var(--tiza);border:1px solid var(--linea);border-radius:100px;
+  padding:10px 15px;color:var(--gris);font-size:12.5px;
+}
+.agregar{
+  margin-top:8px;width:100%;border:1px solid var(--corteza);background:transparent;
+  color:var(--corteza);font-family:var(--texto);font-weight:600;font-size:11.5px;
+  padding:7px;border-radius:100px;
+}
+
+.barra-tabs{
+  display:flex;justify-content:space-around;align-items:center;
+  border-top:1px solid var(--linea);background:var(--tiza);
+  padding:9px 0 11px;flex:none;
+}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:var(--gris);}
+.tab.activo{color:var(--corteza);font-weight:600;}
+.tab .icono{width:19px;height:19px;}
+.punto{width:5px;height:5px;border-radius:50%;background:var(--resina);position:absolute;top:-1px;right:-3px;}
+.tab-icon-wrap{position:relative;}
+
+/* Carrito */
+.encabezado-simple{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--linea);flex:none;}
+.encabezado-simple h2{font-size:17px;}
+.renglon{display:flex;gap:11px;padding:14px 18px;border-bottom:1px solid var(--linea);align-items:flex-start;}
+.renglon .lamina{width:62px;height:62px;flex:none;background:var(--albura);border-radius:var(--r-chico);display:flex;align-items:center;justify-content:center;}
+.renglon-datos{flex:1;min-width:0;}
+.contador{display:inline-flex;align-items:center;gap:11px;border:1px solid var(--linea);border-radius:100px;padding:3px 10px;margin-top:7px;font-size:12px;background:var(--tiza);}
+.contador b{font-weight:600;font-size:12.5px;}
+.resumen{padding:16px 18px;margin-top:auto;background:var(--tiza);border-top:1px solid var(--linea);flex:none;}
+.linea-res{display:flex;justify-content:space-between;font-size:12.5px;color:var(--gris);padding:4px 0;}
+.linea-res.total{color:var(--corteza);font-weight:600;font-size:16px;border-top:1px solid var(--linea);margin-top:8px;padding-top:11px;}
+
+/* Checkout */
+.pasos{display:flex;gap:6px;padding:14px 18px 4px;flex:none;}
+.paso{flex:1;font-size:10px;color:var(--gris);padding-top:8px;border-top:3px solid var(--linea);}
+.paso.hecho{border-color:var(--musgo);color:var(--musgo);}
+.paso.activo{border-color:var(--corteza);color:var(--corteza);font-weight:600;}
+.formulario{padding:12px 18px;overflow:hidden;}
+.campo{margin-bottom:12px;}
+.campo label{display:block;font-size:11px;color:var(--gris);margin-bottom:4px;}
+.entrada{
+  border:1px solid var(--linea);background:var(--tiza);border-radius:var(--r-chico);
+  padding:10px 12px;font-size:12.5px;color:var(--corteza);
+}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.pie-accion{padding:14px 18px 18px;border-top:1px solid var(--linea);background:var(--tiza);flex:none;margin-top:auto;}
+
+/* ---------- Anatomía de la tarjeta ---------- */
+.anatomia{
+  display:grid;gap:40px;align-items:center;
+  grid-template-columns:minmax(0,230px) minmax(0,1fr);
+  background:var(--tiza);border:1px solid var(--linea);border-radius:var(--r-medio);
+  padding:34px;
+}
+@media (max-width:720px){.anatomia{grid-template-columns:1fr;}}
+.tarjeta-grande{width:210px;}
+.tarjeta-grande .lamina{height:150px;}
+.tarjeta-grande .nombre{font-size:18px;}
+.tarjeta-grande .madera{font-size:12px;}
+.tarjeta-grande .precio{font-size:16px;}
+.tarjeta-grande .agregar{font-size:13px;padding:9px;}
+.claves{list-style:none;margin:0;padding:0;counter-reset:c;}
+.claves li{
+  counter-increment:c;position:relative;padding:0 0 15px 42px;font-size:14.5px;
+}
+.claves li::before{
+  content:counter(c);position:absolute;left:0;top:1px;
+  width:26px;height:26px;border-radius:50%;
+  background:var(--corteza);color:var(--albura);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;
+}
+.claves b{font-weight:600;}
+.claves span{color:var(--gris);}
+
+/* ---------- Tabla de mapeo semántico ---------- */
+.tabla{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--tiza);border:1px solid var(--linea);border-radius:var(--r-medio);overflow:hidden;}
+.tabla th{text-align:left;background:var(--corteza);color:var(--albura);font-weight:600;padding:13px 16px;font-size:13.5px;}
+.tabla td{padding:12px 16px;border-top:1px solid var(--linea);vertical-align:top;}
+.tabla td:first-child{font-weight:500;}
+.tabla code{background:var(--albura);border-radius:4px;padding:2px 7px;font-size:13px;font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;}
+.envoltorio-tabla{overflow-x:auto;}
+
+.nota{
+  border-left:4px solid var(--resina);
+  background:var(--tiza);
+  padding:18px 22px;margin:32px 0 0;font-size:14.5px;
+}
+.nota h4{font-size:15px;margin-bottom:7px;}
+.nota p{margin:0;color:var(--gris);}
+
+footer.pie{border-top:1px solid var(--linea);padding-top:28px;font-size:13.5px;color:var(--gris);}
+</style>
+</head>
+<body>
+
+<header class="doc-head">
+  <div class="doc">
+    <h1>Woodbird</h1>
+    <p>Arquitectura visual de la tienda online. Bocetos estáticos de las tres pantallas clave, sistema de diseño y mapeo hacia la estructura HTML5 que se construye en la Semana 3.</p>
+    <ul class="meta">
+      <li>Sprint 1 · Semana 1 · Actividad 3</li>
+      <li>Diseño Web</li>
+      <li>Reiss Jorge Nicolás</li>
+      <li>08/09/2026</li>
+    </ul>
+  </div>
+</header>
+
+<main class="doc">
+
+<!-- ============ 1. SISTEMA DE DISEÑO ============ -->
+<section class="bloque">
+  <h2>Sistema de diseño</h2>
+  <p>Todo el sistema se deriva del material: el palo santo tiene un duramen verde oliva oscuro, una albura amarilla pálida y una resina ámbar. Esos tres colores organizan la interfaz, en lugar de una paleta decorativa elegida aparte del producto.</p>
+
+  <div class="tokens">
+
+    <div class="token-caja">
+      <h3>Paleta</h3>
+      <p>Seis valores. El verde-negro carga el peso visual; el ámbar aparece sólo en precios y avisos.</p>
+      <ul class="paleta">
+        <li><span class="muestra" style="background:#191E14"></span><span>Corteza <code>#191E14</code></span></li>
+        <li><span class="muestra" style="background:#47542F"></span><span>Duramen <code>#47542F</code></span></li>
+        <li><span class="muestra" style="background:#6E7C4F"></span><span>Musgo <code>#6E7C4F</code></span></li>
+        <li><span class="muestra" style="background:#E7D9AE"></span><span>Albura <code>#E7D9AE</code></span></li>
+        <li><span class="muestra" style="background:#F4EEDC"></span><span>Arena <code>#F4EEDC</code></span></li>
+        <li><span class="muestra" style="background:#A9682A"></span><span>Resina <code>#A9682A</code></span></li>
+      </ul>
+    </div>
+
+    <div class="token-caja">
+      <h3>Tipografía</h3>
+      <p>Fraunces para nombres y títulos: su eje <em>wonk</em> produce curvas levemente irregulares, cercanas al tallado. Archivo para todo el texto funcional.</p>
+      <ul class="escala">
+        <li><span class="e-display">Woodbird</span><span>Fraunces 700 / 30px</span></li>
+        <li><span class="e-titulo">Cardenal</span><span>Fraunces 600 / 21px</span></li>
+        <li><span class="e-cuerpo">Tallado a mano en Chaco</span><span>Archivo 400 / 15px</span></li>
+        <li><span class="e-menor">Palo santo · 22 cm</span><span>Archivo 400 / 13px</span></li>
+        <li><span class="e-micro">Envío en 3 a 5 días</span><span>Archivo 500 / 11.5px</span></li>
+      </ul>
+    </div>
+
+    <div class="token-caja">
+      <h3>Grilla y espaciado</h3>
+      <p>Unidad base de 4&nbsp;px. Todos los márgenes, alturas y radios son múltiplos de esa unidad.</p>
+      <ul class="reglas">
+        <li><strong>Móvil:</strong> 4 columnas, márgenes de 18&nbsp;px, medianil de 12&nbsp;px.</li>
+        <li><strong>Escritorio:</strong> 12 columnas, ancho máximo de 1180&nbsp;px, medianil de 24&nbsp;px.</li>
+        <li><strong>Radios:</strong> 6&nbsp;px en láminas, 12&nbsp;px en tarjetas, 100&nbsp;px en botones y chips.</li>
+        <li><strong>Altura mínima táctil:</strong> 44&nbsp;px en cualquier elemento accionable.</li>
+        <li><strong>Bordes:</strong> 1&nbsp;px sólido en color Línea; sin sombras salvo el marco del dispositivo.</li>
+      </ul>
+    </div>
+
+    <div class="token-caja">
+      <h3>Principios</h3>
+      <ul class="reglas">
+        <li><strong>La pieza primero.</strong> La imagen del producto ocupa la mayor superficie de cada tarjeta; el texto no compite con ella.</li>
+        <li><strong>Un solo acento.</strong> El ámbar señala el precio y nada más, para que el ojo encuentre el dato económico sin buscarlo.</li>
+        <li><strong>Contraste verificado.</strong> Albura sobre Corteza alcanza 13,4:1; Gris sobre Arena alcanza 5,1:1. Ambos superan el nivel AA de la WCAG.</li>
+        <li><strong>Sin movimiento decorativo.</strong> Sólo se anima lo que responde a una acción del usuario, y se desactiva con <em>prefers-reduced-motion</em>.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============ 2. PANTALLA 1: HOME ============ -->
+<section class="bloque">
+  <h2>Pantallas clave</h2>
+  <p>Los tres bocetos siguientes son estáticos: representan el estado visual de cada pantalla, no su comportamiento. Las ilustraciones de producto son vectores dibujados para el boceto y funcionan como marcador de posición de la fotografía definitiva.</p>
+
+  <div class="pantalla">
+    <div class="frame-col">
+      <div class="telefono">
+        <div class="pantalla-int">
+
+          <div class="barra-estado oscura">
+            <span>9:41</span>
+            <span class="senal"><i></i><i></i><i></i><i></i></span>
+          </div>
+
+          <div class="app-nav sobre-oscuro">
+            <span class="marca">Woodbird</span>
+            <svg class="icono" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </div>
+
+          <div class="lienzo" style="overflow-y:hidden">
+            <div class="hero">
+              <div class="hero-arte">
+                <svg viewBox="0 0 150 130" width="152" height="132" role="img" aria-label="Ave tallada en palo santo">
+                  <ellipse cx="75" cy="122" rx="30" ry="5" fill="#2C3325"/>
+                  <rect x="72.5" y="92" width="5" height="28" fill="#8A7340"/>
+                  <g transform="rotate(-8 70 62)">
+                    <polygon points="30,60 4,38 14,80" fill="#47542F"/>
+                    <ellipse cx="66" cy="66" rx="38" ry="27" fill="#5C6B3C"/>
+                    <ellipse cx="70" cy="70" rx="20" ry="11" fill="#47542F"/>
+                    <circle cx="98" cy="44" r="19" fill="#5C6B3C"/>
+                    <polygon points="115,40 134,47 115,53" fill="#C9A55C"/>
+                    <circle cx="105" cy="39" r="2.6" fill="#191E14"/>
+                  </g>
+                </svg>
+              </div>
+              <h2>Aves del Chaco,<br>talladas a mano</h2>
+              <p>Cada pieza sale de una sola pieza de madera nativa</p>
+              <span class="boton">Ver catálogo</span>
+            </div>
+
+            <div class="tira">
+              <h3>Maderas</h3>
+              <div class="fila-chips">
+                <span class="chip activo">Palo santo</span>
+                <span class="chip">Algarrobo</span>
+                <span class="chip">Quebracho</span>
+              </div>
+            </div>
+
+            <div class="tira" style="padding-bottom:0">
+              <h3>Recién talladas</h3>
+            </div>
+            <div class="carrusel">
+              <div class="tarjeta">
+                <div class="lamina">
+                  <span class="sello">Imagen con IA</span>
+                  <svg viewBox="0 0 130 100" width="112" height="86" role="img" aria-label="Cardenal tallado">
+                    <ellipse cx="65" cy="94" rx="22" ry="4" fill="#CDBE8F"/>
+                    <rect x="63" y="74" width="4" height="19" fill="#8A7340"/>
+                    <g transform="rotate(-8 60 48)">
+                      <polygon points="28,46 8,29 16,62" fill="#47542F"/>
+                      <ellipse cx="58" cy="50" rx="30" ry="21" fill="#5C6B3C"/>
+                      <circle cx="83" cy="33" r="15" fill="#5C6B3C"/>
+                      <polygon points="96,30 111,36 96,42" fill="#C9A55C"/>
+                      <circle cx="89" cy="29" r="2" fill="#191E14"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="nombre">Cardenal</div>
+                <div class="madera">Palo santo · 22 cm</div>
+                <div class="precio">$28.400</div>
+              </div>
+              <div class="tarjeta">
+                <div class="lamina">
+                  <span class="sello">Imagen con IA</span>
+                  <svg viewBox="0 0 130 100" width="112" height="86" role="img" aria-label="Hornero tallado">
+                    <ellipse cx="65" cy="94" rx="22" ry="4" fill="#CDBE8F"/>
+                    <rect x="63" y="74" width="4" height="19" fill="#8A7340"/>
+                    <g transform="rotate(-4 60 48)">
+                      <polygon points="30,48 11,34 18,64" fill="#8A6A34"/>
+                      <ellipse cx="58" cy="52" rx="28" ry="20" fill="#A8823F"/>
+                      <circle cx="82" cy="36" r="14" fill="#A8823F"/>
+                      <polygon points="94,33 108,38 94,44" fill="#5C6B3C"/>
+                      <circle cx="88" cy="32" r="2" fill="#191E14"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="nombre">Hornero</div>
+                <div class="madera">Algarrobo · 18 cm</div>
+                <div class="precio">$19.700</div>
+              </div>
+            </div>
+          </div>
+
+          <nav class="barra-tabs">
+            <span class="tab activo"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span>Inicio</span>
+            <span class="tab"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg></span>Catálogo</span>
+            <span class="tab"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg><span class="punto"></span></span>Carrito</span>
+            <span class="tab"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3.5-6 7-6s7 2 7 6"/></svg></span>Cuenta</span>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="ficha">
+      <h3>Home / Portada de bienvenida</h3>
+      <p>Su única tarea es que alguien que llega por primera vez entienda qué se vende y llegue al catálogo. No vende: presenta el material.</p>
+
+      <h4>Regiones de la pantalla</h4>
+      <ul class="detalle">
+        <li><b>Encabezado</b><span>Marca y búsqueda, sobre fondo Corteza. Se mantiene idéntico en todas las pantallas.</span></li>
+        <li><b>Portada</b><span>Ilustración de una pieza a tamaño grande, titular en dos líneas, subtítulo de una sola frase y un botón. Es lo único que se ve sin desplazar.</span></li>
+        <li><b>Maderas</b><span>Tres chips que actúan como filtro rápido y, a la vez, enseñan el vocabulario del producto.</span></li>
+        <li><b>Recién talladas</b><span>Carrusel horizontal de dos a seis piezas, con la misma tarjeta que usa el catálogo.</span></li>
+        <li><b>Barra inferior</b><span>Cuatro destinos fijos. El punto ámbar sobre el carrito indica que hay artículos cargados.</span></li>
+      </ul>
+
+      <h4>Decisiones</h4>
+      <ul class="reglas">
+        <li>La portada usa fondo oscuro y el resto de la pantalla fondo claro: el corte marca dónde termina la presentación y empieza la tienda.</li>
+        <li>Un solo botón visible. No se ofrecen dos acciones en competencia sobre la portada.</li>
+        <li>El titular nombra el origen (Chaco) y el método (a mano), que son los dos argumentos de venta del modelo de negocio.</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ============ PANTALLA 2: CATÁLOGO ============ -->
+  <div class="pantalla">
+    <div class="frame-col">
+      <div class="telefono">
+        <div class="pantalla-int">
+
+          <div class="barra-estado">
+            <span>9:41</span>
+            <span class="senal"><i></i><i></i><i></i><i></i></span>
+          </div>
+
+          <div class="encabezado-simple">
+            <h2>Catálogo</h2>
+          </div>
+
+          <div class="lienzo">
+            <div class="buscador">
+              <svg class="icono" style="width:15px;height:15px" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <span>Buscar por ave o madera</span>
+            </div>
+
+            <div class="tira" style="padding-top:14px">
+              <div class="fila-chips">
+                <span class="chip activo">Todas</span>
+                <span class="chip">Palo santo</span>
+                <span class="chip">Hasta $25.000</span>
+              </div>
+            </div>
+
+            <div class="grilla-cat">
+              <div class="tarjeta" style="width:auto">
+                <div class="lamina" style="height:84px">
+                  <span class="sello">Imagen con IA</span>
+                  <svg viewBox="0 0 130 100" width="100" height="77" role="img" aria-label="Cardenal tallado">
+                    <ellipse cx="65" cy="94" rx="20" ry="4" fill="#CDBE8F"/>
+                    <rect x="63" y="76" width="4" height="17" fill="#8A7340"/>
+                    <g transform="rotate(-8 60 48)">
+                      <polygon points="28,46 8,29 16,62" fill="#47542F"/>
+                      <ellipse cx="58" cy="50" rx="30" ry="21" fill="#5C6B3C"/>
+                      <circle cx="83" cy="33" r="15" fill="#5C6B3C"/>
+                      <polygon points="96,30 111,36 96,42" fill="#C9A55C"/>
+                      <circle cx="89" cy="29" r="2" fill="#191E14"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="nombre">Cardenal</div>
+                <div class="madera">Palo santo · 22 cm</div>
+                <div class="precio">$28.400</div>
+                <div class="agregar">Agregar</div>
+              </div>
+
+              <div class="tarjeta" style="width:auto">
+                <div class="lamina" style="height:84px">
+                  <span class="sello">Imagen con IA</span>
+                  <svg viewBox="0 0 130 100" width="100" height="77" role="img" aria-label="Hornero tallado">
+                    <ellipse cx="65" cy="94" rx="20" ry="4" fill="#CDBE8F"/>
+                    <rect x="63" y="76" width="4" height="17" fill="#8A7340"/>
+                    <g transform="rotate(-4 60 48)">
+                      <polygon points="30,48 11,34 18,64" fill="#8A6A34"/>
+                      <ellipse cx="58" cy="52" rx="28" ry="20" fill="#A8823F"/>
+                      <circle cx="82" cy="36" r="14" fill="#A8823F"/>
+                      <polygon points="94,33 108,38 94,44" fill="#5C6B3C"/>
+                      <circle cx="88" cy="32" r="2" fill="#191E14"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="nombre">Hornero</div>
+                <div class="madera">Algarrobo · 18 cm</div>
+                <div class="precio">$19.700</div>
+                <div class="agregar">Agregar</div>
+              </div>
+
+              <div class="tarjeta" style="width:auto">
+                <div class="lamina" style="height:84px">
+                  <span class="sello">Imagen con IA</span>
+                  <svg viewBox="0 0 130 100" width="100" height="77" role="img" aria-label="Carpintero tallado">
+                    <ellipse cx="65" cy="94" rx="20" ry="4" fill="#CDBE8F"/>
+                    <rect x="63" y="76" width="4" height="17" fill="#8A7340"/>
+                    <g transform="rotate(-12 60 48)">
+                      <polygon points="30,44 9,26 17,60" fill="#C4BFA6"/>
+                      <ellipse cx="58" cy="49" rx="29" ry="19" fill="#DCD6BC"/>
+                      <circle cx="82" cy="32" r="14" fill="#DCD6BC"/>
+                      <polygon points="94,29 112,35 94,41" fill="#47542F"/>
+                      <circle cx="88" cy="28" r="2" fill="#191E14"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="nombre">Carpintero</div>
+                <div class="madera">Quebracho · 25 cm</div>
+                <div class="precio">$34.900</div>
+                <div class="agregar">Agregar</div>
+              </div>
+
+              <div class="tarjeta" style="width:auto">
+                <div class="lamina" style="height:84px">
+                  <span class="sello">Imagen con IA</span>
+                  <svg viewBox="0 0 130 100" width="100" height="77" role="img" aria-label="Chuña tallada">
+                    <ellipse cx="65" cy="94" rx="20" ry="4" fill="#CDBE8F"/>
+                    <rect x="63" y="72" width="4" height="21" fill="#8A7340"/>
+                    <g transform="rotate(-2 60 46)">
+                      <polygon points="31,44 12,32 19,60" fill="#3B4626"/>
+                      <ellipse cx="58" cy="48" rx="27" ry="18" fill="#47542F"/>
+                      <circle cx="80" cy="31" r="13" fill="#47542F"/>
+                      <polygon points="91,28 106,34 91,40" fill="#C9A55C"/>
+                      <circle cx="86" cy="27" r="2" fill="#191E14"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="nombre">Chuña</div>
+                <div class="madera">Palo santo · 20 cm</div>
+                <div class="precio">$22.300</div>
+                <div class="agregar">Agregar</div>
+              </div>
+            </div>
+          </div>
+
+          <nav class="barra-tabs">
+            <span class="tab"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span>Inicio</span>
+            <span class="tab activo"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg></span>Catálogo</span>
+            <span class="tab"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg><span class="punto"></span></span>Carrito</span>
+            <span class="tab"><span class="tab-icon-wrap"><svg class="icono" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3.5-6 7-6s7 2 7 6"/></svg></span>Cuenta</span>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="ficha">
+      <h3>Catálogo de productos</h3>
+      <p>Es la pantalla donde el usuario compara. Todo lo que no ayude a comparar sale de la tarjeta.</p>
+
+      <h4>Regiones de la pantalla</h4>
+      <ul class="detalle">
+        <li><b>Buscador</b><span>Campo único. El texto de ayuda dice por qué se puede buscar, en lugar de un genérico «Buscar».</span></li>
+        <li><b>Filtros</b><span>Chips por madera y por rango de precio. El chip activo invierte los colores; nunca hay cero chips activos.</span></li>
+        <li><b>Grilla</b><span>Dos columnas en móvil, cuatro en escritorio. Tarjetas de altura uniforme para que los precios queden alineados entre sí.</span></li>
+      </ul>
+
+      <h4>Estados previstos</h4>
+      <ul class="reglas">
+        <li><strong>Sin resultados:</strong> «No hay piezas con ese filtro» y un botón que limpia los filtros. La pantalla vacía siempre ofrece una salida.</li>
+        <li><strong>Cargando:</strong> seis tarjetas grises del mismo tamaño, para que la grilla no salte al llegar los datos.</li>
+        <li><strong>Sin stock:</strong> la lámina se atenúa al 50&nbsp;% y el botón pasa a decir «Sin stock».</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ============ PANTALLA 3: CARRITO + CHECKOUT ============ -->
+  <div class="pantalla" style="grid-template-columns:minmax(0,700px) minmax(0,1fr)">
+    <div class="frame-col" style="display:flex;gap:20px;flex-wrap:wrap">
+
+      <!-- Carrito -->
+      <div class="telefono">
+        <div class="pantalla-int">
+          <div class="barra-estado">
+            <span>9:41</span>
+            <span class="senal"><i></i><i></i><i></i><i></i></span>
+          </div>
+
+          <div class="encabezado-simple">
+            <svg class="icono" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+            <h2>Carrito</h2>
+          </div>
+
+          <div class="lienzo" style="display:flex;flex-direction:column">
+            <div class="renglon">
+              <div class="lamina">
+                <svg viewBox="0 0 130 100" width="54" height="42" role="img" aria-label="Cardenal tallado">
+                  <g transform="rotate(-8 60 48)">
+                    <polygon points="28,46 8,29 16,62" fill="#47542F"/>
+                    <ellipse cx="58" cy="50" rx="30" ry="21" fill="#5C6B3C"/>
+                    <circle cx="83" cy="33" r="15" fill="#5C6B3C"/>
+                    <polygon points="96,30 111,36 96,42" fill="#C9A55C"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="renglon-datos">
+                <div class="nombre">Cardenal</div>
+                <div class="madera">Palo santo · 22 cm</div>
+                <div class="precio">$28.400</div>
+                <div class="contador"><span>−</span><b>1</b><span>+</span></div>
+              </div>
+            </div>
+
+            <div class="renglon">
+              <div class="lamina">
+                <svg viewBox="0 0 130 100" width="54" height="42" role="img" aria-label="Carpintero tallado">
+                  <g transform="rotate(-12 60 48)">
+                    <polygon points="30,44 9,26 17,60" fill="#C4BFA6"/>
+                    <ellipse cx="58" cy="49" rx="29" ry="19" fill="#DCD6BC"/>
+                    <circle cx="82" cy="32" r="14" fill="#DCD6BC"/>
+                    <polygon points="94,29 112,35 94,41" fill="#47542F"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="renglon-datos">
+                <div class="nombre">Carpintero</div>
+                <div class="madera">Quebracho · 25 cm</div>
+                <div class="precio">$34.900</div>
+                <div class="contador"><span>−</span><b>1</b><span>+</span></div>
+              </div>
+            </div>
+
+            <div class="resumen">
+              <div class="linea-res"><span>Subtotal</span><span>$63.300</span></div>
+              <div class="linea-res"><span>Envío a Resistencia</span><span>$5.900</span></div>
+              <div class="linea-res total"><span>Total</span><span>$69.200</span></div>
+              <div style="margin-top:12px"><span class="boton solido ancho">Continuar</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout -->
+      <div class="telefono">
+        <div class="pantalla-int">
+          <div class="barra-estado">
+            <span>9:41</span>
+            <span class="senal"><i></i><i></i><i></i><i></i></span>
+          </div>
+
+          <div class="encabezado-simple">
+            <svg class="icono" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+            <h2>Tus datos</h2>
+          </div>
+
+          <div class="pasos">
+            <div class="paso hecho">Carrito</div>
+            <div class="paso activo">Datos</div>
+            <div class="paso">Pago</div>
+          </div>
+
+          <div class="lienzo" style="display:flex;flex-direction:column">
+            <div class="formulario">
+              <div class="campo">
+                <label>Nombre y apellido</label>
+                <div class="entrada">Reiss Jorge Nicolás</div>
+              </div>
+              <div class="campo">
+                <label>Correo electrónico</label>
+                <div class="entrada">reiss@ejemplo.com.ar</div>
+              </div>
+              <div class="campo">
+                <label>Dirección de entrega</label>
+                <div class="entrada">Av. Sarmiento 1234</div>
+              </div>
+              <div class="par">
+                <div class="campo">
+                  <label>Localidad</label>
+                  <div class="entrada">Resistencia</div>
+                </div>
+                <div class="campo">
+                  <label>Código postal</label>
+                  <div class="entrada">3500</div>
+                </div>
+              </div>
+              <div class="campo">
+                <label>Teléfono</label>
+                <div class="entrada">362 4 000000</div>
+              </div>
+            </div>
+
+            <div class="pie-accion">
+              <div class="linea-res total" style="border:0;margin:0 0 12px;padding:0"><span>Total</span><span>$69.200</span></div>
+              <span class="boton solido ancho">Ir al pago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ficha">
+      <h3>Carrito y formulario de checkout</h3>
+      <p>Dos pantallas separadas porque resuelven dos preguntas distintas: «¿esto es lo que quiero comprar?» y «¿a dónde lo mando y cómo lo pago?».</p>
+
+      <h4>Carrito</h4>
+      <ul class="detalle">
+        <li><b>Renglón</b><span>Miniatura, nombre, madera y medida, precio unitario y contador de cantidad. El contador está en el renglón, no en un menú aparte.</span></li>
+        <li><b>Resumen</b><span>Anclado al pie y siempre visible. El envío se muestra desglosado antes del checkout: ningún importe aparece por primera vez en la pantalla de pago.</span></li>
+        <li><b>Carrito vacío</b><span>Ilustración de un ave, la frase «Todavía no agregaste ninguna pieza» y un botón que lleva al catálogo.</span></li>
+      </ul>
+
+      <h4>Checkout</h4>
+      <ul class="detalle">
+        <li><b>Indicador de pasos</b><span>Tres etapas visibles. El usuario sabe en cuál está y cuántas faltan antes de empezar a escribir.</span></li>
+        <li><b>Campos</b><span>Una sola columna, salvo Localidad y Código postal, que van juntos porque se completan juntos. Cada campo tiene etiqueta permanente arriba, no un texto que desaparece al escribir.</span></li>
+        <li><b>Validación</b><span>Al salir del campo, no mientras se escribe. El mensaje dice qué corregir: «El código postal tiene 4 dígitos», no «Campo inválido».</span></li>
+        <li><b>Pie de acción</b><span>Total y botón fijos abajo. El botón nombra lo que va a pasar: «Ir al pago», y en la última etapa, «Pagar $69.200».</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 3. ANATOMÍA DE LA TARJETA ============ -->
+<section class="bloque">
+  <h2>Anatomía de la tarjeta de producto</h2>
+  <p>Es el componente que más se repite en toda la tienda: aparece en la portada, en el catálogo y, en versión reducida, en el carrito. Se documenta aparte porque define el resto.</p>
+
+  <div class="anatomia">
+    <div class="tarjeta tarjeta-grande">
+      <div class="lamina">
+        <span class="sello">Imagen con IA</span>
+        <svg viewBox="0 0 130 100" width="150" height="115" role="img" aria-label="Cardenal tallado en palo santo">
+          <ellipse cx="65" cy="94" rx="22" ry="4" fill="#CDBE8F"/>
+          <rect x="63" y="74" width="4" height="19" fill="#8A7340"/>
+          <g transform="rotate(-8 60 48)">
+            <polygon points="28,46 8,29 16,62" fill="#47542F"/>
+            <ellipse cx="58" cy="50" rx="30" ry="21" fill="#5C6B3C"/>
+            <ellipse cx="61" cy="53" rx="15" ry="8" fill="#47542F"/>
+            <circle cx="83" cy="33" r="15" fill="#5C6B3C"/>
+            <polygon points="96,30 111,36 96,42" fill="#C9A55C"/>
+            <circle cx="89" cy="29" r="2" fill="#191E14"/>
+          </g>
+        </svg>
+      </div>
+      <div class="nombre">Cardenal</div>
+      <div class="madera">Palo santo · 22 cm</div>
+      <div class="precio">$28.400</div>
+      <div class="agregar">Agregar</div>
+    </div>
+
+    <ol class="claves">
+      <li><b>Lámina.</b> <span>Relación 4:3 sobre fondo Albura. Todas las piezas se fotografían sobre el mismo fondo para que la grilla no se vuelva ruidosa.</span></li>
+      <li><b>Sello de origen de la imagen.</b> <span>Indica que la fotografía fue generada con inteligencia artificial. Es el anclaje visual de la declaración de transparencia de la Semana 2.</span></li>
+      <li><b>Nombre.</b> <span>Fraunces 600. Es el nombre del ave, no un código de producto: es lo que el comprador va a recordar.</span></li>
+      <li><b>Madera y medida.</b> <span>Los dos datos que más se consultan antes de comprar un objeto decorativo, juntos en una línea.</span></li>
+      <li><b>Precio.</b> <span>Único elemento en Resina. Al ser el solo uso del ámbar en la pantalla, se encuentra sin buscarlo.</span></li>
+      <li><b>Acción.</b> <span>Botón de contorno, no relleno: agregar al carrito es reversible y no debe pesar más que el propio producto.</span></li>
+    </ol>
+  </div>
+</section>
+
+
+<!-- ============ 4. MAPEO SEMÁNTICO ============ -->
+<section class="bloque">
+  <h2>Del boceto al HTML5</h2>
+  <p>Cada región del diseño ya tiene asignada la etiqueta semántica con la que se va a construir en la Semana 3. Sirve para que la maquetación no invente estructura sobre la marcha.</p>
+
+  <div class="envoltorio-tabla">
+    <table class="tabla">
+      <thead>
+        <tr><th>Región del diseño</th><th>Etiqueta</th><th>Por qué</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Encabezado con marca y buscador</td><td><code>&lt;header&gt;</code></td><td>Contenido introductorio que se repite en todas las pantallas.</td></tr>
+        <tr><td>Barra inferior de cuatro destinos</td><td><code>&lt;nav&gt;</code></td><td>Bloque de enlaces de navegación principal del sitio.</td></tr>
+        <tr><td>Contenido central de cada pantalla</td><td><code>&lt;main&gt;</code></td><td>Uno solo por documento; excluye lo que se repite entre páginas.</td></tr>
+        <tr><td>Portada, Maderas, Recién talladas</td><td><code>&lt;section&gt;</code></td><td>Agrupaciones temáticas, cada una con su propio encabezado.</td></tr>
+        <tr><td>Tarjeta de producto</td><td><code>&lt;article&gt;</code></td><td>Unidad independiente: tiene sentido completo fuera de la grilla.</td></tr>
+        <tr><td>Lámina del producto</td><td><code>&lt;figure&gt;</code> + <code>&lt;img alt&gt;</code></td><td>El texto alternativo describe la pieza; el sello de IA va en <code>&lt;figcaption&gt;</code>.</td></tr>
+        <tr><td>Grilla del catálogo</td><td><code>&lt;ul&gt;</code> / <code>&lt;li&gt;</code></td><td>Es una lista de piezas: el lector de pantalla anuncia cuántas hay.</td></tr>
+        <tr><td>Renglones del carrito</td><td><code>&lt;table&gt;</code></td><td>Datos tabulares reales: producto, cantidad y subtotal por fila.</td></tr>
+        <tr><td>Formulario de checkout</td><td><code>&lt;form&gt;</code> + <code>&lt;label for&gt;</code></td><td>Cada etiqueta asociada a su campo por <code>id</code>; agrupado en <code>&lt;fieldset&gt;</code>.</td></tr>
+        <tr><td>Datos de contacto y legales</td><td><code>&lt;footer&gt;</code></td><td>Cierre del documento con información de la organización.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nota">
+    <h4>Sobre las imágenes generadas con inteligencia artificial</h4>
+    <p>El sello «Imagen con IA» está previsto como componente del sistema desde este boceto, no como un agregado posterior. La declaración de transparencia que se redacta en la Semana 2 necesita un lugar visible en la interfaz, y ese lugar es la lámina de cada tarjeta.</p>
+  </div>
+</section>
+
+<footer class="pie">
+  <p>Woodbird · Documento de arquitectura visual · Sprint 1, Semana 1, Actividad 3 · Diseño Web · Bocetos estáticos sin funcionalidad implementada.</p>
+</footer>
+
+</main>
+</body>
+</html>
