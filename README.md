@@ -11,7 +11,8 @@ Proyecto integrador **EcoStart IA** · Tecnicatura Superior en Desarrollo de Sof
 
 ```
 index.html      Página principal (HTML5 semántico)
-css/            Hojas de estilo (Sprint 2)
+productos.json  Catálogo de productos (datos estáticos)
+css/            Hojas de estilo
 js/             Scripts
 assets/img/     Imágenes de producto
 docs/           Entregables escritos de cada sprint
@@ -35,4 +36,13 @@ docs/           Entregables escritos de cada sprint
 
 ### Sprint 2 · Maquetación, datos y privacidad (14/09 – 02/10)
 
-En curso.
+| Materia | Entregable | Estado |
+|---|---|---|
+| Desarrollo de Sitios Web | [CSS responsive (Flexbox + Grid)](css/estilos.css) | Hecho |
+| Desarrollo de Sitios Web | [Catálogo en JSON](productos.json) | Hecho |
+| Dirección y Gestión de Proyectos | Diagrama de Gantt y control de desvíos | Pendiente |
+| Dirección y Gestión de Proyectos | Matriz de riesgos | Pendiente |
+| El Emprendedor Digital | Informe Startup vs. Empresa Tradicional | Pendiente |
+| El Emprendedor Digital | Estrategia de canales y embudo de conversión | Pendiente |
+| Legislación Informática | Política de privacidad (Ley 25.326) | Pendiente |
+| Legislación Informática | Justificación de la licencia | Pendiente |

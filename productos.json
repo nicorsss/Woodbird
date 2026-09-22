@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "nombre": "Cardenal",
+    "descripcion": "Cardenal copetudo tallado en una sola pieza de palo santo, con el copete marcado a gubia y el pecho pulido a mano. Terminación en cera de abeja que resalta el verde oliva natural de la madera.",
+    "precio_simulado": 28400,
+    "imagen_ia_url": "assets/img/cardenal.webp",
+    "categoria": "Palo santo",
+    "medida_cm": 22,
+    "stock": true
+  },
+  {
+    "id": 2,
+    "nombre": "Hornero",
+    "descripcion": "Hornero en actitud de canto, tallado en algarrobo. Las vetas oscuras de la madera siguen la curva del lomo y las alas.",
+    "precio_simulado": 19700,
+    "imagen_ia_url": "assets/img/hornero.webp",
+    "categoria": "Algarrobo",
+    "medida_cm": 18,
+    "stock": true
+  },
+  {
+    "id": 3,
+    "nombre": "Carpintero",
+    "descripcion": "Carpintero real aferrado a un tronco, tallado en quebracho colorado. Pieza de mayor peso, pensada para apoyar sobre un estante o una mesa.",
+    "precio_simulado": 34900,
+    "imagen_ia_url": "assets/img/carpintero.webp",
+    "categoria": "Quebracho",
+    "medida_cm": 25,
+    "stock": true
+  },
+  {
+    "id": 4,
+    "nombre": "Chuña",
+    "descripcion": "Chuña de patas rojas en posición de marcha, tallada en palo santo. El cuello largo y el penacho están resueltos en una única pieza sin uniones.",
+    "precio_simulado": 22300,
+    "imagen_ia_url": "assets/img/chuna.webp",
+    "categoria": "Palo santo",
+    "medida_cm": 20,
+    "stock": true
+  },
+  {
+    "id": 5,
+    "nombre": "Benteveo",
+    "descripcion": "Benteveo posado sobre una rama corta, tallado en algarrobo. La franja de la cabeza se marca con un leve cambio de textura en la superficie.",
+    "precio_simulado": 17900,
+    "imagen_ia_url": "assets/img/benteveo.webp",
+    "categoria": "Algarrobo",
+    "medida_cm": 15,
+    "stock": true
+  },
+  {
+    "id": 6,
+    "nombre": "Tero",
+    "descripcion": "Tero común en guardia, con las alas levemente abiertas. Tallado en quebracho y apoyado sobre una base de corte natural.",
+    "precio_simulado": 26500,
+    "imagen_ia_url": "assets/img/tero.webp",
+    "categoria": "Quebracho",
+    "medida_cm": 21,
+    "stock": true
+  },
+  {
+    "id": 7,
+    "nombre": "Calandria",
+    "descripcion": "Calandria grande con la cola extendida, tallada en palo santo. Pieza liviana de líneas finas, pensada para ambientes pequeños.",
+    "precio_simulado": 21800,
+    "imagen_ia_url": "assets/img/calandria.webp",
+    "categoria": "Palo santo",
+    "medida_cm": 19,
+    "stock": true
+  },
+  {
+    "id": 8,
+    "nombre": "Picaflor",
+    "descripcion": "Picaflor en vuelo suspendido, sostenido por una varilla de algarrobo. La pieza más pequeña de la colección.",
+    "precio_simulado": 14500,
+    "imagen_ia_url": "assets/img/picaflor.webp",
+    "categoria": "Algarrobo",
+    "medida_cm": 10,
+    "stock": true
+  },
+  {
+    "id": 9,
+    "nombre": "Lechucita vizcachera",
+    "descripcion": "Lechucita vizcachera de frente, con los ojos grandes tallados en bajorrelieve. Quebracho con terminación mate al aceite de lino.",
+    "precio_simulado": 24900,
+    "imagen_ia_url": "assets/img/lechucita.webp",
+    "categoria": "Quebracho",
+    "medida_cm": 16,
+    "stock": true
+  },
+  {
+    "id": 10,
+    "nombre": "Tucán",
+    "descripcion": "Tucán grande posado de perfil, tallado en palo santo. El pico ocupa casi la mitad de la pieza y aprovecha la zona más clara de la albura.",
+    "precio_simulado": 38600,
+    "imagen_ia_url": "assets/img/tucan.webp",
+    "categoria": "Palo santo",
+    "medida_cm": 28,
+    "stock": false
+  },
+  {
+    "id": 11,
+    "nombre": "Zorzal",
+    "descripcion": "Zorzal colorado con la cabeza inclinada, tallado en algarrobo. El pecho conserva la veta natural de la madera sin teñir.",
+    "precio_simulado": 18600,
+    "imagen_ia_url": "assets/img/zorzal.webp",
+    "categoria": "Algarrobo",
+    "medida_cm": 17,
+    "stock": true
+  },
+  {
+    "id": 12,
+    "nombre": "Garza blanca",
+    "descripcion": "Garza blanca de pie sobre una sola pata, tallada en quebracho. La pieza más alta de la colección, con base ancha para dar estabilidad.",
+    "precio_simulado": 42300,
+    "imagen_ia_url": "assets/img/garza.webp",
+    "categoria": "Quebracho",
+    "medida_cm": 34,
+    "stock": true
+  }
+]
