@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Woodbird: aves decorativas talladas a mano en maderas nativas del Chaco.">
+  <title>Woodbird · Aves del Chaco, talladas a mano</title>
+</head>
+<body>
+
+  <!-- Encabezado: marca y buscador, idéntico en todas las pantallas -->
+  <header>
+    <a href="#inicio"><strong>Woodbird</strong></a>
+    <form role="search" action="#catalogo">
+      <label for="buscar">Buscar por ave o madera</label>
+      <input type="search" id="buscar" name="q" placeholder="Cardenal, palo santo…">
+      <button type="submit">Buscar</button>
+    </form>
+  </header>
+
+  <!-- Navegación principal: cuatro destinos fijos -->
+  <nav aria-label="Navegación principal">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#carrito">Carrito</a></li>
+      <li><a href="#checkout">Cuenta</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- HOME / PORTADA -->
+    <section id="inicio" aria-labelledby="titulo-portada">
+      <h1 id="titulo-portada">Aves del Chaco, talladas a mano</h1>
+      <p>Cada pieza sale de una sola pieza de madera nativa.</p>
+      <p><a href="#catalogo">Ver catálogo</a></p>
+    </section>
+
+    <section id="maderas" aria-labelledby="titulo-maderas">
+      <h2 id="titulo-maderas">Maderas</h2>
+      <ul>
+        <li><a href="#catalogo">Palo santo</a></li>
+        <li><a href="#catalogo">Algarrobo</a></li>
+        <li><a href="#catalogo">Quebracho</a></li>
+      </ul>
+    </section>
+
+    <section id="recien-talladas" aria-labelledby="titulo-recientes">
+      <h2 id="titulo-recientes">Recién talladas</h2>
+      <ul>
+        <li>
+          <article>
+            <figure>
+              <img src="assets/img/cardenal.webp" alt="Cardenal tallado en palo santo, de perfil, sobre fondo claro" width="400" height="300">
+              <figcaption>Imagen con IA</figcaption>
+            </figure>
+            <h3>Cardenal</h3>
+            <p>Palo santo · 22 cm</p>
+            <p><data value="28400">$28.400</data></p>
+          </article>
+        </li>
+        <li>
+          <article>
+            <figure>
+              <img src="assets/img/hornero.webp" alt="Hornero tallado en algarrobo, de perfil, sobre fondo claro" width="400" height="300">
+              <figcaption>Imagen con IA</figcaption>
+            </figure>
+            <h3>Hornero</h3>
+            <p>Algarrobo · 18 cm</p>
+            <p><data value="19700">$19.700</data></p>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CATÁLOGO DE PRODUCTOS -->
+    <section id="catalogo" aria-labelledby="titulo-catalogo">
+      <h2 id="titulo-catalogo">Catálogo</h2>
+
+      <form aria-label="Filtros del catálogo">
+        <fieldset>
+          <legend>Filtrar por</legend>
+          <input type="radio" id="filtro-todas" name="filtro" value="todas" checked>
+          <label for="filtro-todas">Todas</label>
+          <input type="radio" id="filtro-palo-santo" name="filtro" value="palo-santo">
+          <label for="filtro-palo-santo">Palo santo</label>
+          <input type="radio" id="filtro-precio" name="filtro" value="hasta-25000">
+          <label for="filtro-precio">Hasta $25.000</label>
+        </fieldset>
+      </form>
+
+      <ul>
+        <li>
+          <article>
+            <figure>
+              <img src="assets/img/cardenal.webp" alt="Cardenal tallado en palo santo, de perfil, sobre fondo claro" width="400" height="300">
+              <figcaption>Imagen con IA</figcaption>
+            </figure>
+            <h3>Cardenal</h3>
+            <p>Palo santo · 22 cm</p>
+            <p><data value="28400">$28.400</data></p>
+            <button type="button">Agregar</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <figure>
+              <img src="assets/img/hornero.webp" alt="Hornero tallado en algarrobo, de perfil, sobre fondo claro" width="400" height="300">
+              <figcaption>Imagen con IA</figcaption>
+            </figure>
+            <h3>Hornero</h3>
+            <p>Algarrobo · 18 cm</p>
+            <p><data value="19700">$19.700</data></p>
+            <button type="button">Agregar</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <figure>
+              <img src="assets/img/carpintero.webp" alt="Carpintero tallado en quebracho, de perfil, sobre fondo claro" width="400" height="300">
+              <figcaption>Imagen con IA</figcaption>
+            </figure>
+            <h3>Carpintero</h3>
+            <p>Quebracho · 25 cm</p>
+            <p><data value="34900">$34.900</data></p>
+            <button type="button">Agregar</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <figure>
+              <img src="assets/img/chuna.webp" alt="Chuña tallada en palo santo, de perfil, sobre fondo claro" width="400" height="300">
+              <figcaption>Imagen con IA</figcaption>
+            </figure>
+            <h3>Chuña</h3>
+            <p>Palo santo · 20 cm</p>
+            <p><data value="22300">$22.300</data></p>
+            <button type="button">Agregar</button>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CARRITO -->
+    <section id="carrito" aria-labelledby="titulo-carrito">
+      <h2 id="titulo-carrito">Carrito</h2>
+      <table>
+        <caption>Piezas seleccionadas</caption>
+        <thead>
+          <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio unitario</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Cardenal <small>Palo santo · 22 cm</small></th>
+            <td><data value="28400">$28.400</data></td>
+            <td>
+              <label for="cant-cardenal">Cantidad de Cardenal</label>
+              <input type="number" id="cant-cardenal" name="cant-cardenal" value="1" min="1" max="10">
+            </td>
+            <td><data value="28400">$28.400</data></td>
+          </tr>
+          <tr>
+            <th scope="row">Carpintero <small>Quebracho · 25 cm</small></th>
+            <td><data value="34900">$34.900</data></td>
+            <td>
+              <label for="cant-carpintero">Cantidad de Carpintero</label>
+              <input type="number" id="cant-carpintero" name="cant-carpintero" value="1" min="1" max="10">
+            </td>
+            <td><data value="34900">$34.900</data></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="3">Subtotal</th>
+            <td><data value="63300">$63.300</data></td>
+          </tr>
+          <tr>
+            <th scope="row" colspan="3">Envío a Resistencia</th>
+            <td><data value="5900">$5.900</data></td>
+          </tr>
+          <tr>
+            <th scope="row" colspan="3">Total</th>
+            <td><strong><data value="69200">$69.200</data></strong></td>
+          </tr>
+        </tfoot>
+      </table>
+      <p><a href="#checkout">Continuar</a></p>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section id="checkout" aria-labelledby="titulo-checkout">
+      <h2 id="titulo-checkout">Tus datos</h2>
+
+      <ol aria-label="Pasos de la compra">
+        <li>Carrito</li>
+        <li aria-current="step">Datos</li>
+        <li>Pago</li>
+      </ol>
+
+      <form action="#" method="post">
+        <fieldset>
+          <legend>Datos de contacto</legend>
+          <p>
+            <label for="nombre">Nombre y apellido</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+          </p>
+          <p>
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </p>
+          <p>
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Dirección de entrega</legend>
+          <p>
+            <label for="direccion">Dirección</label>
+            <input type="text" id="direccion" name="direccion" autocomplete="street-address" required>
+          </p>
+          <p>
+            <label for="localidad">Localidad</label>
+            <input type="text" id="localidad" name="localidad" autocomplete="address-level2" required>
+          </p>
+          <p>
+            <label for="cp">Código postal</label>
+            <input type="text" id="cp" name="cp" inputmode="numeric" pattern="[0-9]{4}" autocomplete="postal-code" required>
+          </p>
+        </fieldset>
+
+        <p>Total: <strong><data value="69200">$69.200</data></strong></p>
+        <button type="submit">Ir al pago</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Pie: contacto y avisos legales -->
+  <footer>
+    <p><strong>Woodbird</strong> · Aves decorativas talladas en maderas nativas del Chaco.</p>
+    <address>
+      Resistencia, Chaco, Argentina ·
+      <a href="mailto:contacto@woodbird.com.ar">contacto@woodbird.com.ar</a>
+    </address>
+    <p>Las imágenes de producto marcadas «Imagen con IA» fueron generadas con inteligencia artificial.</p>
+    <ul>
+      <li><a href="docs/sprint-1/07_Declaracion_Etica_IA.docx">Declaración ética y transparencia de IA</a></li>
+      <li><a href="#">Política de privacidad</a></li>
+    </ul>
+    <p><small>© 2026 Woodbird · Proyecto académico, IES «René Favaloro»</small></p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+# Woodbird
+
+Tienda online de aves decorativas talladas en maderas nativas del Chaco (palo santo, algarrobo, quebracho). Las imágenes de producto son generadas con inteligencia artificial.
+
+Proyecto integrador **EcoStart IA** · Tecnicatura Superior en Desarrollo de Software · IES «René Favaloro» · 3er año, 2026.
+
+- **Integrante:** Reiss Jorge Nicolás (Project Manager y Desarrollador)
+- **Tablero Kanban:** https://trello.com/b/iGCwIo1k/woodbird
+
+## Estructura
+
+```
+index.html      Página principal (HTML5 semántico)
+css/            Hojas de estilo (Sprint 2)
+js/             Scripts
+assets/img/     Imágenes de producto
+docs/           Entregables escritos de cada sprint
+```
+
+## Entregables
+
+### Sprint 1 · Concepción, negocio y planificación (24/08 – 11/09)
+
+| Materia | Entregable |
+|---|---|
+| Dirección y Gestión de Proyectos | [Acta de Constitución](docs/sprint-1/01_Acta_de_Constitucion.docx) |
+| Dirección y Gestión de Proyectos | [EDT / WBS](docs/sprint-1/02_EDT_WBS.docx) |
+| Dirección y Gestión de Proyectos | [Tablero Kanban (Trello)](https://trello.com/b/iGCwIo1k/woodbird) |
+| El Emprendedor Digital | [Lienzo de Modelo de Negocio](docs/sprint-1/03_Lienzo_Modelo_de_Negocio.png) |
+| El Emprendedor Digital | [Declaración de Triple Impacto](docs/sprint-1/04_Declaracion_Triple_Impacto.docx) |
+| Desarrollo de Sitios Web | [Wireframes](docs/sprint-1/05_Diseno_Interfaz_Wireframes.html) |
+| Desarrollo de Sitios Web | [Estructura HTML5 semántica](index.html) |
+| Legislación Informática | [Informe de Marca y Dominios](docs/sprint-1/06_Informe_Marca_y_Dominios.docx) |
+| Legislación Informática | [Declaración Ética de IA](docs/sprint-1/07_Declaracion_Etica_IA.docx) |
+
+### Sprint 2 · Maquetación, datos y privacidad (14/09 – 02/10)
+
+En curso.
