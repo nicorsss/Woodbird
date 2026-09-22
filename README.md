@@ -40,8 +40,8 @@ docs/           Entregables escritos de cada sprint
 |---|---|---|
 | Desarrollo de Sitios Web | [CSS responsive (Flexbox + Grid)](css/estilos.css) | Hecho |
 | Desarrollo de Sitios Web | [Catálogo en JSON](productos.json) | Hecho |
-| Dirección y Gestión de Proyectos | Diagrama de Gantt y control de desvíos | Pendiente |
-| Dirección y Gestión de Proyectos | Matriz de riesgos | Pendiente |
+| Dirección y Gestión de Proyectos | [Diagrama de Gantt y control de desvíos](docs/sprint-2/01_Diagrama_de_Gantt_y_Control_de_Desvios.docx) | Base hecha (control final en S6) |
+| Dirección y Gestión de Proyectos | [Matriz de riesgos](docs/sprint-2/02_Matriz_de_Riesgos.docx) | Versión inicial hecha (cierre en S6) |
 | El Emprendedor Digital | Informe Startup vs. Empresa Tradicional | Pendiente |
 | El Emprendedor Digital | Estrategia de canales y embudo de conversión | Pendiente |
 | Legislación Informática | Política de privacidad (Ley 25.326) | Pendiente |
