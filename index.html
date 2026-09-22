@@ -207,7 +207,14 @@
         <li>Pago</li>
       </ol>
 
-      <form action="#" method="post">
+      <!-- Tienda de demostración: el formulario no tiene action ni botón de envío,
+           por lo que los datos nunca salen del navegador (ver js/checkout.js). -->
+      <form id="form-checkout" aria-describedby="aviso-simulacion">
+        <p id="aviso-simulacion" class="aviso">
+          Esta tienda es una demostración académica: no se realizan ventas ni cobros, y los datos que ingreses
+          no se envían ni se guardan.
+        </p>
+
         <fieldset>
           <legend>Datos de contacto</legend>
           <p>
@@ -219,7 +226,7 @@
             <input type="email" id="email" name="email" autocomplete="email" required>
           </p>
           <p>
-            <label for="telefono">Teléfono</label>
+            <label for="telefono">Teléfono <small>(opcional)</small></label>
             <input type="tel" id="telefono" name="telefono" autocomplete="tel">
           </p>
         </fieldset>
@@ -240,10 +247,20 @@
           </p>
         </fieldset>
 
+        <p class="consentimiento">
+          <input type="checkbox" id="consentimiento" name="consentimiento" required>
+          <label for="consentimiento">
+            Leí y acepto la <a href="politica-privacidad.html">Política de privacidad</a>. Presto mi consentimiento
+            para que mis datos se usen sólo para simular esta compra (Ley N° 25.326).
+          </label>
+        </p>
+
         <div class="resumen-pago">
           <p>Total: <strong><data value="69200">$69.200</data></strong></p>
-          <button type="submit">Ir al pago</button>
+          <button type="button" id="ir-al-pago" class="boton">Ir al pago</button>
         </div>
+
+        <p id="confirmacion" class="confirmacion" role="status" aria-live="polite"></p>
       </form>
     </section>
 
@@ -259,10 +276,11 @@
     <p>Las imágenes de producto marcadas «Imagen con IA» fueron generadas con inteligencia artificial.</p>
     <ul>
       <li><a href="docs/sprint-1/07_Declaracion_Etica_IA.docx">Declaración ética y transparencia de IA</a></li>
-      <li><a href="#">Política de privacidad</a></li>
+      <li><a href="politica-privacidad.html">Política de privacidad</a></li>
     </ul>
     <p><small>© 2026 Woodbird · Proyecto académico, IES «René Favaloro»</small></p>
   </footer>
 
+  <script src="js/checkout.js" defer></script>
 </body>
 </html>

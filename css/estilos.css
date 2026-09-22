@@ -591,7 +591,111 @@ main > section {
   font-size: 1.3rem;
 }
 
-/* ---------- 9. Pie de página ---------- */
+/* Aviso de tienda de demostración */
+.aviso {
+  padding: calc(var(--u) * 3) calc(var(--u) * 4);
+  border-left: 3px solid var(--resina);
+  border-radius: var(--r-chico);
+  background: var(--tiza);
+  font-size: 0.9rem;
+}
+
+/* Casilla de consentimiento (Ley 25.326, art. 5) */
+.consentimiento {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--u) * 3);
+  font-size: 0.9rem;
+}
+
+#checkout .consentimiento input {
+  flex: none;
+  width: 22px;
+  min-height: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  accent-color: var(--duramen);
+}
+
+#checkout .consentimiento label {
+  font-weight: 400;
+}
+
+.confirmacion:empty {
+  display: none;
+}
+
+.confirmacion {
+  padding: calc(var(--u) * 4);
+  border-radius: var(--r-medio);
+  background: var(--duramen);
+  color: var(--tiza);
+  font-weight: 500;
+}
+
+/* ---------- 9. Página de texto legal ---------- */
+.documento-legal {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 8);
+  max-width: 72ch;
+  margin: 0 auto;
+  padding: calc(var(--u) * 10) var(--margen);
+}
+
+.documento-legal > header {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 3);
+}
+
+.documento-legal > header small {
+  color: var(--gris);
+}
+
+.documento-legal section,
+.documento-legal > nav {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 3);
+}
+
+.documento-legal h2 {
+  font-size: 1.3rem;
+}
+
+.documento-legal > nav {
+  padding: calc(var(--u) * 5);
+  border: 1px solid var(--linea);
+  border-radius: var(--r-medio);
+  background: var(--tiza);
+}
+
+.documento-legal > nav ol {
+  display: grid;
+  gap: var(--u);
+  font-size: 0.95rem;
+}
+
+.documento-legal section ul {
+  display: grid;
+  gap: calc(var(--u) * 2);
+  padding-left: calc(var(--u) * 5);
+  list-style: disc;
+}
+
+.documento-legal section ul li::marker {
+  color: var(--resina);
+}
+
+@media (min-width: 960px) {
+  .documento-legal > nav ol {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: calc(var(--u) * 8);
+  }
+}
+
+/* ---------- 10. Pie de página ---------- */
 body > footer {
   display: grid;
   gap: calc(var(--u) * 3);
@@ -692,7 +796,8 @@ body > footer small {
     grid-template-columns: 1fr minmax(0, calc(var(--ancho-max) * 0.55)) minmax(0, calc(var(--ancho-max) * 0.45)) 1fr;
   }
 
-  main > section {
+  main > section,
+  main > article {
     grid-column: 1 / -1;
   }
 

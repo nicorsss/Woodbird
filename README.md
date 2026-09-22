@@ -11,6 +11,7 @@ Proyecto integrador **EcoStart IA** · Tecnicatura Superior en Desarrollo de Sof
 
 ```
 index.html      Página principal (HTML5 semántico)
+politica-privacidad.html  Política de privacidad (Ley 25.326)
 productos.json  Catálogo de productos (datos estáticos)
 css/            Hojas de estilo
 js/             Scripts
@@ -44,5 +45,5 @@ docs/           Entregables escritos de cada sprint
 | Dirección y Gestión de Proyectos | [Matriz de riesgos](docs/sprint-2/02_Matriz_de_Riesgos.docx) | Versión inicial hecha (cierre en S6) |
 | El Emprendedor Digital | Informe Startup vs. Empresa Tradicional | Pendiente |
 | El Emprendedor Digital | Estrategia de canales y embudo de conversión | Pendiente |
-| Legislación Informática | Política de privacidad (Ley 25.326) | Pendiente |
+| Legislación Informática | [Política de privacidad (Ley 25.326)](docs/sprint-2/03_Politica_de_Privacidad.docx) · [publicada en el sitio](politica-privacidad.html) | Hecho |
 | Legislación Informática | Justificación de la licencia | Pendiente |
