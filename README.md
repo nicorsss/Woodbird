@@ -23,6 +23,8 @@ docs/           Entregables escritos de cada sprint
 
 ### Sprint 1 · Concepción, negocio y planificación (24/08 – 11/09)
 
+**Entrega final:** [Carpeta integradora del Sprint 1 (PDF)](docs/sprint-1/00_Carpeta_Integradora_Sprint_1.pdf), que reúne todos los entregables con portada, índice y enlaces al repositorio y al tablero Kanban.
+
 | Materia | Entregable |
 |---|---|
 | Dirección y Gestión de Proyectos | [Acta de Constitución](docs/sprint-1/01_Acta_de_Constitucion.docx) |
