@@ -17,6 +17,7 @@ css/            Hojas de estilo
 js/             Scripts
 assets/img/     Imágenes de producto
 docs/           Entregables escritos de cada sprint
+LICENSE         Licencia del código (GNU GPL v3)
 ```
 
 ## Entregables
@@ -48,4 +49,13 @@ docs/           Entregables escritos de cada sprint
 | El Emprendedor Digital | Informe Startup vs. Empresa Tradicional | Pendiente |
 | El Emprendedor Digital | [Estrategia de canales y embudo de conversión](docs/sprint-2/04_Estrategia_de_Canales_y_Embudo.docx) · [maqueta de Instagram](docs/sprint-2/04_Instagram_Maqueta.png) | Hecho |
 | Legislación Informática | [Política de privacidad (Ley 25.326)](docs/sprint-2/03_Politica_de_Privacidad.docx) · [publicada en el sitio](politica-privacidad.html) | Hecho |
-| Legislación Informática | Justificación de la licencia | Pendiente |
+| Legislación Informática | [Justificación del modelo de licenciamiento](docs/sprint-2/05_Justificacion_de_Licencia.docx) · [LICENSE](LICENSE) · [aviso en el sitio](index.html) | Hecho |
+
+## Licencia
+
+- **Código fuente** (`*.html`, `css/`, `js/`, `productos.json`): [GNU GPL, versión 3 o posterior](LICENSE).
+- **Documentación** (`docs/`, este README): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es).
+- **Imágenes generadas con IA** (`assets/img/`): sin reclamo de derechos exclusivos.
+- La marca «Woodbird» no está incluida en ninguna de estas licencias.
+
+Detalle en [LICENCIA-DOCUMENTACION.md](LICENCIA-DOCUMENTACION.md).

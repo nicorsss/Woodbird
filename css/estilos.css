@@ -4,6 +4,9 @@
    Enfoque mobile-first: los estilos base son para móvil y las
    media queries amplían hacia tableta (600px) y escritorio (960px).
    Sin frameworks: el layout usa sólo Flexbox y CSS Grid.
+
+   © 2026 Reiss Jorge Nicolás
+   SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
    ============================================================ */
 
 /* ---------- 1. Variables del sistema de diseño ---------- */

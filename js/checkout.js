@@ -2,6 +2,9 @@
 // El formulario no se envía: se validan los campos en el navegador y se muestra
 // una confirmación. Los datos personales no salen del equipo del usuario ni se
 // guardan en ningún lado (ver politica-privacidad.html, cláusulas 2 y 8).
+//
+// © 2026 Reiss Jorge Nicolás
+// SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
 
 const formulario = document.getElementById("form-checkout");
 const boton = document.getElementById("ir-al-pago");

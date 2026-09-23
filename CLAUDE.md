@@ -24,6 +24,7 @@ Es un sitio estático con HTML, CSS y JavaScript sin frameworks. No hay build, l
 
 - **Transparencia de IA:** las imágenes de producto son generadas con IA y cada una lleva `<figcaption>Imagen con IA</figcaption>`. El pie enlaza la Declaración Ética de IA. Mantén esto en cualquier producto o imagen nueva.
 - **Accesibilidad:** HTML5 semántico. Cada sección tiene `aria-labelledby`, las etiquetas ocultas usan `.visualmente-oculto` y se respeta `prefers-reduced-motion`.
+- **Licencias:** el código es `GPL-3.0-or-later` (archivo `LICENSE`, con encabezado SPDX en los CSS y JS), la documentación de `docs/` es CC BY-NC-SA 4.0 y las imágenes generadas con IA quedan sin reclamo de derechos. El pie de ambas páginas HTML repite el aviso. Todo archivo de código nuevo lleva el mismo encabezado SPDX. El detalle está en `LICENCIA-DOCUMENTACION.md`.
 - Las imágenes referenciadas (`assets/img/*.webp`) todavía no están en el repositorio; solo existe `.gitkeep`.
 
 ## Entregables y documentación
