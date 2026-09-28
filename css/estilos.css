@@ -220,6 +220,11 @@ input {
   color: transparent;
 }
 
+/* Lámina de color que reemplaza a la imagen mientras no esté generada */
+.tarjeta .lamina {
+  height: 100%;
+}
+
 /* Sello de transparencia: la imagen fue generada con IA */
 .tarjeta figcaption {
   position: absolute;
