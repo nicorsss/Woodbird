@@ -41,6 +41,8 @@ LICENSE         Licencia del código (GNU GPL v3)
 
 ### Sprint 2 · Maquetación, datos y privacidad (14/09 – 02/10)
 
+**Entrega final:** [Carpeta integradora del Sprint 2 (PDF)](docs/sprint-2/00_Carpeta_Integradora_Sprint_2.pdf), que reúne todos los entregables con portada, índice, asignación de roles por tarea, el código final de CSS y JSON y los enlaces al repositorio y al tablero Kanban.
+
 | Materia | Entregable | Estado |
 |---|---|---|
 | Desarrollo de Sitios Web | [CSS responsive (Flexbox + Grid)](css/estilos.css) | Hecho |
