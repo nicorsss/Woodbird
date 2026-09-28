@@ -10,7 +10,14 @@ Todo el contenido, el código, los comentarios y los mensajes de commit van en e
 
 ## Stack y comandos
 
-Es un sitio estático con HTML, CSS y JavaScript sin frameworks. No hay build, linter, tests ni `package.json`. Para verlo, abre `index.html` en el navegador. No hay que ejecutar nada más.
+Es un sitio estático con HTML, CSS y JavaScript sin frameworks. No hay build, linter ni `package.json`. Para verlo, abre `index.html` en el navegador. No hay que ejecutar nada más.
+
+Las pruebas de usabilidad responsive (`pruebas/responsive.mjs`, Node 22+ y Chrome, sin dependencias) recorren ambas páginas en 11 anchos y miden desborde, objetivos táctiles, letra, contraste WCAG AA, anclas y checkout sin red. Después de cambiar estilos, córrelas:
+
+```
+python -m http.server 8765
+node pruebas/responsive.mjs http://127.0.0.1:8765/ pruebas/salida
+```
 
 ## Arquitectura
 

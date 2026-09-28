@@ -15,6 +15,7 @@ politica-privacidad.html  Política de privacidad (Ley 25.326)
 productos.json  Catálogo de productos (datos estáticos)
 css/            Hojas de estilo
 js/             Scripts
+pruebas/        Pruebas de usabilidad responsive (Node + Chrome)
 assets/img/     Imágenes de producto
 docs/           Entregables escritos de cada sprint
 LICENSE         Licencia del código (GNU GPL v3)
@@ -44,6 +45,7 @@ LICENSE         Licencia del código (GNU GPL v3)
 |---|---|---|
 | Desarrollo de Sitios Web | [CSS responsive (Flexbox + Grid)](css/estilos.css) | Hecho |
 | Desarrollo de Sitios Web | [Catálogo en JSON](productos.json) | Hecho |
+| Desarrollo de Sitios Web | [Pruebas de usabilidad responsive](docs/sprint-2/07_Pruebas_Usabilidad_Responsive.docx) · [script](pruebas/responsive.mjs) | Hecho: 22 de 22 combinaciones cumplen, después de 6 correcciones |
 | Dirección y Gestión de Proyectos | [Diagrama de Gantt y control de desvíos](docs/sprint-2/01_Diagrama_de_Gantt_y_Control_de_Desvios.docx) | Control de cierre hecho el 23/09 (se completa con las pruebas) |
 | Dirección y Gestión de Proyectos | [Matriz de riesgos](docs/sprint-2/02_Matriz_de_Riesgos.docx) | Cierre hecho el 23/09: R4, R6 y R7 siguen abiertos |
 | El Emprendedor Digital | [Informe comparativo: Startup vs. Empresa Tradicional](docs/sprint-2/06_Informe_Startup_vs_Empresa_Tradicional.docx) | Hecho |

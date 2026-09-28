@@ -14,11 +14,11 @@
   /* Paleta derivada del palo santo */
   --corteza: #191E14;  /* verde-negro: texto y fondos oscuros */
   --duramen: #47542F;  /* verde oliva: acción principal */
-  --musgo: #6E7C4F;    /* oliva claro: texto secundario sobre oscuro */
+  --musgo: #84955F;    /* oliva claro: texto secundario sobre oscuro (5,2:1 sobre corteza) */
   --albura: #E7D9AE;   /* amarillo pálido: fondo de láminas */
   --arena: #F4EEDC;    /* fondo de página */
   --tiza: #FCFAF3;     /* superficies y tarjetas */
-  --resina: #A9682A;   /* ámbar: sólo precios */
+  --resina: #985E26;   /* ámbar: sólo precios (≥ 4,5:1 sobre tiza y arena) */
   --linea: #D8CEB0;    /* bordes de 1px */
   --gris: #6B6959;     /* texto terciario */
 
@@ -229,7 +229,7 @@ input {
   border-radius: var(--r-pildora);
   background: var(--corteza);
   color: var(--albura);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
@@ -288,6 +288,9 @@ body > header {
 }
 
 .marca {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--alto-tactil);
   font-family: var(--display);
   font-size: 1.6rem;
   font-weight: 700;
@@ -297,6 +300,8 @@ body > header {
 .buscador {
   display: flex;
   flex: 1 1 100%;
+  /* Sin esto el campo no se achica y desborda a 320px */
+  min-width: 0;
   gap: calc(var(--u) * 2);
 }
 
@@ -474,6 +479,19 @@ main > section {
     clip: rect(0 0 0 0);
   }
 
+  /* La tabla pasa a bloque: si no, cada renglón en grilla queda
+     encerrado en la primera de las cuatro columnas y ocupa la mitad */
+  #carrito table,
+  #carrito tbody,
+  #carrito tfoot {
+    display: block;
+  }
+
+  #carrito tfoot tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
   #carrito tbody tr {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -567,6 +585,13 @@ main > section {
 #checkout label {
   font-size: 0.85rem;
   font-weight: 500;
+}
+
+/* «(opcional)» con el mismo tamaño que la etiqueta, para no bajar de 12px */
+#checkout label small {
+  font-size: inherit;
+  font-weight: 400;
+  color: var(--gris);
 }
 
 #checkout input {
@@ -768,13 +793,13 @@ body > footer small {
   body > nav ul {
     display: flex;
     justify-content: center;
-    gap: calc(var(--u) * 10);
+    gap: calc(var(--u) * 6);
     max-width: var(--ancho-max);
     margin: 0 auto;
   }
 
   body > nav a {
-    padding: calc(var(--u) * 4) 0;
+    padding: calc(var(--u) * 4) calc(var(--u) * 2);
     font-size: 0.95rem;
   }
 
