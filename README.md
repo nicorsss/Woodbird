@@ -5,6 +5,7 @@ Tienda online de aves decorativas talladas en maderas nativas del Chaco (palo sa
 Proyecto integrador **EcoStart IA** · Tecnicatura Superior en Desarrollo de Software · IES «René Favaloro» · 3er año, 2026.
 
 - **Integrante:** Reiss Jorge Nicolás (Project Manager y Desarrollador)
+- **Sitio publicado:** https://nicorsss.github.io/Woodbird/
 - **Tablero Kanban:** https://trello.com/b/iGCwIo1k/woodbird
 
 ## Estructura
