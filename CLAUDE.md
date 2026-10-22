@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Qué es
 
-Woodbird es la tienda online (de demostración) de aves talladas en maderas nativas del Chaco. Es el proyecto integrador **EcoStart IA** del 3er año de la Tecnicatura en Desarrollo de Software (IES «René Favaloro», 2026). Hay un solo integrante, que es PM y desarrollador. El trabajo se organiza en sprints con entregables por materia: Desarrollo de Sitios Web, Dirección y Gestión de Proyectos, El Emprendedor Digital y Legislación Informática. El tablero Kanban está en https://trello.com/b/iGCwIo1k/woodbird.
+Woodbird es la tienda online (de demostración) de aves decorativas inspiradas en el tallado en maderas nativas del Chaco. **Las piezas son diseños ficticios generados con IA: no existe tala ni producto físico.** Esta es la tesis de triple impacto del Sprint 1 (el palo santo está protegido por CITES Apéndice II y la Ley 26.331). No escribas textos que presenten las piezas como talladas o enviadas de verdad, salvo en condicional («si la tienda operara…»), como hacen los Términos. Es el proyecto integrador **EcoStart IA** del 3er año de la Tecnicatura en Desarrollo de Software (IES «René Favaloro», 2026). Hay un solo integrante, que es PM y desarrollador. El trabajo se organiza en sprints con entregables por materia: Desarrollo de Sitios Web, Dirección y Gestión de Proyectos, El Emprendedor Digital y Legislación Informática. El tablero Kanban está en https://trello.com/b/iGCwIo1k/woodbird.
 
 Todo el contenido, el código, los comentarios y los mensajes de commit van en español (es-AR).
 
@@ -21,8 +21,8 @@ node pruebas/responsive.mjs http://127.0.0.1:8765/ pruebas/salida
 
 ## Arquitectura
 
-- **`index.html`** es una sola página con anclas (`#inicio`, `#catalogo`, `#carrito`, `#checkout`). La barra de navegación salta entre esas secciones y lleva el contador del carrito. Las listas de «Recién talladas» y del catálogo y las filas del carrito están **vacías en el HTML**: las llena JS. Los precios van en `<data value="…">`.
-- **`productos.json`** es la única fuente de productos (campos `id`, `nombre`, `descripcion`, `precio_simulado`, `imagen_ia_url`, `categoria`, `medida_cm`, `stock`). «Recién talladas» muestra las 4 piezas con stock de `id` más alto. `stock: false` deja el botón en «Sin stock».
+- **`index.html`** es una sola página con anclas (`#inicio`, `#catalogo`, `#carrito`, `#checkout`). La barra de navegación salta entre esas secciones y lleva el contador del carrito. Las listas de «Diseños nuevos» y del catálogo y las filas del carrito están **vacías en el HTML**: las llena JS. Los precios van en `<data value="…">`.
+- **`productos.json`** es la única fuente de productos (campos `id`, `nombre`, `descripcion`, `precio_simulado`, `imagen_ia_url`, `categoria`, `medida_cm`, `stock`). «Diseños nuevos» muestra las 4 piezas con stock de `id` más alto. `stock: false` deja el botón en «Sin stock».
 - **`js/`** son módulos ES y `app.js` es el punto de entrada (`<script type="module">`):
   - `utilidades.js` tiene `el()`, que crea nodos con `textContent`. No uses `innerHTML` con datos del JSON.
   - `catalogo.js` hace `fetch` de `productos.json`, genera las tarjetas y resuelve los filtros (objeto `FILTROS`, por el `value` de cada radio) y el buscador.

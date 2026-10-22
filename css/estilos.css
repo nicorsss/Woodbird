@@ -478,7 +478,7 @@ main > section {
   opacity: 0.85;
 }
 
-/* Recién talladas: carrusel horizontal en móvil */
+/* Diseños nuevos: carrusel horizontal en móvil */
 .carrusel {
   display: grid;
   grid-auto-flow: column;
