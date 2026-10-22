@@ -10,9 +10,9 @@ Todo el contenido, el código, los comentarios y los mensajes de commit van en e
 
 ## Stack y comandos
 
-Es un sitio estático con HTML, CSS y JavaScript sin frameworks. No hay build, linter ni `package.json`. Para verlo, abre `index.html` en el navegador. No hay que ejecutar nada más.
+Es un sitio estático con HTML, CSS y JavaScript sin frameworks. No hay build, linter ni `package.json`. Para verlo hay que servirlo por HTTP (`python -m http.server 8765`), porque el catálogo se carga con Fetch y los scripts son módulos ES: abrir `index.html` como archivo deja el catálogo vacío con un mensaje de error.
 
-Las pruebas de usabilidad responsive (`pruebas/responsive.mjs`, Node 22+ y Chrome, sin dependencias) recorren ambas páginas en 11 anchos y miden desborde, objetivos táctiles, letra, contraste WCAG AA, anclas y checkout sin red. Después de cambiar estilos, córrelas:
+Las pruebas de usabilidad responsive (`pruebas/responsive.mjs`, Node 22+ y Chrome, sin dependencias) recorren ambas páginas en 11 anchos y miden desborde, objetivos táctiles, letra, contraste WCAG AA, anclas y checkout sin red. También prueban el catálogo generado, el carrito (agregar, cantidades, quitar, totales), los filtros y la validación del checkout. Antes de medir agregan Cardenal y Carpintero al carrito. Después de cambiar estilos o JS, córrelas:
 
 ```
 python -m http.server 8765
@@ -21,10 +21,14 @@ node pruebas/responsive.mjs http://127.0.0.1:8765/ pruebas/salida
 
 ## Arquitectura
 
-- **`index.html`** es una sola página con anclas (`#inicio`, `#catalogo`, `#carrito`, `#checkout`). La barra de navegación salta entre esas secciones. El catálogo y el carrito tienen **el contenido escrito a mano en el HTML**, con precios en `<data value="…">`.
-- **`productos.json`** es el catálogo de datos (campos `id`, `nombre`, `descripcion`, `precio_simulado`, `imagen_ia_url`, `categoria`, `medida_cm`, `stock`). Por ahora ningún script lo carga. Si cambias productos o precios, mantén sincronizados el JSON y las tarjetas del HTML.
+- **`index.html`** es una sola página con anclas (`#inicio`, `#catalogo`, `#carrito`, `#checkout`). La barra de navegación salta entre esas secciones y lleva el contador del carrito. Las listas de «Recién talladas» y del catálogo y las filas del carrito están **vacías en el HTML**: las llena JS. Los precios van en `<data value="…">`.
+- **`productos.json`** es la única fuente de productos (campos `id`, `nombre`, `descripcion`, `precio_simulado`, `imagen_ia_url`, `categoria`, `medida_cm`, `stock`). «Recién talladas» muestra las 4 piezas con stock de `id` más alto. `stock: false` deja el botón en «Sin stock».
+- **`js/`** son módulos ES y `app.js` es el punto de entrada (`<script type="module">`):
+  - `utilidades.js` tiene `el()`, que crea nodos con `textContent`. No uses `innerHTML` con datos del JSON.
+  - `catalogo.js` hace `fetch` de `productos.json`, genera las tarjetas y resuelve los filtros (objeto `FILTROS`, por el `value` de cada radio) y el buscador.
+  - `carrito.js` guarda el estado en un `Map` en memoria, sin `localStorage`. Calcula los totales desde el catálogo, con envío fijo de $5.900 y hasta 10 unidades por pieza. Actualiza las filas en el lugar para no perder el foco y avisa los cambios con `alCambiar()`.
+  - `checkout.js` simula el checkout. El formulario **no tiene `action` ni botón submit**. Si el carrito está vacío, bloquea la compra. Aplica las reglas de `REGLAS` (nombre y apellido, dominio del correo, teléfono, CP) con `setCustomValidity()` y valida con `reportValidity()`. Al confirmar, muestra el resultado, ejecuta `reset()` y vacía el carrito. Esto es un requisito legal: `politica-privacidad.html` (Ley 25.326) promete que los datos no salen del navegador. No agregues envíos, `fetch`, `localStorage` ni analytics con datos del formulario sin actualizar también la política.
 - **`css/estilos.css`** es la única hoja de estilos. Es *mobile-first* y está organizada en secciones numeradas. Los tokens de diseño son variables en `:root` (paleta «palo santo», tipografías Fraunces y Archivo, unidad base `--u: 4px`). Los breakpoints son `600px` (tableta) y `960px` (escritorio). Solo usa Flexbox y Grid. Hay reglas de estilo con intención: el ámbar (`--resina`) se usa solo en precios, «Agregar» va con contorno (no relleno) y los objetivos táctiles miden `--alto-tactil`.
-- **`js/checkout.js`** simula el checkout. El formulario **no tiene `action` ni botón submit**: valida en el navegador con `reportValidity()`, muestra una confirmación y ejecuta `reset()`. Esto es un requisito legal: `politica-privacidad.html` (Ley 25.326) promete que los datos no salen del navegador. No agregues envíos, `fetch`, `localStorage` ni analytics con datos del formulario sin actualizar también la política.
 - **`politica-privacidad.html`** es una página aparte que reutiliza la misma hoja de estilos (sección 9 del CSS) y enlaza de vuelta con `index.html#…`.
 
 ## Convenciones del proyecto

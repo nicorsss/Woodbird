@@ -27,7 +27,7 @@
     <ul>
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#catalogo">Catálogo</a></li>
-      <li><a href="#carrito">Carrito</a></li>
+      <li><a href="#carrito">Carrito <span id="contador-carrito" class="contador" hidden>0</span></a></li>
       <li><a href="#checkout">Cuenta</a></li>
     </ul>
   </nav>
@@ -50,42 +50,17 @@
       </ul>
     </section>
 
-    <!-- Contingencia del riesgo R6 (28/09): las imágenes generadas con IA pasan al
-         Sprint 3. Mientras tanto cada tarjeta muestra una lámina de color con el sello.
-         Las rutas previstas están en productos.json (imagen_ia_url). -->
+    <!-- Las tarjetas las genera js/catalogo.js a partir de productos.json -->
     <section id="recien-talladas" aria-labelledby="titulo-recientes">
       <h2 id="titulo-recientes">Recién talladas</h2>
-      <ul class="carrusel">
-        <li>
-          <article class="tarjeta">
-            <figure>
-              <div class="lamina" role="img" aria-label="Cardenal: imagen en preparación"></div>
-              <figcaption>Imagen con IA</figcaption>
-            </figure>
-            <h3>Cardenal</h3>
-            <p>Palo santo · 22 cm</p>
-            <p class="precio"><data value="28400">$28.400</data></p>
-          </article>
-        </li>
-        <li>
-          <article class="tarjeta">
-            <figure>
-              <div class="lamina" role="img" aria-label="Hornero: imagen en preparación"></div>
-              <figcaption>Imagen con IA</figcaption>
-            </figure>
-            <h3>Hornero</h3>
-            <p>Algarrobo · 18 cm</p>
-            <p class="precio"><data value="19700">$19.700</data></p>
-          </article>
-        </li>
-      </ul>
+      <ul class="carrusel" id="lista-recientes" aria-busy="true"></ul>
     </section>
 
     <!-- CATÁLOGO DE PRODUCTOS -->
     <section id="catalogo" aria-labelledby="titulo-catalogo">
       <h2 id="titulo-catalogo">Catálogo</h2>
 
-      <form aria-label="Filtros del catálogo">
+      <form id="filtros-catalogo" aria-label="Filtros del catálogo">
         <fieldset class="chips">
           <legend class="visualmente-oculto">Filtrar por</legend>
           <input class="visualmente-oculto" type="radio" id="filtro-todas" name="filtro" value="todas" checked>
@@ -97,62 +72,16 @@
         </fieldset>
       </form>
 
-      <ul class="grilla">
-        <li>
-          <article class="tarjeta">
-            <figure>
-              <div class="lamina" role="img" aria-label="Cardenal: imagen en preparación"></div>
-              <figcaption>Imagen con IA</figcaption>
-            </figure>
-            <h3>Cardenal</h3>
-            <p>Palo santo · 22 cm</p>
-            <p class="precio"><data value="28400">$28.400</data></p>
-            <button type="button">Agregar</button>
-          </article>
-        </li>
-        <li>
-          <article class="tarjeta">
-            <figure>
-              <div class="lamina" role="img" aria-label="Hornero: imagen en preparación"></div>
-              <figcaption>Imagen con IA</figcaption>
-            </figure>
-            <h3>Hornero</h3>
-            <p>Algarrobo · 18 cm</p>
-            <p class="precio"><data value="19700">$19.700</data></p>
-            <button type="button">Agregar</button>
-          </article>
-        </li>
-        <li>
-          <article class="tarjeta">
-            <figure>
-              <div class="lamina" role="img" aria-label="Carpintero: imagen en preparación"></div>
-              <figcaption>Imagen con IA</figcaption>
-            </figure>
-            <h3>Carpintero</h3>
-            <p>Quebracho · 25 cm</p>
-            <p class="precio"><data value="34900">$34.900</data></p>
-            <button type="button">Agregar</button>
-          </article>
-        </li>
-        <li>
-          <article class="tarjeta">
-            <figure>
-              <div class="lamina" role="img" aria-label="Chuña: imagen en preparación"></div>
-              <figcaption>Imagen con IA</figcaption>
-            </figure>
-            <h3>Chuña</h3>
-            <p>Palo santo · 20 cm</p>
-            <p class="precio"><data value="22300">$22.300</data></p>
-            <button type="button">Agregar</button>
-          </article>
-        </li>
-      </ul>
+      <p id="estado-catalogo" class="estado-catalogo" role="status">Cargando catálogo…</p>
+      <noscript><p class="estado-catalogo error">Para ver el catálogo y comprar hace falta activar JavaScript.</p></noscript>
+      <ul class="grilla" id="lista-catalogo" aria-busy="true"></ul>
     </section>
 
     <!-- CARRITO -->
     <section id="carrito" aria-labelledby="titulo-carrito">
-      <h2 id="titulo-carrito">Carrito</h2>
-      <table>
+      <h2 id="titulo-carrito" tabindex="-1">Carrito</h2>
+      <p id="carrito-vacio" class="aviso">Tu carrito está vacío. <a href="#catalogo">Elegí una pieza del catálogo</a>.</p>
+      <table hidden>
         <caption class="visualmente-oculto">Piezas seleccionadas</caption>
         <thead>
           <tr>
@@ -162,42 +91,24 @@
             <th scope="col">Subtotal</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Cardenal <small>Palo santo · 22 cm</small></th>
-            <td><data value="28400">$28.400</data></td>
-            <td>
-              <label class="visualmente-oculto" for="cant-cardenal">Cantidad de Cardenal</label>
-              <input type="number" id="cant-cardenal" name="cant-cardenal" value="1" min="1" max="10">
-            </td>
-            <td><data value="28400">$28.400</data></td>
-          </tr>
-          <tr>
-            <th scope="row">Carpintero <small>Quebracho · 25 cm</small></th>
-            <td><data value="34900">$34.900</data></td>
-            <td>
-              <label class="visualmente-oculto" for="cant-carpintero">Cantidad de Carpintero</label>
-              <input type="number" id="cant-carpintero" name="cant-carpintero" value="1" min="1" max="10">
-            </td>
-            <td><data value="34900">$34.900</data></td>
-          </tr>
-        </tbody>
+        <!-- Las filas las genera js/carrito.js -->
+        <tbody id="filas-carrito"></tbody>
         <tfoot>
           <tr>
             <th scope="row" colspan="3">Subtotal</th>
-            <td><data value="63300">$63.300</data></td>
+            <td id="subtotal-carrito"><data value="0">$0</data></td>
           </tr>
           <tr>
             <th scope="row" colspan="3">Envío a Resistencia</th>
-            <td><data value="5900">$5.900</data></td>
+            <td id="envio-carrito"><data value="0">$0</data></td>
           </tr>
           <tr>
             <th scope="row" colspan="3">Total</th>
-            <td><strong><data value="69200">$69.200</data></strong></td>
+            <td><strong id="total-carrito"><data value="0">$0</data></strong></td>
           </tr>
         </tfoot>
       </table>
-      <p><a href="#checkout" class="boton">Continuar</a></p>
+      <p id="continuar-compra" hidden><a href="#checkout" class="boton">Continuar</a></p>
     </section>
 
     <!-- CHECKOUT -->
@@ -259,10 +170,11 @@
         </p>
 
         <div class="resumen-pago">
-          <p>Total: <strong><data value="69200">$69.200</data></strong></p>
+          <p>Total: <strong id="total-checkout"><data value="0">$0</data></strong></p>
           <button type="button" id="ir-al-pago" class="boton">Ir al pago</button>
         </div>
 
+        <p id="error-pago" class="error" role="alert"></p>
         <p id="confirmacion" class="confirmacion" role="status" aria-live="polite"></p>
       </form>
     </section>
@@ -290,6 +202,11 @@
     </small></p>
   </footer>
 
-  <script src="js/checkout.js" defer></script>
+  <!-- Avisos del carrito para lectores de pantalla -->
+  <p id="anuncio-carrito" class="visualmente-oculto" role="status"></p>
+
+  <!-- Módulo ES: se ejecuta diferido. Requiere servir el sitio por HTTP
+       (GitHub Pages o «python -m http.server»), no abrirlo como archivo. -->
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

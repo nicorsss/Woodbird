@@ -21,6 +21,7 @@
   --resina: #985E26;   /* ámbar: sólo precios (≥ 4,5:1 sobre tiza y arena) */
   --linea: #D8CEB0;    /* bordes de 1px */
   --gris: #6B6959;     /* texto terciario */
+  --alerta: #9B2C1F;   /* rojo teja: sólo mensajes de error (6,9:1 sobre tiza) */
 
   /* Tipografía */
   --display: "Fraunces", Georgia, "Times New Roman", serif;
@@ -104,6 +105,11 @@ input {
 :focus-visible {
   outline: 3px solid var(--resina);
   outline-offset: 2px;
+}
+
+/* El atributo hidden gana sobre los display de las reglas de componentes */
+[hidden] {
+  display: none !important;
 }
 
 /* Oculta un elemento a la vista pero lo mantiene para lectores de pantalla */
@@ -273,6 +279,29 @@ input {
   color: var(--tiza);
 }
 
+/* Pieza sin stock: el botón queda deshabilitado y apagado */
+.tarjeta button:disabled,
+.tarjeta button:disabled:hover {
+  border-color: var(--linea);
+  background: transparent;
+  color: var(--gris);
+  cursor: not-allowed;
+}
+
+/* Mensaje de error (catálogo que no carga, checkout bloqueado) */
+.error {
+  padding: calc(var(--u) * 3) calc(var(--u) * 4);
+  border-left: 3px solid var(--alerta);
+  border-radius: var(--r-chico);
+  background: var(--tiza);
+  color: var(--alerta);
+  font-weight: 500;
+}
+
+.error:empty {
+  display: none;
+}
+
 /* Grilla de productos: 2 columnas en móvil */
 .grilla {
   display: grid;
@@ -369,6 +398,31 @@ body > nav a:hover {
   text-decoration: underline;
 }
 
+/* Contador del carrito: viaja con la barra (fija abajo en móvil, pegada arriba en escritorio) */
+.contador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6em;
+  height: 1.6em;
+  margin-left: calc(var(--u) * 1.5);
+  padding: 0 var(--u);
+  border-radius: var(--r-pildora);
+  background: var(--duramen);
+  color: var(--tiza);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.contador.latido {
+  animation: latido 0.3s ease-out;
+}
+
+@keyframes latido {
+  50% { transform: scale(1.3); }
+}
+
 /* ---------- 6. Contenido principal ---------- */
 main > section {
   display: flex;
@@ -422,6 +476,15 @@ main > section {
   border: 0;
 }
 
+.estado-catalogo {
+  font-size: 0.9rem;
+  color: var(--gris);
+}
+
+.estado-catalogo.error {
+  color: var(--alerta);
+}
+
 /* ---------- 7. Carrito ---------- */
 #carrito table {
   width: 100%;
@@ -462,6 +525,31 @@ main > section {
 #carrito tfoot tr:last-child > * {
   border-bottom: 0;
   font-size: 1.1rem;
+}
+
+#carrito .cantidad {
+  white-space: nowrap;
+}
+
+/* Quitar: acción secundaria, como enlace, con el alto táctil completo */
+#carrito .quitar {
+  min-height: var(--alto-tactil);
+  margin-left: calc(var(--u) * 2);
+  padding: 0 calc(var(--u) * 2);
+  border: 0;
+  background: transparent;
+  color: var(--duramen);
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#carrito .quitar:hover {
+  color: var(--corteza);
+}
+
+#titulo-carrito:focus {
+  outline: none;
 }
 
 #carrito input[type="number"] {

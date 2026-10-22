@@ -2,6 +2,8 @@
 // Recorre index.html y politica-privacidad.html en 11 anchos de pantalla y mide
 // desborde, objetivos táctiles, tamaño de letra, contraste, anclas, carrusel y
 // checkout. Guarda capturas y resultados.json en la carpeta de salida.
+// Sprint 3: el catálogo y el carrito se generan con JS; se agregan las pruebas
+// funcionales del carrito, los filtros y la validación del checkout.
 //
 // Uso (desde la raíz del repo, con Node 22 o posterior):
 //   python -m http.server 8765
@@ -178,6 +180,80 @@ const CARRUSEL = `(async () => {
   return { aplica: true, puedeDeslizar, scrollLeftTrasDeslizar: Math.round(pos), encaja: Math.abs(segunda) < 2 || pos === 0 || pos >= c.scrollWidth - c.clientWidth - 1 };
 })()`;
 
+// El carrito arranca vacío: se cargan las dos piezas de la maqueta (Cardenal y
+// Carpintero) para medir la tabla igual que en el Sprint 2.
+const PREPARAR = `(async () => {
+  for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
+  await new Promise((r) => setTimeout(r, 100));
+  return document.querySelectorAll("#filas-carrito tr").length;
+})()`;
+
+// Catálogo generado desde productos.json, carrito, filtros y buscador
+const CARRITO = `(async () => {
+  const espera = (ms) => new Promise((r) => setTimeout(r, ms));
+  const monto = (sel) => Number(document.querySelector(sel + " data").value);
+  const estado = () => ({
+    filas: document.querySelectorAll("#filas-carrito tr").length,
+    contador: Number(document.querySelector("#contador-carrito").textContent),
+    total: monto("#total-carrito"),
+    totalCheckout: monto("#total-checkout"),
+  });
+  const escribir = async (campo, v) => {
+    campo.value = v;
+    campo.dispatchEvent(new Event("input", { bubbles: true }));
+    campo.dispatchEvent(new Event("change", { bubbles: true }));
+    await espera(50);
+  };
+  const filtrar = async (valor, busqueda = "") => {
+    const radio = document.querySelector('#filtros-catalogo input[value="' + valor + '"]');
+    radio.click();
+    const q = document.querySelector("#buscar");
+    q.value = busqueda;
+    q.dispatchEvent(new Event("input", { bubbles: true }));
+    await espera(50);
+    return [...document.querySelectorAll("#lista-catalogo h3")].map((h) => h.textContent);
+  };
+
+  const r = {};
+  r.tarjetas = document.querySelectorAll("#lista-catalogo .tarjeta").length;
+  r.recientes = [...document.querySelectorAll("#lista-recientes h3")].map((h) => h.textContent);
+  r.sinStock = [...document.querySelectorAll("#lista-catalogo button:disabled")].map((b) => b.closest("article").querySelector("h3").textContent);
+  r.sellosIA = document.querySelectorAll("#lista-catalogo figcaption").length;
+  r.inicial = estado();                                    // esperado: 2 filas, 2 piezas, 69200
+
+  document.querySelector('[data-agregar="1"]').click();
+  await espera(100);
+  r.agregarRepetido = { ...estado(), cantidad: document.querySelector("#cant-1").value };   // Cardenal ×2: 97600
+
+  await escribir(document.querySelector("#cant-1"), "3");
+  r.cantidad3 = estado();                                  // 3 × 28400 + 34900 + 5900 = 126000
+  await escribir(document.querySelector("#cant-1"), "25");
+  r.fueraDeRango = { valor: document.querySelector("#cant-1").value, ...estado() };    // se corrige a 10
+  await escribir(document.querySelector("#cant-1"), "1");
+
+  document.querySelector('[data-quitar="3"]').click();
+  await espera(100);
+  r.quitar = { ...estado(), foco: document.activeElement.id };                        // 1 fila, 34300
+
+  document.querySelector('[data-quitar="1"]').click();
+  await espera(100);
+  r.vacio = { ...estado(), tablaOculta: document.querySelector("#carrito table").hidden,
+    contadorOculto: document.querySelector("#contador-carrito").hidden,
+    mensajeVisible: !document.querySelector("#carrito-vacio").hidden };
+
+  r.filtroPaloSanto = await filtrar("palo-santo");
+  r.filtroHasta25000 = await filtrar("hasta-25000");
+  r.busquedaSinTilde = await filtrar("todas", "chuna");
+  r.busquedaMadera = await filtrar("todas", "quebracho");
+  r.sinResultados = { tarjetas: (await filtrar("todas", "pingüino")).length, estado: document.querySelector("#estado-catalogo").textContent };
+  await filtrar("todas");
+
+  // Se deja el carrito como lo espera la prueba del checkout
+  for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
+  await espera(100);
+  return r;
+})()`;
+
 // Checkout simulado: valida, confirma, borra y no envía nada por la red
 const CHECKOUT = `(async () => {
   const f = document.querySelector("#form-checkout"), b = document.querySelector("#ir-al-pago"), conf = document.querySelector("#confirmacion");
@@ -185,19 +261,31 @@ const CHECKOUT = `(async () => {
   const vacioBloquea = conf.textContent === "";
   const invalidos = [...f.elements].filter((e) => e.willValidate && !e.checkValidity()).map((e) => e.id);
   const set = (id, v) => { f.elements[id].value = v; };
-  set("nombre", "Ana Pérez"); set("email", "ana@correo"); set("direccion", "Av. Sarmiento 123"); set("localidad", "Resistencia"); set("cp", "35000");
+  const mensaje = (id) => f.elements[id].validationMessage;
+  set("nombre", "Ana"); set("email", "ana@correo"); set("telefono", "12-34"); set("direccion", "Av. Sarmiento 123"); set("localidad", "Resistencia"); set("cp", "35000");
   f.elements.consentimiento.checked = true;
+  b.click();
+  const datosInconsistentesBloquean = conf.textContent === "";
+  const mensajes = { nombre: mensaje("nombre"), email: mensaje("email"), telefono: mensaje("telefono"), cp: mensaje("cp") };
+  set("nombre", "Ana Pérez"); set("email", "ana@correo.com"); set("telefono", "(362) 444-5566");
   b.click();
   const cpInvalidoBloquea = conf.textContent === "";
   set("cp", "3500");
-  f.elements.email.value = "ana@correo.com";
   b.click();
   await new Promise((r) => setTimeout(r, 200));
   const confirma = conf.textContent;
   const confVisible = conf.getBoundingClientRect().height > 0;
-  const borrado = ["nombre", "email", "direccion", "localidad", "cp"].every((id) => f.elements[id].value === "") && !f.elements.consentimiento.checked;
+  const borrado = ["nombre", "email", "telefono", "direccion", "localidad", "cp"].every((id) => f.elements[id].value === "") && !f.elements.consentimiento.checked;
+  const carritoVaciado = document.querySelectorAll("#filas-carrito tr").length === 0 && document.querySelector("#contador-carrito").hidden;
+
+  // Con el formulario completo pero el carrito vacío, no se confirma
+  set("nombre", "Ana Pérez"); set("email", "ana@correo.com"); set("direccion", "Av. Sarmiento 123"); set("localidad", "Resistencia"); set("cp", "3500");
+  f.elements.consentimiento.checked = true;
+  b.click();
+  const carritoVacioBloquea = conf.textContent === "" ? document.querySelector("#error-pago").textContent : false;
+  f.reset();
   conf.textContent = "";
-  return { vacioBloquea, invalidos, cpInvalidoBloquea, confirma, confVisible, borrado };
+  return { vacioBloquea, invalidos, datosInconsistentesBloquean, mensajes, cpInvalidoBloquea, confirma, confVisible, borrado, carritoVaciado, carritoVacioBloquea };
 })()`;
 
 const PAGINAS = [
@@ -227,6 +315,7 @@ for (const pag of PAGINAS) {
     await b.send("Page.navigate", { url: BASE + pag.ruta });
     await new Promise((r) => setTimeout(r, 1800));
     await b.evaluar("document.fonts.ready.then(() => true)");
+    if (pag.completo) await b.evaluar(PREPARAR);
     const cargaPeticiones = peticiones.map((p) => ({ ...p }));
     const med = await b.evaluar(MEDIR);
     const r = { pagina: pag.id, vista: v, medicion: med, carga: cargaPeticiones };
@@ -246,6 +335,7 @@ for (const pag of PAGINAS) {
     r.anclas = await b.evaluar(ANCLAS(pag.anclas));
     if (pag.completo) {
       r.carrusel = await b.evaluar(CARRUSEL);
+      r.carrito = await b.evaluar(CARRITO);
       peticiones.length = 0;
       r.checkout = await b.evaluar(CHECKOUT);
       r.checkout.peticionesDuranteCompra = peticiones.map((p) => ({ ...p }));

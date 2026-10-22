@@ -15,12 +15,20 @@ index.html      Página principal (HTML5 semántico)
 politica-privacidad.html  Política de privacidad (Ley 25.326)
 productos.json  Catálogo de productos (datos estáticos)
 css/            Hojas de estilo
-js/             Scripts
+js/             Módulos ES: catálogo (Fetch), carrito y checkout
 pruebas/        Pruebas de usabilidad responsive (Node + Chrome)
 assets/img/     Imágenes de producto
 docs/           Entregables escritos de cada sprint
 LICENSE         Licencia del código (GNU GPL v3)
 ```
+
+Para verlo en local hay que servirlo por HTTP, porque el catálogo se carga con Fetch y los scripts son módulos ES (abrir `index.html` como archivo no funciona):
+
+```
+python -m http.server 8765
+```
+
+y entrar a http://127.0.0.1:8765/.
 
 ## Entregables
 
@@ -56,6 +64,13 @@ LICENSE         Licencia del código (GNU GPL v3)
 | El Emprendedor Digital | [Estrategia de canales y embudo de conversión](docs/sprint-2/04_Estrategia_de_Canales_y_Embudo.docx) · [maqueta de Instagram](docs/sprint-2/04_Instagram_Maqueta.png) | Hecho |
 | Legislación Informática | [Política de privacidad (Ley 25.326)](docs/sprint-2/03_Politica_de_Privacidad.docx) · [publicada en el sitio](politica-privacidad.html) | Hecho |
 | Legislación Informática | [Justificación del modelo de licenciamiento](docs/sprint-2/05_Justificacion_de_Licencia.docx) · [LICENSE](LICENSE) · [aviso en el sitio](index.html) | Hecho |
+
+### Sprint 3 · Interactividad, asincronismo y contratos (05/10 – 23/10)
+
+| Materia | Entregable | Estado |
+|---|---|---|
+| Desarrollo de Sitios Web | Consumo asincrónico de `productos.json` y tarjetas generadas en el DOM · [catalogo.js](js/catalogo.js) | Hecho el 22/10: 12 tarjetas desde el JSON, con filtros y buscador |
+| Desarrollo de Sitios Web | Carrito de compras y validación del checkout · [carrito.js](js/carrito.js) · [checkout.js](js/checkout.js) | Hecho el 22/10: 22 de 22 combinaciones de las [pruebas](pruebas/responsive.mjs) cumplen |
 
 ## Licencia
 
