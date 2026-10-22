@@ -366,6 +366,30 @@ body > header {
   color: var(--corteza);
 }
 
+/* Botón de arrepentimiento (Res. SCI 424/2020): visible en la primera pantalla.
+   En móvil va junto a la marca y el buscador baja a la fila siguiente. */
+.arrepentimiento {
+  display: inline-flex;
+  align-items: center;
+  order: 1;
+  min-height: var(--alto-tactil);
+  padding: 0 calc(var(--u) * 4);
+  border: 1px solid var(--albura);
+  border-radius: var(--r-pildora);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.arrepentimiento:hover {
+  background: var(--albura);
+  color: var(--corteza);
+}
+
+.buscador {
+  order: 2;
+}
+
 /* ---------- 5. Navegación ---------- */
 /* Móvil: barra inferior fija con cuatro destinos */
 body > nav {
@@ -849,10 +873,6 @@ body > footer small {
     --medianil: 20px;
   }
 
-  .buscador {
-    flex: 0 1 420px;
-  }
-
   .grilla {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -868,6 +888,13 @@ body > footer small {
 @media (min-width: 960px) {
   :root {
     --medianil: 24px;
+  }
+
+  /* Encabezado en una sola fila: marca, buscador y botón de arrepentimiento */
+  .buscador {
+    flex: 0 1 420px;
+    order: 0;
+    margin-left: auto;
   }
 
   /* La barra inferior se convierte en navegación superior */

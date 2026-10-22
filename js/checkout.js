@@ -67,7 +67,8 @@ boton.addEventListener("click", () => {
   const piezas = `${pedido.piezas} ${pedido.piezas === 1 ? "pieza" : "piezas"}`;
   confirmacion.textContent =
     `¡Listo, ${nombre}! Tu pedido simulado ${numero} (${piezas}, ${pesos(pedido.total)} con envío) quedó confirmado. ` +
-    "Como es una demostración, no se cobró nada y tus datos no se enviaron ni se guardaron.";
+    "Como es una demostración, no se cobró nada y tus datos no se enviaron ni se guardaron. " +
+    `Si te arrepentís, tenés 10 días corridos desde la entrega: usá el Botón de arrepentimiento con el número ${numero}.`;
 
   // Se borran los datos del formulario apenas se usan, y el carrito queda vacío.
   formulario.reset();

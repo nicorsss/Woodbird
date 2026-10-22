@@ -13,6 +13,7 @@ Proyecto integrador **EcoStart IA** · Tecnicatura Superior en Desarrollo de Sof
 ```
 index.html      Página principal (HTML5 semántico)
 politica-privacidad.html  Política de privacidad (Ley 25.326)
+terminos-y-condiciones.html  Términos y condiciones (Ley 24.240)
 productos.json  Catálogo de productos (datos estáticos)
 css/            Hojas de estilo
 js/             Módulos ES: catálogo (Fetch), carrito y checkout
@@ -70,7 +71,9 @@ y entrar a http://127.0.0.1:8765/.
 | Materia | Entregable | Estado |
 |---|---|---|
 | Desarrollo de Sitios Web | Consumo asincrónico de `productos.json` y tarjetas generadas en el DOM · [catalogo.js](js/catalogo.js) | Hecho el 22/10: 12 tarjetas desde el JSON, con filtros y buscador |
-| Desarrollo de Sitios Web | Carrito de compras y validación del checkout · [carrito.js](js/carrito.js) · [checkout.js](js/checkout.js) | Hecho el 22/10: 22 de 22 combinaciones de las [pruebas](pruebas/responsive.mjs) cumplen |
+| Desarrollo de Sitios Web | Carrito de compras y validación del checkout · [carrito.js](js/carrito.js) · [checkout.js](js/checkout.js) | Hecho el 22/10: 33 de 33 combinaciones de las [pruebas](pruebas/responsive.mjs) cumplen |
+| Legislación Informática | [Términos y Condiciones de uso y compra](docs/sprint-3/01_Terminos_y_Condiciones.docx) · [publicados en el sitio](terminos-y-condiciones.html) | Hecho el 22/10: enlazados en el pie y aceptación obligatoria en el checkout |
+| Legislación Informática | Ley 24.240: derecho de arrepentimiento y garantía (cláusulas [9](terminos-y-condiciones.html#arrepentimiento) y [10](terminos-y-condiciones.html#garantia)) | Hecho el 22/10: botón de arrepentimiento en el encabezado (Res. 424/2020) y enlace a la Ventanilla Única Federal (Res. 274/2021) |
 
 ## Licencia
 

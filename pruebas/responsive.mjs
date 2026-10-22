@@ -1,5 +1,5 @@
 // Pruebas de usabilidad responsive de Woodbird (Sprint 2, semana 6).
-// Recorre index.html y politica-privacidad.html en 11 anchos de pantalla y mide
+// Recorre index.html, politica-privacidad.html y terminos-y-condiciones.html en 11 anchos de pantalla y mide
 // desborde, objetivos táctiles, tamaño de letra, contraste, anclas, carrusel y
 // checkout. Guarda capturas y resultados.json en la carpeta de salida.
 // Sprint 3: el catálogo y el carrito se generan con JS; se agregan las pruebas
@@ -167,6 +167,16 @@ const PIE = `(async () => {
   return { ok: !fija || r.bottom <= nav.top + 1, ultimoBottom: Math.round(r.bottom), navTop: Math.round(nav.top) };
 })()`;
 
+// Botón de arrepentimiento (Res. SCI 424/2020): visible en la primera pantalla, sin desplazarse
+const ARREPENTIMIENTO = `(() => {
+  scrollTo(0, 0);
+  const a = document.querySelector("a.arrepentimiento");
+  if (!a) return { ok: false, motivo: "no existe" };
+  const r = a.getBoundingClientRect();
+  const destino = a.getAttribute("href");
+  return { ok: r.top >= 0 && r.bottom <= innerHeight && r.width > 0, top: Math.round(r.top), alto: Math.round(r.height), destino };
+})()`;
+
 // Carrusel: se puede deslizar y encaja en cada tarjeta
 const CARRUSEL = `(async () => {
   const c = document.querySelector(".carrusel");
@@ -264,6 +274,7 @@ const CHECKOUT = `(async () => {
   const mensaje = (id) => f.elements[id].validationMessage;
   set("nombre", "Ana"); set("email", "ana@correo"); set("telefono", "12-34"); set("direccion", "Av. Sarmiento 123"); set("localidad", "Resistencia"); set("cp", "35000");
   f.elements.consentimiento.checked = true;
+  f.elements.terminos.checked = true;
   b.click();
   const datosInconsistentesBloquean = conf.textContent === "";
   const mensajes = { nombre: mensaje("nombre"), email: mensaje("email"), telefono: mensaje("telefono"), cp: mensaje("cp") };
@@ -275,12 +286,13 @@ const CHECKOUT = `(async () => {
   await new Promise((r) => setTimeout(r, 200));
   const confirma = conf.textContent;
   const confVisible = conf.getBoundingClientRect().height > 0;
-  const borrado = ["nombre", "email", "telefono", "direccion", "localidad", "cp"].every((id) => f.elements[id].value === "") && !f.elements.consentimiento.checked;
+  const borrado = ["nombre", "email", "telefono", "direccion", "localidad", "cp"].every((id) => f.elements[id].value === "") && !f.elements.consentimiento.checked && !f.elements.terminos.checked;
   const carritoVaciado = document.querySelectorAll("#filas-carrito tr").length === 0 && document.querySelector("#contador-carrito").hidden;
 
   // Con el formulario completo pero el carrito vacío, no se confirma
   set("nombre", "Ana Pérez"); set("email", "ana@correo.com"); set("direccion", "Av. Sarmiento 123"); set("localidad", "Resistencia"); set("cp", "3500");
   f.elements.consentimiento.checked = true;
+  f.elements.terminos.checked = true;
   b.click();
   const carritoVacioBloquea = conf.textContent === "" ? document.querySelector("#error-pago").textContent : false;
   f.reset();
@@ -291,6 +303,7 @@ const CHECKOUT = `(async () => {
 const PAGINAS = [
   { id: "inicio", ruta: "index.html", completo: true, anclas: "body > nav a" },
   { id: "privacidad", ruta: "politica-privacidad.html", completo: false, anclas: ".documento-legal > nav a" },
+  { id: "terminos", ruta: "terminos-y-condiciones.html", completo: false, anclas: ".documento-legal > nav a" },
 ];
 
 const b = await lanzar();
@@ -331,6 +344,7 @@ for (const pag of PAGINAS) {
     const cap2 = await b.send("Page.captureScreenshot", { format: "png" });
     writeFileSync(join(SALIDA, "capturas", `${pag.id}-${v.id}-pantalla.png`), Buffer.from(cap2.data, "base64"));
 
+    r.arrepentimiento = await b.evaluar(ARREPENTIMIENTO);
     r.pie = await b.evaluar(PIE);
     r.anclas = await b.evaluar(ANCLAS(pag.anclas));
     if (pag.completo) {

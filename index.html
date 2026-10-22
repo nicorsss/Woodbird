@@ -20,6 +20,8 @@
       <input type="search" id="buscar" name="q" placeholder="Buscar por ave o madera">
       <button type="submit">Buscar</button>
     </form>
+    <!-- Res. SCI 424/2020: acceso directo y visible desde la página de inicio -->
+    <a href="terminos-y-condiciones.html#arrepentimiento" class="arrepentimiento">Botón de arrepentimiento</a>
   </header>
 
   <!-- Navegación principal: cuatro destinos fijos -->
@@ -162,11 +164,24 @@
         </fieldset>
 
         <p class="consentimiento">
+          <input type="checkbox" id="terminos" name="terminos" required>
+          <label for="terminos">
+            Leí y acepto los <a href="terminos-y-condiciones.html">Términos y condiciones</a> de uso y compra.
+          </label>
+        </p>
+
+        <p class="consentimiento">
           <input type="checkbox" id="consentimiento" name="consentimiento" required>
           <label for="consentimiento">
             Leí y acepto la <a href="politica-privacidad.html">Política de privacidad</a>. Presto mi consentimiento
             para que mis datos se usen sólo para simular esta compra (Ley N° 25.326).
           </label>
+        </p>
+
+        <!-- Ley 24.240, art. 34, y CCyC, art. 1111: el derecho se informa antes de confirmar -->
+        <p class="aviso">
+          Tenés 10 días corridos desde que recibís la pieza para arrepentirte de la compra, sin dar motivos y sin costo.
+          <a href="terminos-y-condiciones.html#arrepentimiento">Cómo arrepentirte</a>.
         </p>
 
         <div class="resumen-pago">
@@ -192,6 +207,8 @@
     <ul>
       <li><a href="docs/sprint-1/07_Declaracion_Etica_IA.docx">Declaración ética y transparencia de IA</a></li>
       <li><a href="politica-privacidad.html">Política de privacidad</a></li>
+      <li><a href="terminos-y-condiciones.html">Términos y condiciones</a></li>
+      <li><a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario">Defensa de las y los Consumidores. Para reclamos ingrese aquí</a></li>
     </ul>
     <p><small>© 2026 Reiss Jorge Nicolás · Proyecto académico, IES «René Favaloro»</small></p>
     <p><small>
