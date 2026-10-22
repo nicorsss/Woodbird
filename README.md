@@ -68,6 +68,8 @@ y entrar a http://127.0.0.1:8765/.
 
 ### Sprint 3 · Interactividad, asincronismo y contratos (05/10 – 23/10)
 
+**Entrega final:** [Carpeta integradora del Sprint 3 (PDF)](docs/sprint-3/00_Carpeta_Integradora_Sprint_3.pdf): reúne los entregables con portada, índice por materia, tablero Kanban y asignación de roles, demostración funcional del carrito, código JavaScript, repositorio y publicación legal en el sitio.
+
 | Materia | Entregable | Estado |
 |---|---|---|
 | Desarrollo de Sitios Web | Consumo asincrónico de `productos.json` y tarjetas generadas en el DOM · [catalogo.js](js/catalogo.js) | Hecho el 22/10: 12 tarjetas desde el JSON, con filtros y buscador |
