@@ -12,7 +12,7 @@ Todo el contenido, el código, los comentarios y los mensajes de commit van en e
 
 Es un sitio estático con HTML, CSS y JavaScript sin frameworks. No hay build, linter ni `package.json`. Para verlo hay que servirlo por HTTP (`python -m http.server 8765`), porque el catálogo se carga con Fetch y los scripts son módulos ES: abrir `index.html` como archivo deja el catálogo vacío con un mensaje de error.
 
-Las pruebas de usabilidad responsive (`pruebas/responsive.mjs`, Node 22+ y Chrome, sin dependencias) recorren las tres páginas en 11 anchos y miden desborde, objetivos táctiles, letra, contraste WCAG AA, anclas y checkout sin red. También prueban el catálogo generado, el carrito (agregar, cantidades, quitar, totales), los filtros y la validación del checkout. Antes de medir agregan Cardenal y Carpintero al carrito. Después de cambiar estilos o JS, córrelas:
+Las pruebas de usabilidad responsive (`pruebas/responsive.mjs`, Node 22+ y Chrome, sin dependencias) recorren las tres páginas en 11 anchos y miden desborde, objetivos táctiles, letra, contraste WCAG AA, anclas y checkout sin red. También prueban el catálogo generado, el carrito (agregar, cantidades, quitar, totales), los filtros y la validación del checkout. Antes de medir agregan Cardenal y Carpintero al carrito. Además verifican los enlaces legales, el botón de arrepentimiento en la primera pantalla y, al final, la falla de carga de `productos.json` (bloqueada con `Fetch.failRequest`). Los casos están numerados en `docs/sprint-3/03_Plan_de_Casos_de_Prueba.docx`. Después de cambiar estilos o JS, córrelas:
 
 ```
 python -m http.server 8765

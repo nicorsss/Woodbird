@@ -72,6 +72,9 @@ y entrar a http://127.0.0.1:8765/.
 |---|---|---|
 | Desarrollo de Sitios Web | Consumo asincrónico de `productos.json` y tarjetas generadas en el DOM · [catalogo.js](js/catalogo.js) | Hecho el 22/10: 12 tarjetas desde el JSON, con filtros y buscador |
 | Desarrollo de Sitios Web | Carrito de compras y validación del checkout · [carrito.js](js/carrito.js) · [checkout.js](js/checkout.js) | Hecho el 22/10: 33 de 33 combinaciones de las [pruebas](pruebas/responsive.mjs) cumplen |
+| Dirección y Gestión de Proyectos | [Matriz de riesgos (reevaluación)](docs/sprint-3/02_Matriz_de_Riesgos.docx) | Hecho el 22/10: 6 riesgos nuevos de la integración de JS; R1 y R2 activos (Alto) |
+| Dirección y Gestión de Proyectos | [Plan de casos de prueba](docs/sprint-3/03_Plan_de_Casos_de_Prueba.docx) | 38 casos: 33 automáticos cumplen, 5 manuales para el Sprint 4 |
+| Dirección y Gestión de Proyectos | [Registro de solicitudes de cambio](docs/sprint-3/04_Registro_de_Solicitudes_de_Cambio.docx) · [Kanban](https://trello.com/b/iGCwIo1k/woodbird) | SC-02 a SC-04 aprobadas; SC-05 propuesta; SC-01 sin respuesta del docente |
 | Legislación Informática | [Términos y Condiciones de uso y compra](docs/sprint-3/01_Terminos_y_Condiciones.docx) · [publicados en el sitio](terminos-y-condiciones.html) | Hecho el 22/10: enlazados en el pie y aceptación obligatoria en el checkout |
 | Legislación Informática | Ley 24.240: derecho de arrepentimiento y garantía (cláusulas [9](terminos-y-condiciones.html#arrepentimiento) y [10](terminos-y-condiciones.html#garantia)) | Hecho el 22/10: botón de arrepentimiento en el encabezado (Res. 424/2020) y enlace a la Ventanilla Única Federal (Res. 274/2021) |
 

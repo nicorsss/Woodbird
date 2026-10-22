@@ -177,6 +177,24 @@ const ARREPENTIMIENTO = `(() => {
   return { ok: r.top >= 0 && r.bottom <= innerHeight && r.width > 0, top: Math.round(r.top), alto: Math.round(r.height), destino };
 })()`;
 
+// Enlaces legales del pie (Política, Términos, Ventanilla Única Federal) y, en el
+// checkout, aceptación obligatoria de los términos y aviso de arrepentimiento
+const LEGALES = `(() => {
+  const pie = [...document.querySelectorAll("body > footer a")].map((a) => a.getAttribute("href"));
+  const f = document.querySelector("#form-checkout");
+  return {
+    privacidad: pie.includes("politica-privacidad.html"),
+    terminos: pie.includes("terminos-y-condiciones.html"),
+    ventanilla: pie.some((h) => h.includes("argentina.gob.ar/produccion/defensadelconsumidor/formulario")),
+    checkout: f ? {
+      terminosObligatorio: f.elements.terminos?.required === true,
+      avisoArrepentimiento: !!f.querySelector('a[href$="#arrepentimiento"]'),
+      avisoAntesDelPago: !!(f.querySelector('a[href$="#arrepentimiento"]').compareDocumentPosition(document.querySelector("#ir-al-pago")) & Node.DOCUMENT_POSITION_FOLLOWING),
+    } : null,
+    mailto: document.querySelector('a.boton[href^="mailto:arrepentimiento@"]')?.getAttribute("href").split("?")[1]?.startsWith("subject=") ?? null,
+  };
+})()`;
+
 // Carrusel: se puede deslizar y encaja en cada tarjeta
 const CARRUSEL = `(async () => {
   const c = document.querySelector(".carrusel");
@@ -234,6 +252,7 @@ const CARRITO = `(async () => {
   document.querySelector('[data-agregar="1"]').click();
   await espera(100);
   r.agregarRepetido = { ...estado(), cantidad: document.querySelector("#cant-1").value };   // Cardenal ×2: 97600
+  r.anuncio = document.querySelector("#anuncio-carrito").textContent;                     // aviso para lectores de pantalla
 
   await escribir(document.querySelector("#cant-1"), "3");
   r.cantidad3 = estado();                                  // 3 × 28400 + 34900 + 5900 = 126000
@@ -345,6 +364,7 @@ for (const pag of PAGINAS) {
     writeFileSync(join(SALIDA, "capturas", `${pag.id}-${v.id}-pantalla.png`), Buffer.from(cap2.data, "base64"));
 
     r.arrepentimiento = await b.evaluar(ARREPENTIMIENTO);
+    r.legales = await b.evaluar(LEGALES);
     r.pie = await b.evaluar(PIE);
     r.anclas = await b.evaluar(ANCLAS(pag.anclas));
     if (pag.completo) {
@@ -358,6 +378,25 @@ for (const pag of PAGINAS) {
     console.log(pag.id, v.id, "desborde", med.desborde, "chicos", med.tactilesChicos.length, "anclas", r.anclas.filter((a) => !a.ok).length, "fallas");
   }
 }
+// Falla de carga del catálogo: productos.json no responde (red caída o archivo ausente)
+await b.send("Network.setCacheDisabled", { cacheDisabled: true });
+await b.send("Fetch.enable", { patterns: [{ urlPattern: "*productos.json*" }] });
+b.on((m) => {
+  if (m.method === "Fetch.requestPaused") b.send("Fetch.failRequest", { requestId: m.params.requestId, errorReason: "ConnectionFailed" });
+});
+await b.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+await b.send("Page.navigate", { url: BASE + "index.html" });
+await new Promise((r) => setTimeout(r, 1800));
+const errorCarga = await b.evaluar(`({
+  tarjetas: document.querySelectorAll("#lista-catalogo .tarjeta").length,
+  mensaje: document.querySelector("#estado-catalogo").textContent,
+  marcadoComoError: document.querySelector("#estado-catalogo").classList.contains("error"),
+  cargando: document.querySelector("#lista-catalogo").hasAttribute("aria-busy"),
+})`);
+await b.send("Fetch.disable");
+console.log("error de carga", JSON.stringify(errorCarga));
+
 b.cerrar();
 writeFileSync(join(SALIDA, "resultados.json"), JSON.stringify(resultados, null, 2));
+writeFileSync(join(SALIDA, "error-carga.json"), JSON.stringify(errorCarga, null, 2));
 console.log("listo");
