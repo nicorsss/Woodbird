@@ -68,16 +68,16 @@ y entrar a http://127.0.0.1:8765/.
 
 ### Sprint 3 · Interactividad, asincronismo y contratos (05/10 – 23/10)
 
-**Entrega final:** [Carpeta integradora del Sprint 3 (PDF)](docs/sprint-3/00_Carpeta_Integradora_Sprint_3.pdf): reúne los entregables con portada, índice por materia, tablero Kanban y asignación de roles, demostración funcional del carrito, código JavaScript, repositorio y publicación legal en el sitio.
+**Entrega final:** [Carpeta integradora del Sprint 3 (PDF)](docs/sprint-3/00_Carpeta_Integradora_Sprint_3.pdf): reúne los entregables con portada, índice por materia, tablero Kanban y asignación de roles, evidencia de publicación en Instagram, demostración funcional del carrito, código JavaScript, repositorio y publicación legal en el sitio. Se entregó el 28/10, cinco días después de la fecha prevista (riesgos R1 a R3).
 
 | Materia | Entregable | Estado |
 |---|---|---|
 | Desarrollo de Sitios Web | Consumo asincrónico de `productos.json` y tarjetas generadas en el DOM · [catalogo.js](js/catalogo.js) | Hecho el 22/10: 12 tarjetas desde el JSON, con filtros y buscador |
 | Desarrollo de Sitios Web | Carrito de compras y validación del checkout · [carrito.js](js/carrito.js) · [checkout.js](js/checkout.js) | Hecho el 22/10: 33 de 33 combinaciones de las [pruebas](pruebas/responsive.mjs) cumplen |
-| Dirección y Gestión de Proyectos | [Matriz de riesgos (reevaluación)](docs/sprint-3/02_Matriz_de_Riesgos.docx) | Hecho el 22/10: 6 riesgos nuevos de la integración de JS; R1 y R2 activos (Alto) |
+| Dirección y Gestión de Proyectos | [Matriz de riesgos (reevaluación)](docs/sprint-3/02_Matriz_de_Riesgos.docx) | Hecho el 22/10 y actualizado el 28/10: 6 riesgos nuevos de la integración de JS; R1 y R2 materializados (entrega el 28/10) |
 | Dirección y Gestión de Proyectos | [Plan de casos de prueba](docs/sprint-3/03_Plan_de_Casos_de_Prueba.docx) | 38 casos: 33 automáticos cumplen, 5 manuales para el Sprint 4 |
 | Dirección y Gestión de Proyectos | [Registro de solicitudes de cambio](docs/sprint-3/04_Registro_de_Solicitudes_de_Cambio.docx) · [Kanban](https://trello.com/b/iGCwIo1k/woodbird) | SC-02 a SC-06 aprobadas (las imágenes con IA pasan al Sprint 4; SC-06 alinea el sitio con la tesis de piezas ficticias); SC-01 sin respuesta del docente |
-| El Emprendedor Digital | [Campaña de Instagram «Sin talar un árbol»](docs/sprint-3/05_Campana_de_Instagram.docx) · [piezas](docs/sprint-3/instagram/) | Piezas listas el 22/10 (9 imágenes de feed, incluido un carrusel de 5 láminas, y 3 historias, con CTA y UTM); se publican desde el 23/10 |
+| El Emprendedor Digital | [Campaña de Instagram «Sin talar un árbol»](docs/sprint-3/05_Campana_de_Instagram.docx) · [piezas](docs/sprint-3/instagram/) | Publicada el 27/10 en [@woodbird.ar](https://www.instagram.com/woodbird.ar/) (planificada para el 23/10): 9 imágenes de feed, incluido un carrusel de 5 láminas, y 3 historias, con CTA y UTM · [capturas](docs/sprint-3/capturas/) |
 | El Emprendedor Digital | [Panel de KPIs](docs/sprint-3/06_Panel_de_KPIs.docx) · [imagen](docs/sprint-3/06_Panel_de_KPIs.png) | Hecho el 22/10: CTR 1,8 %, conversión 2,8 %, CAC teórico $14.000 (valores simulados) |
 | Legislación Informática | [Términos y Condiciones de uso y compra](docs/sprint-3/01_Terminos_y_Condiciones.docx) · [publicados en el sitio](terminos-y-condiciones.html) | Hecho el 22/10: enlazados en el pie y aceptación obligatoria en el checkout |
 | Legislación Informática | Ley 24.240: derecho de arrepentimiento y garantía (cláusulas [9](terminos-y-condiciones.html#arrepentimiento) y [10](terminos-y-condiciones.html#garantia)) | Hecho el 22/10: botón de arrepentimiento en el encabezado (Res. 424/2020) y enlace a la Ventanilla Única Federal (Res. 274/2021) |
