@@ -1,0 +1,541 @@
+{
+ "base": "https://nicorsss.github.io/Woodbird/",
+ "fecha": "2026-11-03T16:22:11.779Z",
+ "resultados": [
+  {
+   "id": "L01",
+   "pagina": "Inicio (390 px)",
+   "requisito": "Botón de arrepentimiento en el encabezado, visible sin desplazarse",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«Botón de arrepentimiento» entre 12 y 56 px de una pantalla de 844 px → terminos-y-condiciones.html#arrepentimiento"
+  },
+  {
+   "id": "L01",
+   "pagina": "Inicio (1366 px)",
+   "requisito": "Botón de arrepentimiento en el encabezado, visible sin desplazarse",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«Botón de arrepentimiento» entre 12 y 56 px de una pantalla de 768 px → terminos-y-condiciones.html#arrepentimiento"
+  },
+  {
+   "id": "L02",
+   "pagina": "Inicio",
+   "requisito": "Enlace a la Declaración ética y de transparencia de IA en el pie",
+   "norma": "Aviso legal de uso de IA (consigna 4.6)",
+   "cumple": true,
+   "evidencia": "«Declaración ética y transparencia de IA» → docs/sprint-1/07_Declaracion_Etica_IA.docx"
+  },
+  {
+   "id": "L03",
+   "pagina": "Inicio",
+   "requisito": "Enlace a la Política de privacidad en el pie",
+   "norma": "Ley 25.326 art. 6",
+   "cumple": true,
+   "evidencia": "politica-privacidad.html"
+  },
+  {
+   "id": "L04",
+   "pagina": "Inicio",
+   "requisito": "Enlace a los Términos y condiciones en el pie",
+   "norma": "Ley 24.240 art. 4",
+   "cumple": true,
+   "evidencia": "terminos-y-condiciones.html"
+  },
+  {
+   "id": "L05",
+   "pagina": "Inicio",
+   "requisito": "Enlace «Defensa de las y los Consumidores. Para reclamos ingrese aquí»",
+   "norma": "Res. SCI 274/2021",
+   "cumple": true,
+   "evidencia": "→ https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+  },
+  {
+   "id": "L06",
+   "pagina": "Inicio",
+   "requisito": "Aviso de licencias (código GPL y documentación CC BY-NC-SA)",
+   "norma": "Ley 11.723",
+   "cumple": true,
+   "evidencia": "Presente en el pie"
+  },
+  {
+   "id": "L01",
+   "pagina": "Privacidad (390 px)",
+   "requisito": "Botón de arrepentimiento en el encabezado, visible sin desplazarse",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«Botón de arrepentimiento» entre 12 y 56 px de una pantalla de 844 px → terminos-y-condiciones.html#arrepentimiento"
+  },
+  {
+   "id": "L01",
+   "pagina": "Privacidad (1366 px)",
+   "requisito": "Botón de arrepentimiento en el encabezado, visible sin desplazarse",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«Botón de arrepentimiento» entre 12 y 56 px de una pantalla de 768 px → terminos-y-condiciones.html#arrepentimiento"
+  },
+  {
+   "id": "L02",
+   "pagina": "Privacidad",
+   "requisito": "Enlace a la Declaración ética y de transparencia de IA en el pie",
+   "norma": "Aviso legal de uso de IA (consigna 4.6)",
+   "cumple": true,
+   "evidencia": "«Declaración ética y transparencia de IA» → docs/sprint-1/07_Declaracion_Etica_IA.docx"
+  },
+  {
+   "id": "L03",
+   "pagina": "Privacidad",
+   "requisito": "Enlace a la Política de privacidad en el pie",
+   "norma": "Ley 25.326 art. 6",
+   "cumple": true,
+   "evidencia": "politica-privacidad.html"
+  },
+  {
+   "id": "L04",
+   "pagina": "Privacidad",
+   "requisito": "Enlace a los Términos y condiciones en el pie",
+   "norma": "Ley 24.240 art. 4",
+   "cumple": true,
+   "evidencia": "terminos-y-condiciones.html"
+  },
+  {
+   "id": "L05",
+   "pagina": "Privacidad",
+   "requisito": "Enlace «Defensa de las y los Consumidores. Para reclamos ingrese aquí»",
+   "norma": "Res. SCI 274/2021",
+   "cumple": true,
+   "evidencia": "→ https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+  },
+  {
+   "id": "L06",
+   "pagina": "Privacidad",
+   "requisito": "Aviso de licencias (código GPL y documentación CC BY-NC-SA)",
+   "norma": "Ley 11.723",
+   "cumple": true,
+   "evidencia": "Presente en el pie"
+  },
+  {
+   "id": "L01",
+   "pagina": "Términos (390 px)",
+   "requisito": "Botón de arrepentimiento en el encabezado, visible sin desplazarse",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«Botón de arrepentimiento» entre 12 y 56 px de una pantalla de 844 px → terminos-y-condiciones.html#arrepentimiento"
+  },
+  {
+   "id": "L01",
+   "pagina": "Términos (1366 px)",
+   "requisito": "Botón de arrepentimiento en el encabezado, visible sin desplazarse",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«Botón de arrepentimiento» entre 12 y 56 px de una pantalla de 768 px → terminos-y-condiciones.html#arrepentimiento"
+  },
+  {
+   "id": "L02",
+   "pagina": "Términos",
+   "requisito": "Enlace a la Declaración ética y de transparencia de IA en el pie",
+   "norma": "Aviso legal de uso de IA (consigna 4.6)",
+   "cumple": true,
+   "evidencia": "«Declaración ética y transparencia de IA» → docs/sprint-1/07_Declaracion_Etica_IA.docx"
+  },
+  {
+   "id": "L03",
+   "pagina": "Términos",
+   "requisito": "Enlace a la Política de privacidad en el pie",
+   "norma": "Ley 25.326 art. 6",
+   "cumple": true,
+   "evidencia": "politica-privacidad.html"
+  },
+  {
+   "id": "L04",
+   "pagina": "Términos",
+   "requisito": "Enlace a los Términos y condiciones en el pie",
+   "norma": "Ley 24.240 art. 4",
+   "cumple": true,
+   "evidencia": "terminos-y-condiciones.html"
+  },
+  {
+   "id": "L05",
+   "pagina": "Términos",
+   "requisito": "Enlace «Defensa de las y los Consumidores. Para reclamos ingrese aquí»",
+   "norma": "Res. SCI 274/2021",
+   "cumple": true,
+   "evidencia": "→ https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+  },
+  {
+   "id": "L06",
+   "pagina": "Términos",
+   "requisito": "Aviso de licencias (código GPL y documentación CC BY-NC-SA)",
+   "norma": "Ley 11.723",
+   "cumple": true,
+   "evidencia": "Presente en el pie"
+  },
+  {
+   "id": "L07",
+   "pagina": "Enlaces",
+   "requisito": "El destino del enlace de ia responde",
+   "norma": "Accesibilidad de la información (Ley 24.240 art. 4)",
+   "cumple": true,
+   "evidencia": "docs/sprint-1/07_Declaracion_Etica_IA.docx → HTTP 200"
+  },
+  {
+   "id": "L07",
+   "pagina": "Enlaces",
+   "requisito": "El destino del enlace de privacidad responde",
+   "norma": "Accesibilidad de la información (Ley 24.240 art. 4)",
+   "cumple": true,
+   "evidencia": "politica-privacidad.html → HTTP 200"
+  },
+  {
+   "id": "L07",
+   "pagina": "Enlaces",
+   "requisito": "El destino del enlace de arrepentimiento responde",
+   "norma": "Accesibilidad de la información (Ley 24.240 art. 4)",
+   "cumple": true,
+   "evidencia": "terminos-y-condiciones.html → HTTP 200"
+  },
+  {
+   "id": "L07",
+   "pagina": "Enlaces",
+   "requisito": "El destino del enlace de consumidor responde",
+   "norma": "Accesibilidad de la información (Ley 24.240 art. 4)",
+   "cumple": true,
+   "evidencia": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario → HTTP 200"
+  },
+  {
+   "id": "L08",
+   "pagina": "Términos",
+   "requisito": "La sección de arrepentimiento existe y el enlace lleva directo a ella",
+   "norma": "Ley 24.240 art. 34; Res. SCI 424/2020",
+   "cumple": true,
+   "evidencia": "«9. Derecho de arrepentimiento (revocación)», a 72 px del borde superior"
+  },
+  {
+   "id": "L09",
+   "pagina": "Privacidad",
+   "requisito": "Identifica al responsable del tratamiento y su domicilio",
+   "norma": "Ley 25.326 art. 6",
+   "cumple": true,
+   "evidencia": "Menciona: Responsable del tratamiento, Reiss Jorge Nicolás, Resistencia"
+  },
+  {
+   "id": "L10",
+   "pagina": "Privacidad",
+   "requisito": "Informa los derechos de acceso, rectificación y supresión y cómo ejercerlos",
+   "norma": "Ley 25.326 arts. 14 a 16",
+   "cumple": true,
+   "evidencia": "Menciona: acceso, rectificación, supresión"
+  },
+  {
+   "id": "L11",
+   "pagina": "Privacidad",
+   "requisito": "Informa a la autoridad de control (AAIP)",
+   "norma": "Ley 25.326 art. 29; Ley 27.275",
+   "cumple": true,
+   "evidencia": "Menciona: Agencia de Acceso a la Información Pública"
+  },
+  {
+   "id": "L12",
+   "pagina": "Privacidad",
+   "requisito": "Declara el consentimiento, la finalidad y los terceros que reciben datos técnicos",
+   "norma": "Ley 25.326 arts. 5, 6 y 11",
+   "cumple": true,
+   "evidencia": "Menciona: consentimiento, finalidad, Google Fonts"
+  },
+  {
+   "id": "L13",
+   "pagina": "Términos",
+   "requisito": "Informa el derecho de arrepentimiento de 10 días corridos",
+   "norma": "Ley 24.240 art. 34",
+   "cumple": true,
+   "evidencia": "Menciona: arrepentimiento, 10 días"
+  },
+  {
+   "id": "L14",
+   "pagina": "Términos",
+   "requisito": "Informa la garantía legal",
+   "norma": "Ley 24.240 art. 11",
+   "cumple": true,
+   "evidencia": "Menciona: garantía"
+  },
+  {
+   "id": "L15",
+   "pagina": "Términos",
+   "requisito": "Declara el carácter simulado de la tienda y el uso de IA",
+   "norma": "Ley 24.240 art. 4 (información veraz)",
+   "cumple": true,
+   "evidencia": "Menciona: inteligencia artificial, demostración"
+  },
+  {
+   "id": "L16",
+   "pagina": "Inicio",
+   "requisito": "Cada imagen de producto lleva el sello «Imagen con IA» y un texto alternativo que lo declara",
+   "norma": "Declaración ética de IA; transparencia",
+   "cumple": true,
+   "evidencia": "16 de 16 con sello; 16 con alt; 16 cargadas"
+  },
+  {
+   "id": "L17",
+   "pagina": "Checkout",
+   "requisito": "Aviso visible de tienda de demostración: no hay ventas ni cobros",
+   "norma": "Ley 24.240 art. 4",
+   "cumple": true,
+   "evidencia": "Presente sobre el formulario"
+  },
+  {
+   "id": "L18",
+   "pagina": "Checkout",
+   "requisito": "Aceptación obligatoria de los Términos y de la Política de privacidad",
+   "norma": "Ley 25.326 art. 5; Ley 24.240",
+   "cumple": true,
+   "evidencia": "#terminos required=true; #consentimiento required=true"
+  },
+  {
+   "id": "L19",
+   "pagina": "Checkout",
+   "requisito": "Aviso del plazo de arrepentimiento antes de confirmar",
+   "norma": "Ley 24.240 art. 34",
+   "cumple": true,
+   "evidencia": "«Tenés 10 días corridos…» junto al botón de pago"
+  },
+  {
+   "id": "L20",
+   "pagina": "Checkout",
+   "requisito": "Sin aceptar los Términos y la Política no se puede confirmar",
+   "norma": "Ley 25.326 art. 5 (consentimiento libre, expreso e informado)",
+   "cumple": true,
+   "evidencia": "checkValidity()=false; las dos casillas informan un error de validación"
+  },
+  {
+   "id": "L21",
+   "pagina": "Checkout",
+   "requisito": "Al confirmar la compra no sale ningún pedido de red con los datos",
+   "norma": "Política de privacidad, cláusula 8; Ley 25.326 art. 9",
+   "cumple": true,
+   "evidencia": "0 pedidos de red durante la confirmación (0 con cuerpo); URL sin datos: true; formulario borrado: true. Mensaje: «¡Listo, Ana! Tu pedido simulado WB-0WBFG5 (2 piezas, $69.200 con envío) quedó confirmado. Como es una demostra…»"
+  },
+  {
+   "id": "L22",
+   "pagina": "Todo el sitio",
+   "requisito": "No se crean cookies ni datos en el almacenamiento del navegador",
+   "norma": "Política de privacidad, cláusula 9",
+   "cumple": true,
+   "evidencia": "0 cookies; localStorage: 0; sessionStorage: 0"
+  },
+  {
+   "id": "L23",
+   "pagina": "Inicio",
+   "requisito": "Los únicos terceros que reciben la IP son los declarados en la política (Google Fonts)",
+   "norma": "Ley 25.326 art. 6 inc. c; art. 12 (transferencia internacional)",
+   "cumple": true,
+   "evidencia": "Hosts externos: fonts.googleapis.com, fonts.gstatic.com"
+  },
+  {
+   "id": "L24",
+   "pagina": "Todo el sitio",
+   "requisito": "Todas las páginas se sirven por HTTPS con un certificado válido",
+   "norma": "Ley 25.326 art. 9 (seguridad de los datos)",
+   "cumple": true,
+   "evidencia": "3 documentos; TLS 1.3, AES_128_GCM, certificado *.github.io emitido por YR1, válido hasta 2026-12-29"
+  }
+ ],
+ "terceros": [
+  "fonts.googleapis.com",
+  "fonts.gstatic.com"
+ ],
+ "seguridad": {
+  "https://nicorsss.github.io/Woodbird/index.html": {
+   "protocolo": "TLS 1.3",
+   "cifrado": "AES_128_GCM",
+   "certificado": "*.github.io",
+   "emisor": "YR1",
+   "validoHasta": "2026-12-29",
+   "estado": "secure"
+  },
+  "https://nicorsss.github.io/Woodbird/politica-privacidad.html": {
+   "protocolo": "TLS 1.3",
+   "cifrado": "AES_128_GCM",
+   "certificado": "*.github.io",
+   "emisor": "YR1",
+   "validoHasta": "2026-12-29",
+   "estado": "secure"
+  },
+  "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html": {
+   "protocolo": "TLS 1.3",
+   "cifrado": "AES_128_GCM",
+   "certificado": "*.github.io",
+   "emisor": "YR1",
+   "validoHasta": "2026-12-29",
+   "estado": "secure"
+  }
+ },
+ "confirmacion": {
+  "texto": "¡Listo, Ana! Tu pedido simulado WB-0WBFG5 (2 piezas, $69.200 con envío) quedó confirmado. Como es una demostración, no se cobró nada y tus datos no se enviaron ni se guardaron. Si te arrepentís, tenés 10 días corridos desde la entrega: usá el Botón de arrepentimiento con el número WB-0WBFG5.",
+  "formularioVacio": true
+ },
+ "pedidosCompra": [],
+ "estados": {
+  "Inicio movil": {
+   "arrepentimiento": {
+    "texto": "Botón de arrepentimiento",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html#arrepentimiento",
+    "arriba": 12,
+    "abajo": 56,
+    "visible": true
+   },
+   "ia": {
+    "texto": "Declaración ética y transparencia de IA",
+    "href": "https://nicorsss.github.io/Woodbird/docs/sprint-1/07_Declaracion_Etica_IA.docx"
+   },
+   "privacidad": {
+    "texto": "Política de privacidad",
+    "href": "https://nicorsss.github.io/Woodbird/politica-privacidad.html"
+   },
+   "terminos": {
+    "texto": "Términos y condiciones",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html"
+   },
+   "consumidor": {
+    "texto": "Defensa de las y los Consumidores. Para reclamos ingrese aquí",
+    "href": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+   },
+   "licencia": true,
+   "avisoIA": true
+  },
+  "Inicio escritorio": {
+   "arrepentimiento": {
+    "texto": "Botón de arrepentimiento",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html#arrepentimiento",
+    "arriba": 12,
+    "abajo": 56,
+    "visible": true
+   },
+   "ia": {
+    "texto": "Declaración ética y transparencia de IA",
+    "href": "https://nicorsss.github.io/Woodbird/docs/sprint-1/07_Declaracion_Etica_IA.docx"
+   },
+   "privacidad": {
+    "texto": "Política de privacidad",
+    "href": "https://nicorsss.github.io/Woodbird/politica-privacidad.html"
+   },
+   "terminos": {
+    "texto": "Términos y condiciones",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html"
+   },
+   "consumidor": {
+    "texto": "Defensa de las y los Consumidores. Para reclamos ingrese aquí",
+    "href": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+   },
+   "licencia": true,
+   "avisoIA": true
+  },
+  "Privacidad movil": {
+   "arrepentimiento": {
+    "texto": "Botón de arrepentimiento",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html#arrepentimiento",
+    "arriba": 12,
+    "abajo": 56,
+    "visible": true
+   },
+   "ia": {
+    "texto": "Declaración ética y transparencia de IA",
+    "href": "https://nicorsss.github.io/Woodbird/docs/sprint-1/07_Declaracion_Etica_IA.docx"
+   },
+   "privacidad": {
+    "texto": "Política de privacidad",
+    "href": "https://nicorsss.github.io/Woodbird/politica-privacidad.html"
+   },
+   "terminos": {
+    "texto": "Términos y condiciones",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html"
+   },
+   "consumidor": {
+    "texto": "Defensa de las y los Consumidores. Para reclamos ingrese aquí",
+    "href": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+   },
+   "licencia": true,
+   "avisoIA": false
+  },
+  "Privacidad escritorio": {
+   "arrepentimiento": {
+    "texto": "Botón de arrepentimiento",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html#arrepentimiento",
+    "arriba": 12,
+    "abajo": 56,
+    "visible": true
+   },
+   "ia": {
+    "texto": "Declaración ética y transparencia de IA",
+    "href": "https://nicorsss.github.io/Woodbird/docs/sprint-1/07_Declaracion_Etica_IA.docx"
+   },
+   "privacidad": {
+    "texto": "Política de privacidad",
+    "href": "https://nicorsss.github.io/Woodbird/politica-privacidad.html"
+   },
+   "terminos": {
+    "texto": "Términos y condiciones",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html"
+   },
+   "consumidor": {
+    "texto": "Defensa de las y los Consumidores. Para reclamos ingrese aquí",
+    "href": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+   },
+   "licencia": true,
+   "avisoIA": false
+  },
+  "Términos movil": {
+   "arrepentimiento": {
+    "texto": "Botón de arrepentimiento",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html#arrepentimiento",
+    "arriba": 12,
+    "abajo": 56,
+    "visible": true
+   },
+   "ia": {
+    "texto": "Declaración ética y transparencia de IA",
+    "href": "https://nicorsss.github.io/Woodbird/docs/sprint-1/07_Declaracion_Etica_IA.docx"
+   },
+   "privacidad": {
+    "texto": "Política de privacidad",
+    "href": "https://nicorsss.github.io/Woodbird/politica-privacidad.html"
+   },
+   "terminos": {
+    "texto": "Términos y condiciones",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html"
+   },
+   "consumidor": {
+    "texto": "Defensa de las y los Consumidores. Para reclamos ingrese aquí",
+    "href": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+   },
+   "licencia": true,
+   "avisoIA": false
+  },
+  "Términos escritorio": {
+   "arrepentimiento": {
+    "texto": "Botón de arrepentimiento",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html#arrepentimiento",
+    "arriba": 12,
+    "abajo": 56,
+    "visible": true
+   },
+   "ia": {
+    "texto": "Declaración ética y transparencia de IA",
+    "href": "https://nicorsss.github.io/Woodbird/docs/sprint-1/07_Declaracion_Etica_IA.docx"
+   },
+   "privacidad": {
+    "texto": "Política de privacidad",
+    "href": "https://nicorsss.github.io/Woodbird/politica-privacidad.html"
+   },
+   "terminos": {
+    "texto": "Términos y condiciones",
+    "href": "https://nicorsss.github.io/Woodbird/terminos-y-condiciones.html"
+   },
+   "consumidor": {
+    "texto": "Defensa de las y los Consumidores. Para reclamos ingrese aquí",
+    "href": "https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+   },
+   "licencia": true,
+   "avisoIA": false
+  }
+ }
+}

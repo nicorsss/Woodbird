@@ -1,0 +1,604 @@
+{
+ "https": {
+  "redireccion": [
+   301,
+   "Moved Permanently",
+   "https://nicorsss.github.io/Woodbird/"
+  ],
+  "estado": 200,
+  "encabezados": {
+   "Server": "GitHub.com",
+   "Content-Type": "text/html; charset=utf-8",
+   "Strict-Transport-Security": "max-age=31556952",
+   "Last-Modified": "Tue, 03 Nov 2026 16:29:28 GMT"
+  },
+  "certificado": {
+   "sujeto": "*.github.io",
+   "emisor": "Let's Encrypt (YR1)",
+   "desde": "30/09/2026",
+   "hasta": "29/12/2026",
+   "nombres": [
+    "*.github.com",
+    "*.github.io",
+    "*.githubusercontent.com",
+    "github.com",
+    "github.io",
+    "githubusercontent.com"
+   ],
+   "protocolo": "TLSv1.3",
+   "cifrado": "TLS_AES_128_GCM_SHA256",
+   "verificado": true
+  },
+  "pages": {
+   "estado": "built",
+   "https": true,
+   "rama": "main",
+   "carpeta": "/",
+   "url": "https://nicorsss.github.io/Woodbird/",
+   "tipo": "legacy"
+  },
+  "build": {
+   "estado": "built",
+   "commit": "369463c16eb45d259414a94693ad443e657343be",
+   "fecha": "2026-11-03T16:28:35Z",
+   "segundos": 56
+  },
+  "head": "369463c16eb45d259414a94693ad443e657343be"
+ },
+ "contenido_mixto": [],
+ "sincronizacion": [
+  {
+   "archivo": ".gitignore",
+   "http": 404,
+   "bytes": 70,
+   "sha256": "6b24d5cf8d4fc0b9d10c470846ed3ce204bbdda592c94df6eac25245342ba6e7",
+   "igual": false
+  },
+  {
+   "archivo": "CLAUDE.md",
+   "http": 200,
+   "bytes": 7663,
+   "sha256": "855b89a51fb21d9eef4af7f584beb484d838077d8ba1833d128a57ba6fe997d4",
+   "igual": true
+  },
+  {
+   "archivo": "LICENCIA-DOCUMENTACION.md",
+   "http": 200,
+   "bytes": 1767,
+   "sha256": "277853fa3dab9bd2fc2ff50b3b8a4316820cb37c864dc8e4e8b44d8310f4bc79",
+   "igual": true
+  },
+  {
+   "archivo": "LICENSE",
+   "http": 200,
+   "bytes": 35149,
+   "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+   "igual": true
+  },
+  {
+   "archivo": "README.md",
+   "http": 200,
+   "bytes": 8812,
+   "sha256": "d59f1b14eacdb0b82751ac000553d24a92b103f96341d89bfa7d39a21817181f",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/.gitkeep",
+   "http": 404,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/benteveo.webp",
+   "http": 200,
+   "bytes": 36470,
+   "sha256": "48f8f3c6aad0d7bae9e2e567745a0e24b76f7d1d3e702263e034c3ca10c62174",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/calandria.webp",
+   "http": 200,
+   "bytes": 24606,
+   "sha256": "a1c72267f38a18c44fd5f1edab6ab19883da9890c23802363b067c8601295ef9",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/cardenal.webp",
+   "http": 200,
+   "bytes": 35450,
+   "sha256": "5824ce322a22f1c6a4f773ba05f72e29eecf39879def87cf5f9208b193752c25",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/carpintero.webp",
+   "http": 200,
+   "bytes": 36360,
+   "sha256": "cd8034f98edd93a38dda02e726450f76c24b74dffcc6cae27957dbeec8eafbfa",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/chuna.webp",
+   "http": 200,
+   "bytes": 33350,
+   "sha256": "3c49d7444b21fe44c95103148713277dc1c558baf4a46f0866ea3b501ba8a030",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/garza.webp",
+   "http": 200,
+   "bytes": 23524,
+   "sha256": "46f3465b2c54ae490cea93319f3aa8ef934206511b3f899e98d4b5ef48f6401e",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/hornero.webp",
+   "http": 200,
+   "bytes": 38266,
+   "sha256": "885e5bd1bee49ac4f6aec3c302db055d6e79e8fede69a131ebb57769569f9a01",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/lechucita.webp",
+   "http": 200,
+   "bytes": 37664,
+   "sha256": "192476c7136c49fbe379e41752ba8644355b3f05e1b54d81f40898627d56e0b1",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/picaflor.webp",
+   "http": 200,
+   "bytes": 24874,
+   "sha256": "f6e34d6e6830c65899a8398b144927379a264a965f46b6ffb9f12a05216d0c81",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/tero.webp",
+   "http": 200,
+   "bytes": 48656,
+   "sha256": "c546efd4de916a77e2715bcb20d5e0d52f6717ae463bb3c4345fba9ff21d3d92",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/tucan.webp",
+   "http": 200,
+   "bytes": 33732,
+   "sha256": "3c4051d951708efcb7088feba88d3b557b68b63974e09b883b002b56f2f5991b",
+   "igual": true
+  },
+  {
+   "archivo": "assets/img/zorzal.webp",
+   "http": 200,
+   "bytes": 38786,
+   "sha256": "6bab42319b9e890c05de72f3e2405e697a8087301e3d4363281aa28937d743a2",
+   "igual": true
+  },
+  {
+   "archivo": "css/.gitkeep",
+   "http": 404,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "igual": true
+  },
+  {
+   "archivo": "css/estilos.css",
+   "http": 200,
+   "bytes": 20130,
+   "sha256": "0f0c3f38107fcc81c10298c06f951d6bb59d13178db91d9e798826d063746580",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/00_Carpeta_Integradora_Sprint_1.pdf",
+   "http": 200,
+   "bytes": 2877058,
+   "sha256": "f4e88682c7e8d44eb8388c9630335151274408be54b4fcc1104042cbdf1ebfa9",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/01_Acta_de_Constitucion.docx",
+   "http": 200,
+   "bytes": 19607,
+   "sha256": "2f0ff36335830ffc9048e84e9a26ff05915e4c317fe1b40bed84bb0de2327142",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/02_EDT_WBS.docx",
+   "http": 200,
+   "bytes": 341121,
+   "sha256": "55ace5750522446ba69ed5c54f101b14719e56bc3f4c9b9fd783cc4f44032e91",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/03_Lienzo_Modelo_de_Negocio.html",
+   "http": 200,
+   "bytes": 14236,
+   "sha256": "b627eb112213485e027388a44088e72eaad3626a4c21d909d1bd89219f941578",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/03_Lienzo_Modelo_de_Negocio.png",
+   "http": 200,
+   "bytes": 236094,
+   "sha256": "00507fc1d729ec1a75c3afc66ebaa7fe06ce117f107fcf858baca8d263209a24",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/04_Declaracion_Triple_Impacto.docx",
+   "http": 200,
+   "bytes": 40343,
+   "sha256": "65ed90bb9db2552eaaa2f5e63adc99770b0cdb12c281582ffbbc4dc42cdb5535",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/05_Diseno_Interfaz_Wireframes.html",
+   "http": 200,
+   "bytes": 44712,
+   "sha256": "3ffb6fe48eda056d95366a53c2a6c296b3ae883b22d0a87b77af008ccdedb53c",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/06_Informe_Marca_y_Dominios.docx",
+   "http": 200,
+   "bytes": 20442,
+   "sha256": "32cde39c9b89b97e397800ddc41181df7bd912c9f0941dd8ea3a72e167c05b2a",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-1/07_Declaracion_Etica_IA.docx",
+   "http": 200,
+   "bytes": 27262,
+   "sha256": "2999ca3c014706297214449284eb0f994659feede26582fe02d2fdd158a2db56",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/00_Carpeta_Integradora_Sprint_2.pdf",
+   "http": 200,
+   "bytes": 3388921,
+   "sha256": "3c01addeaa315c22041c56752627e614eac8f24d5e928a9a0e13e2aec7fadcff",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/01_Diagrama_de_Gantt.png",
+   "http": 200,
+   "bytes": 176685,
+   "sha256": "d9186ffc7264198c735e544fb229c281f9e09e8119cc2886963980833ce0b2a1",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/01_Diagrama_de_Gantt_y_Control_de_Desvios.docx",
+   "http": 200,
+   "bytes": 369176,
+   "sha256": "736997fc753ae233f7551eced454c7898ce59ca506949cbf1242ddce650f7a81",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/02_Matriz_de_Riesgos.docx",
+   "http": 200,
+   "bytes": 43288,
+   "sha256": "4be2cc136fc25b42985d5b89ca6361d27d3e0e251e00b5234544cc00d46470a5",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/03_Politica_de_Privacidad.docx",
+   "http": 200,
+   "bytes": 43246,
+   "sha256": "2cc12dc63bd41cf3116f2737bf284928d08fc9832a0246f6844b16e35815126a",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/04_Estrategia_de_Canales_y_Embudo.docx",
+   "http": 200,
+   "bytes": 288626,
+   "sha256": "d38ab5dd48227481aebe771f794b27d4b1853a4a14d84b9d5733931efcb3db94",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/04_Instagram_Maqueta.png",
+   "http": 200,
+   "bytes": 192187,
+   "sha256": "cf0c634d240451dd3a65a8eb3b8d08177d5986fee9a5ae148e04a375d7016acf",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/05_Justificacion_de_Licencia.docx",
+   "http": 200,
+   "bytes": 42898,
+   "sha256": "4f24b4e1580948efbeccc6b08e76b145cf8c239b745731f13ddaa8912432fe44",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/06_Informe_Startup_vs_Empresa_Tradicional.docx",
+   "http": 200,
+   "bytes": 333385,
+   "sha256": "c97f1d564924851e2d7a39bc5f9a6b5f1b47d7ba9fdacb37209dbce3733bca94",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/07_Pruebas_Usabilidad_Responsive.docx",
+   "http": 200,
+   "bytes": 786156,
+   "sha256": "35b2325ee89ad62e47aa008e4b7c83916cfd8de10a8ac4c4df507a57a984dc01",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-2/08_Solicitud_de_Cambio_de_Alcance.docx",
+   "http": 200,
+   "bytes": 328331,
+   "sha256": "2bdd5c478c24e154c9da1e6abbc49b1142a68e70bb8085a5a47e3963371063ea",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/00_Carpeta_Integradora_Sprint_3.pdf",
+   "http": 200,
+   "bytes": 4777207,
+   "sha256": "ccc4a8dcb61ab6be95793175bbab74effc896f08d6a41628029bccce45fc0674",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/01_Terminos_y_Condiciones.docx",
+   "http": 200,
+   "bytes": 46876,
+   "sha256": "72059205bfc5c3a90c9e9496f9f5a0b535e34ab83900b6503f2057ffbc50ee9a",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/02_Matriz_de_Riesgos.docx",
+   "http": 200,
+   "bytes": 43679,
+   "sha256": "68164a4dd77b18d150c3f51eda3e5a558be87bd119b46d5c5e994f4331120149",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/03_Plan_de_Casos_de_Prueba.docx",
+   "http": 200,
+   "bytes": 42796,
+   "sha256": "ba4658cbca34783b1d977940c7f27d2a6b7adca00178f7abb22870aad4d7dc37",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/04_Registro_de_Solicitudes_de_Cambio.docx",
+   "http": 200,
+   "bytes": 40186,
+   "sha256": "945c51627a9526c45cfb26d7359486fc2c98b1df0c36afe3d5835071bafb82c7",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/05_Campana_de_Instagram.docx",
+   "http": 200,
+   "bytes": 947135,
+   "sha256": "11436dbf6813146eee35e6b0f84c1a22bead4d6f9d15a91e1f919c281ab66e0c",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/06_Panel_de_KPIs.docx",
+   "http": 200,
+   "bytes": 203580,
+   "sha256": "7e99e2169f46af74ae2988b5610b5ab86264cdac3d1f2b9be8a81aac433fae4b",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/06_Panel_de_KPIs.png",
+   "http": 200,
+   "bytes": 172467,
+   "sha256": "f3c1cc5a1c74ec7bc6b8ffae5f939418bd0685c9d2354a76c1d17e309a91e136",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/capturas/instagram-0_perfil.png",
+   "http": 200,
+   "bytes": 515076,
+   "sha256": "a1a13a0f80a78a9efa790f93fdfb3eeb3c523ee0f92021665d469fb0a5bcf97e",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/capturas/instagram-H1_historia.png",
+   "http": 200,
+   "bytes": 306498,
+   "sha256": "ebc6e2720f16821e4d61066076d0ad69352ae3d42e600b88b5cf37c6662bb1a8",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/capturas/instagram-H3_historia.png",
+   "http": 200,
+   "bytes": 413072,
+   "sha256": "3a06bc3e0bcb25aa66a196352e9f05629e7e9ebf46a740a982953b8805bae205",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/capturas/instagram-P1_publicacion.png",
+   "http": 200,
+   "bytes": 454145,
+   "sha256": "de191726f8b94b431751db3e6adb7a54e95335694f5e2eb9479f4d73bf67e12a",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/capturas/instagram-P2_publicacion.png",
+   "http": 200,
+   "bytes": 339211,
+   "sha256": "72d712849c49aec29d7fe884d502a355c91bc680689ff697039981b9b90ea203",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/H1.png",
+   "http": 200,
+   "bytes": 71151,
+   "sha256": "fb1ee53acba0e8c8d30a722480c23d7750deda459a7d645ae98a9047e3ca487d",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/H2.png",
+   "http": 200,
+   "bytes": 66358,
+   "sha256": "d8ed671cd2c29fba5501db915d3b57515b1efc475d2b9ab27a07dcd6781d8a68",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/H3.png",
+   "http": 200,
+   "bytes": 106154,
+   "sha256": "68cf1f463fa6f8c748b2bf106c9a5f60b46a8b5736640590189248264e9cb397",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P1.png",
+   "http": 200,
+   "bytes": 92296,
+   "sha256": "47080f6fbceb5806db3187014e58afc5e835caa92978fdf17ae86b8da764a239",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P2-1.png",
+   "http": 200,
+   "bytes": 59344,
+   "sha256": "01a359ad7faab4a726481a5c20428b5f38b38916c4153401fb058e803c24bb66",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P2-2.png",
+   "http": 200,
+   "bytes": 101809,
+   "sha256": "6bb88c3d0882059d077f15227b2062baa7feedd95d41d2146e20ee1009d81ead",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P2-3.png",
+   "http": 200,
+   "bytes": 93623,
+   "sha256": "8506d94720d6cf9a0d07cbe39fb254b8de16648c5f2de7434758d8186b6ed527",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P2-4.png",
+   "http": 200,
+   "bytes": 99093,
+   "sha256": "0bb09e8b7b57c482835b71e30087d7b297c5f9e9e2e9ed21568f017a33f3b5ee",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P2-5.png",
+   "http": 200,
+   "bytes": 67849,
+   "sha256": "a82026e4d9493e83adbe461554541ed222edecba68891748d78210e56dbfa531",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P3.png",
+   "http": 200,
+   "bytes": 65422,
+   "sha256": "4c25f535de20b2049ff2afacdc03cfc116f0115ce02a6981c6be5dd3e9e03867",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P4.png",
+   "http": 200,
+   "bytes": 61998,
+   "sha256": "164c091550b50eb1fa9f40b9e7b0590031afe08464a2cbfe8f3916c1f1c9c1b3",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/P5.png",
+   "http": 200,
+   "bytes": 112326,
+   "sha256": "e86a8f13094c66b1332a3c9a3379250f6a3ab87699800dcd4bd399db1202ca99",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-3/instagram/perfil.png",
+   "http": 200,
+   "bytes": 27303,
+   "sha256": "7e459444bb4402cde425a711159f93ca922f0f24bda00bd1d9a15614e1dee06d",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/01_Registro_de_Imagenes_IA.json",
+   "http": 200,
+   "bytes": 8500,
+   "sha256": "6803e1e2fb4543aa774a723a0e45f41286da3e734823c89d5f3febc9317fa885",
+   "igual": true
+  },
+  {
+   "archivo": "index.html",
+   "http": 200,
+   "bytes": 10494,
+   "sha256": "57f14766e3f1fa9ecf946d2494de4019fd490b9d5aced37144a5f852565000c6",
+   "igual": true
+  },
+  {
+   "archivo": "js/app.js",
+   "http": 200,
+   "bytes": 525,
+   "sha256": "3dd2308c8a194eaf5e937ffc703a3b1d3ca6048483cef6deb0b5d5f7349b3771",
+   "igual": true
+  },
+  {
+   "archivo": "js/carrito.js",
+   "http": 200,
+   "bytes": 6054,
+   "sha256": "228b9a7a2abbf5b66688a47a6689af699e2500a3d6ad096dba885baa30ee6ea9",
+   "igual": true
+  },
+  {
+   "archivo": "js/catalogo.js",
+   "http": 200,
+   "bytes": 4574,
+   "sha256": "ebbb6c4e434ff76872c266ab8db30d08ed3020dcf4a45b0c32120a40acae57b1",
+   "igual": true
+  },
+  {
+   "archivo": "js/checkout.js",
+   "http": 200,
+   "bytes": 3222,
+   "sha256": "3f9ddd89be767c4e03f910f09733b78f7e8fa4cc3b38f424638f6063069eb2db",
+   "igual": true
+  },
+  {
+   "archivo": "js/utilidades.js",
+   "http": 200,
+   "bytes": 1064,
+   "sha256": "3683f2455e5f1f76cbc849d1e0ee541a3510d4d6b25adf61c90c42eb1351e7b2",
+   "igual": true
+  },
+  {
+   "archivo": "politica-privacidad.html",
+   "http": 200,
+   "bytes": 14893,
+   "sha256": "a48c9817f8160792ebeb487cdecc310b5982204e9f22c8b5ec07dcf91ef76b35",
+   "igual": true
+  },
+  {
+   "archivo": "productos.json",
+   "http": 200,
+   "bytes": 4591,
+   "sha256": "0775255a4354f4ac6ed13a8bfbd8d53028bb61dcce12f6edc4c9fc48aea6a066",
+   "igual": true
+  },
+  {
+   "archivo": "pruebas/auditoria_legal.mjs",
+   "http": 200,
+   "bytes": 16596,
+   "sha256": "2ccde9b670bee639a91cec58583a11f9d9c8496cb4fddde32626c3c8ec3f67a6",
+   "igual": true
+  },
+  {
+   "archivo": "pruebas/cdp.mjs",
+   "http": 200,
+   "bytes": 2282,
+   "sha256": "1063120c3aa23a656e380272e5de3b00bc3ecabd90978c2117a47a9fe62a9834",
+   "igual": true
+  },
+  {
+   "archivo": "pruebas/responsive.mjs",
+   "http": 200,
+   "bytes": 23893,
+   "sha256": "8131c1195853aa88c7695f1c72d27780f7eb515171eb36718ff3dfa2b38759d8",
+   "igual": true
+  },
+  {
+   "archivo": "terminos-y-condiciones.html",
+   "http": 200,
+   "bytes": 23464,
+   "sha256": "e8ba31dd2ed4c6bdd4ff2d8a5d033bed1609be5e33ab7431a07fb5d481f9eb66",
+   "igual": true
+  }
+ ]
+}
