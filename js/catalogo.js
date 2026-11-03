@@ -32,10 +32,21 @@ export async function cargarProductos(url = "productos.json") {
 
 // Imagen de producto generada con IA (cierre del riesgo R6), siempre con el sello de transparencia.
 // Las de «Diseños nuevos» se ven al entrar y cargan enseguida; las del catálogo, al acercarse.
+// Cada imagen tiene versiones de 384 y 768 px además del original de 1024 (las genera imagenes_ia.py):
+// «sizes» le dice al navegador el ancho que ocupará la tarjeta, medido en los 11 anchos de las pruebas
+// (tarea 4.2, Lighthouse «uses-responsive-images»).
+const TAMANIOS = {
+  catalogo: "(min-width: 1366px) 243px, (min-width: 960px) 20vw, (min-width: 600px) 28vw, 43vw",
+  recientes: "(min-width: 1366px) 243px, (min-width: 960px) 20vw, (min-width: 600px) 35vw, 63vw",
+};
+
 function figura(producto, diferida) {
+  const base = producto.imagen_ia_url.replace(/\.webp$/, "");
   return el("figure", {},
     el("img", {
       src: producto.imagen_ia_url,
+      srcset: `${base}-384.webp 384w, ${base}-768.webp 768w, ${producto.imagen_ia_url} 1024w`,
+      sizes: diferida ? TAMANIOS.catalogo : TAMANIOS.recientes,
       alt: `${producto.nombre}: diseño de ave en ${producto.categoria.toLowerCase()} generado con IA`,
       width: 1024, height: 1024, decoding: "async", loading: diferida ? "lazy" : "eager",
     }),
