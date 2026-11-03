@@ -88,7 +88,7 @@ async function estadoHttp(url) {
   }
 }
 
-const PAGINAS = [["index.html", "Inicio"], ["politica-privacidad.html", "Privacidad"], ["terminos-y-condiciones.html", "Términos"]];
+const PAGINAS = [["index.html", "Inicio"], ["politica-privacidad.html", "Privacidad"], ["terminos-y-condiciones.html", "Términos"], ["declaracion-ia.html", "Declaración IA"]];
 const estados = {};
 
 for (const [ruta, nombre] of PAGINAS) {

@@ -47,7 +47,7 @@ y entrar a http://127.0.0.1:8765/.
 | Desarrollo de Sitios Web | [Wireframes](docs/sprint-1/05_Diseno_Interfaz_Wireframes.html) |
 | Desarrollo de Sitios Web | [Estructura HTML5 semántica](index.html) |
 | Legislación Informática | [Informe de Marca y Dominios](docs/sprint-1/06_Informe_Marca_y_Dominios.docx) |
-| Legislación Informática | [Declaración Ética de IA](docs/sprint-1/07_Declaracion_Etica_IA.docx) |
+| Legislación Informática | [Declaración Ética de IA](docs/sprint-1/07_Declaracion_Etica_IA.docx) · [versión 1.1 publicada en el sitio](declaracion-ia.html) |
 
 ### Sprint 2 · Maquetación, datos y privacidad (14/09 – 02/10)
 

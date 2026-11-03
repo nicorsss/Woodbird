@@ -183,6 +183,7 @@ const LEGALES = `(() => {
   const pie = [...document.querySelectorAll("body > footer a")].map((a) => a.getAttribute("href"));
   const f = document.querySelector("#form-checkout");
   return {
+    declaracion: pie.includes("declaracion-ia.html"),
     privacidad: pie.includes("politica-privacidad.html"),
     terminos: pie.includes("terminos-y-condiciones.html"),
     ventanilla: pie.some((h) => h.includes("argentina.gob.ar/produccion/defensadelconsumidor/formulario")),
@@ -191,7 +192,7 @@ const LEGALES = `(() => {
       avisoArrepentimiento: !!f.querySelector('a[href$="#arrepentimiento"]'),
       avisoAntesDelPago: !!(f.querySelector('a[href$="#arrepentimiento"]').compareDocumentPosition(document.querySelector("#ir-al-pago")) & Node.DOCUMENT_POSITION_FOLLOWING),
     } : null,
-    mailto: document.querySelector('a.boton[href^="mailto:arrepentimiento@"]')?.getAttribute("href").split("?")[1]?.startsWith("subject=") ?? null,
+    mailto: document.querySelector('a.boton[href^="mailto:"]')?.getAttribute("href").split("?")[1]?.startsWith("subject=") ?? null,
   };
 })()`;
 
@@ -323,6 +324,7 @@ const PAGINAS = [
   { id: "inicio", ruta: "index.html", completo: true, anclas: "body > nav a" },
   { id: "privacidad", ruta: "politica-privacidad.html", completo: false, anclas: ".documento-legal > nav a" },
   { id: "terminos", ruta: "terminos-y-condiciones.html", completo: false, anclas: ".documento-legal > nav a" },
+  { id: "declaracion", ruta: "declaracion-ia.html", completo: false, anclas: ".documento-legal > nav a" },
 ];
 
 const b = await lanzar();
