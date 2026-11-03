@@ -212,7 +212,8 @@ input {
 .tarjeta figure {
   position: relative;
   margin: 0 0 calc(var(--u) * 2);
-  aspect-ratio: 4 / 3;
+  /* Las imágenes generadas son cuadradas: así no se recorta ninguna pieza */
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: var(--r-chico);
   background: var(--albura);
@@ -224,11 +225,6 @@ input {
   object-fit: cover;
   /* Si la imagen no carga, el texto alternativo no se superpone al sello */
   color: transparent;
-}
-
-/* Lámina de color que reemplaza a la imagen mientras no esté generada */
-.tarjeta .lamina {
-  height: 100%;
 }
 
 /* Sello de transparencia: la imagen fue generada con IA */

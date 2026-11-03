@@ -37,7 +37,7 @@ node pruebas/responsive.mjs http://127.0.0.1:8765/ pruebas/salida
 - **Transparencia de IA:** las imágenes de producto son generadas con IA y cada una lleva `<figcaption>Imagen con IA</figcaption>`. El pie enlaza la Declaración Ética de IA. Mantén esto en cualquier producto o imagen nueva.
 - **Accesibilidad:** HTML5 semántico. Cada sección tiene `aria-labelledby`, las etiquetas ocultas usan `.visualmente-oculto` y se respeta `prefers-reduced-motion`.
 - **Licencias:** el código es `GPL-3.0-or-later` (archivo `LICENSE`, con encabezado SPDX en los CSS y JS), la documentación de `docs/` es CC BY-NC-SA 4.0 y las imágenes generadas con IA quedan sin reclamo de derechos. El pie de ambas páginas HTML repite el aviso. Todo archivo de código nuevo lleva el mismo encabezado SPDX. El detalle está en `LICENCIA-DOCUMENTACION.md`.
-- Las imágenes de producto todavía no existen (riesgo R6, pasan al Sprint 3). Por la contingencia del 28/09, las tarjetas usan `<div class="lamina" role="img">` en lugar de `<img>`, con el mismo sello. Las rutas previstas están en `productos.json` (`imagen_ia_url`, `assets/img/*.webp`). Al generarlas, se vuelve a `<img>` con `alt` descriptivo.
+- Las 12 imágenes de producto (`assets/img/*.webp`, 1024×1024, rutas en `imagen_ia_url`) se generaron el 03/11 con Google Gemini y cerraron el riesgo R6. Las genera e importa `../herramientas/imagenes_ia.py`, que anota el prompt, la herramienta y la fecha de cada una (copia en `docs/sprint-4/01_Registro_de_Imagenes_IA.json`). Los prompts exigen madera natural sin pintar: revisa cada imagen nueva antes de importarla. La figura de la tarjeta es cuadrada (`aspect-ratio: 1 / 1`) para no recortar las piezas.
 
 ## Entregables y documentación
 

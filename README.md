@@ -82,6 +82,12 @@ y entrar a http://127.0.0.1:8765/.
 | Legislación Informática | [Términos y Condiciones de uso y compra](docs/sprint-3/01_Terminos_y_Condiciones.docx) · [publicados en el sitio](terminos-y-condiciones.html) | Hecho el 22/10: enlazados en el pie y aceptación obligatoria en el checkout |
 | Legislación Informática | Ley 24.240: derecho de arrepentimiento y garantía (cláusulas [9](terminos-y-condiciones.html#arrepentimiento) y [10](terminos-y-condiciones.html#garantia)) | Hecho el 22/10: botón de arrepentimiento en el encabezado (Res. 424/2020) y enlace a la Ventanilla Única Federal (Res. 274/2021) |
 
+### Sprint 4 · Pruebas, despliegue, portafolio final y pitch (26/10 – 10/11)
+
+| Materia | Entregable | Estado |
+|---|---|---|
+| Desarrollo de Sitios Web | Imágenes de producto generadas con IA · [assets/img](assets/img/) · [registro de prompts](docs/sprint-4/01_Registro_de_Imagenes_IA.json) | Hecho el 03/11 (SC-05, cierre de R6): 12 imágenes WebP de 1024 px (428 KB en total) con Google Gemini; cada una con su prompt, herramienta y fecha |
+
 ## Licencia
 
 - **Código fuente** (`*.html`, `css/`, `js/`, `productos.json`): [GNU GPL, versión 3 o posterior](LICENSE).

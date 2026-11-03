@@ -30,17 +30,21 @@ export async function cargarProductos(url = "productos.json") {
   return respuesta.json();
 }
 
-// Contingencia del riesgo R6: mientras no existan las imágenes de imagen_ia_url,
-// la tarjeta muestra una lámina de color con el sello de transparencia.
-function figura(producto) {
+// Imagen de producto generada con IA (cierre del riesgo R6), siempre con el sello de transparencia.
+// Las de «Diseños nuevos» se ven al entrar y cargan enseguida; las del catálogo, al acercarse.
+function figura(producto, diferida) {
   return el("figure", {},
-    el("div", { class: "lamina", role: "img", "aria-label": `${producto.nombre}: imagen en preparación` }),
+    el("img", {
+      src: producto.imagen_ia_url,
+      alt: `${producto.nombre}: diseño de ave en ${producto.categoria.toLowerCase()} generado con IA`,
+      width: 1024, height: 1024, decoding: "async", loading: diferida ? "lazy" : "eager",
+    }),
     el("figcaption", {}, "Imagen con IA"));
 }
 
 function tarjeta(producto, conBoton) {
   const articulo = el("article", { class: "tarjeta" },
-    figura(producto),
+    figura(producto, conBoton),
     el("h3", {}, producto.nombre),
     el("p", {}, `${producto.categoria} · ${producto.medida_cm} cm`),
     el("p", { class: "precio" }, precio(producto.precio_simulado)));
