@@ -212,6 +212,8 @@ const CARRUSEL = `(async () => {
 // El carrito arranca vacío: se cargan las dos piezas de la maqueta (Cardenal y
 // Carpintero) para medir la tabla igual que en el Sprint 2.
 const PREPARAR = `(async () => {
+  // En producción el catálogo puede tardar más que la espera fija: se espera hasta 15 s a que aparezcan los botones
+  for (let i = 0; i < 150 && !document.querySelector('[data-agregar="3"]'); i++) await new Promise((r) => setTimeout(r, 100));
   for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
   await new Promise((r) => setTimeout(r, 100));
   return document.querySelectorAll("#filas-carrito tr").length;
@@ -338,6 +340,26 @@ b.on((m) => {
 });
 await b.send("Network.enable");
 await b.send("Page.enable");
+await b.send("Runtime.enable");
+await b.send("Log.enable");
+
+// Sprint 4 (tarea 4.2): errores de JavaScript en consola, advertencias y recursos que fallan.
+// «fase» separa el recorrido normal de la falla de carga provocada a propósito al final (CP-10).
+const consola = [];
+let fase = "recorrido";
+let paginaActual = "";
+const urlsPorPedido = new Map();
+b.on((m) => {
+  const p = m.params;
+  if (m.method === "Network.requestWillBeSent") urlsPorPedido.set(p.requestId, p.request.url);
+  const anotar = (tipo, texto, url = "") => consola.push({ fase, pagina: paginaActual, tipo, texto: String(texto).slice(0, 300), url });
+  if (m.method === "Runtime.exceptionThrown") anotar("excepción", p.exceptionDetails.exception?.description ?? p.exceptionDetails.text, p.exceptionDetails.url);
+  if (m.method === "Runtime.consoleAPICalled" && ["error", "warning", "assert"].includes(p.type))
+    anotar(`console.${p.type}`, p.args.map((a) => a.value ?? a.description ?? "").join(" "));
+  if (m.method === "Log.entryAdded" && ["error", "warning"].includes(p.entry.level)) anotar(`navegador (${p.entry.level})`, p.entry.text, p.entry.url);
+  if (m.method === "Network.responseReceived" && p.response.status >= 400) anotar("recurso HTTP " + p.response.status, p.response.url, p.response.url);
+  if (m.method === "Network.loadingFailed" && !p.canceled) anotar("recurso fallido", p.errorText, urlsPorPedido.get(p.requestId));
+});
 await b.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
 
 const resultados = [];
@@ -346,6 +368,7 @@ for (const pag of PAGINAS) {
     await b.send("Emulation.setDeviceMetricsOverride", { width: v.ancho, height: v.alto, deviceScaleFactor: 1, mobile: v.movil });
     await b.send("Emulation.setTouchEmulationEnabled", { enabled: v.movil });
     peticiones.length = 0;
+    paginaActual = `${pag.ruta} (${v.ancho} px)`;
     await b.send("Page.navigate", { url: BASE + pag.ruta });
     await new Promise((r) => setTimeout(r, 1800));
     await b.evaluar("document.fonts.ready.then(() => true)");
@@ -381,6 +404,8 @@ for (const pag of PAGINAS) {
   }
 }
 // Falla de carga del catálogo: productos.json no responde (red caída o archivo ausente)
+fase = "falla provocada (CP-10)";
+paginaActual = "index.html (390 px)";
 await b.send("Network.setCacheDisabled", { cacheDisabled: true });
 await b.send("Fetch.enable", { patterns: [{ urlPattern: "*productos.json*" }] });
 b.on((m) => {
@@ -401,4 +426,7 @@ console.log("error de carga", JSON.stringify(errorCarga));
 b.cerrar();
 writeFileSync(join(SALIDA, "resultados.json"), JSON.stringify(resultados, null, 2));
 writeFileSync(join(SALIDA, "error-carga.json"), JSON.stringify(errorCarga, null, 2));
+writeFileSync(join(SALIDA, "consola.json"), JSON.stringify(consola, null, 2));
+const enRecorrido = consola.filter((c) => c.fase === "recorrido");
+console.log("consola", enRecorrido.length, "avisos en el recorrido;", consola.length - enRecorrido.length, "en la falla provocada");
 console.log("listo");

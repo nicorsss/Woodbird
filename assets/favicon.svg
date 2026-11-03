@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ícono de Woodbird: silueta de ave sobre una rama, en la paleta «palo santo» del sitio. GPL-3.0-or-later -->
+  <rect width="32" height="32" rx="7" fill="#191E14"/>
+  <path fill="#E7D9AE" d="M8 20c0-5 3.5-9 8.5-9 1.4-2.2 3.4-3.4 5.8-3.3-.9.8-1.4 1.8-1.5 2.9l3.7 1.4-3.9 1.1c-.2 4.6-3.8 7.9-8.6 7.9H8z"/>
+  <circle cx="20" cy="12.6" r="1" fill="#191E14"/>
+  <path stroke="#84955F" stroke-width="2" stroke-linecap="round" d="M6 24h20"/>
+</svg>
