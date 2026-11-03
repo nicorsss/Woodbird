@@ -88,7 +88,7 @@ y entrar a http://127.0.0.1:8765/.
 |---|---|---|
 | Desarrollo de Sitios Web | Imágenes de producto generadas con IA · [assets/img](assets/img/) · [registro de prompts](docs/sprint-4/01_Registro_de_Imagenes_IA.json) | Hecho el 03/11 (SC-05, cierre de R6): 12 imágenes WebP de 1024 px (428 KB en total) con Google Gemini; cada una con su prompt, herramienta y fecha |
 | Desarrollo de Sitios Web | [Despliegue en producción con HTTPS](docs/sprint-4/02_Despliegue_en_Produccion_HTTPS.docx) · [evidencia](docs/sprint-4/evidencia/despliegue.json) | Hecho el 03/11: GitHub Pages con HTTPS obligatorio, redirección 301, HSTS, TLS 1.3 y certificado válido hasta el 29/12; 78 de 79 archivos idénticos en el servidor (`.gitignore` no se publica) |
-| Legislación Informática | [Auditoría legal final del sitio en vivo](docs/sprint-4/03_Auditoria_Legal_Final.docx) · [script](pruebas/auditoria_legal.mjs) · [capturas](docs/sprint-4/evidencia/) | Hecha el 03/11: 42 de 42 verificaciones en producción; 4 hallazgos manuales (H1 a H4) con acción correctiva pendiente |
+| Legislación Informática | [Auditoría legal final del sitio en vivo](docs/sprint-4/03_Auditoria_Legal_Final.docx) · [script](pruebas/auditoria_legal.mjs) · [capturas](docs/sprint-4/evidencia/) | Hecha el 03/11: 49 de 49 verificaciones en producción; los 4 hallazgos manuales (H1 a H4) corregidos el mismo día: [Declaración de IA publicada](declaracion-ia.html), contacto real (woodbirdshop@gmail.com e Instagram), Política 1.1 y Términos 1.2 |
 
 ## Licencia
 

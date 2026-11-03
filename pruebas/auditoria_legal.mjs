@@ -79,13 +79,19 @@ const COMUNES = `(() => {
   };
 })()`;
 
+// Hasta 3 intentos: en Windows, fetch de Node a veces corta la conexión («fetch failed») aunque el destino responda
 async function estadoHttp(url) {
-  try {
-    const r = await fetch(url, { method: "GET", redirect: "follow" });
-    return r.status;
-  } catch (e) {
-    return String(e.message);
+  let error;
+  for (let intento = 1; intento <= 3; intento++) {
+    try {
+      const r = await fetch(url, { method: "GET", redirect: "follow" });
+      return r.status;
+    } catch (e) {
+      error = String(e.cause?.code ?? e.message);
+      await new Promise((r) => setTimeout(r, 1500 * intento));
+    }
   }
+  return error;
 }
 
 const PAGINAS = [["index.html", "Inicio"], ["politica-privacidad.html", "Privacidad"], ["terminos-y-condiciones.html", "Términos"], ["declaracion-ia.html", "Declaración IA"]];

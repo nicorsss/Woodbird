@@ -10,7 +10,7 @@
    "Server": "GitHub.com",
    "Content-Type": "text/html; charset=utf-8",
    "Strict-Transport-Security": "max-age=31556952",
-   "Last-Modified": "Tue, 03 Nov 2026 16:29:28 GMT"
+   "Last-Modified": "Tue, 03 Nov 2026 18:44:42 GMT"
   },
   "certificado": {
    "sujeto": "*.github.io",
@@ -39,11 +39,11 @@
   },
   "build": {
    "estado": "built",
-   "commit": "369463c16eb45d259414a94693ad443e657343be",
-   "fecha": "2026-11-03T16:28:35Z",
-   "segundos": 56
+   "commit": "72cc02cfb491ff75146becc0156da0440fe65965",
+   "fecha": "2026-11-03T18:43:48Z",
+   "segundos": 57
   },
-  "head": "369463c16eb45d259414a94693ad443e657343be"
+  "head": "72cc02cfb491ff75146becc0156da0440fe65965"
  },
  "contenido_mixto": [],
  "sincronizacion": [
@@ -57,8 +57,8 @@
   {
    "archivo": "CLAUDE.md",
    "http": 200,
-   "bytes": 7663,
-   "sha256": "855b89a51fb21d9eef4af7f584beb484d838077d8ba1833d128a57ba6fe997d4",
+   "bytes": 8032,
+   "sha256": "0347b06d702bf8a78a3558e057500d7682fee42d5eb17c6a5798f5ffe14ec6b2",
    "igual": true
   },
   {
@@ -78,8 +78,8 @@
   {
    "archivo": "README.md",
    "http": 200,
-   "bytes": 8812,
-   "sha256": "d59f1b14eacdb0b82751ac000553d24a92b103f96341d89bfa7d39a21817181f",
+   "bytes": 9572,
+   "sha256": "db79fc3df4151a0a673231beeee7b7fe746cf1e8f2d37855bf0b3401f8acb04d",
    "igual": true
   },
   {
@@ -185,6 +185,13 @@
    "http": 200,
    "bytes": 20130,
    "sha256": "0f0c3f38107fcc81c10298c06f951d6bb59d13178db91d9e798826d063746580",
+   "igual": true
+  },
+  {
+   "archivo": "declaracion-ia.html",
+   "http": 200,
+   "bytes": 12559,
+   "sha256": "caa97731401ae6179243c6dc900d63108cd3dd34889e8154f7b044ae367c0886",
    "igual": true
   },
   {
@@ -337,8 +344,8 @@
   {
    "archivo": "docs/sprint-3/01_Terminos_y_Condiciones.docx",
    "http": 200,
-   "bytes": 46876,
-   "sha256": "72059205bfc5c3a90c9e9496f9f5a0b535e34ab83900b6503f2057ffbc50ee9a",
+   "bytes": 46932,
+   "sha256": "1ff528d1cce01e9ba42c2425135d9a76cec6588f1ea1994f43b61861e24bc960",
    "igual": true
   },
   {
@@ -517,10 +524,108 @@
    "igual": true
   },
   {
+   "archivo": "docs/sprint-4/02_Despliegue_en_Produccion_HTTPS.docx",
+   "http": 200,
+   "bytes": 508564,
+   "sha256": "ec9181a55fce1668e7c1b782b179f41aed04365abd7782d233cf9d9a0aa496b1",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/03_Auditoria_Legal_Final.docx",
+   "http": 200,
+   "bytes": 660358,
+   "sha256": "06d0185619a1ef48e3123e1308b7c59d84fa6f98b6e9db82ee453dc0ee786d3d",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/auditoria_legal.json",
+   "http": 200,
+   "bytes": 18742,
+   "sha256": "17a5445c72f834066c05736fef09ea0ac1b8ba2ea422958987b32a8741fd500b",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/catalogo-sello-ia.png",
+   "http": 200,
+   "bytes": 340936,
+   "sha256": "ec89ad3d5c094f4962665ea3e097dd2bd8aa7dbdcab1a090a9fd5848d46e467d",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/checkout-completo.png",
+   "http": 200,
+   "bytes": 97721,
+   "sha256": "c6e11f7013f15e788fdc9baa3f89c396486c8408bdd1c59a2779a614e9d5f0bb",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/checkout-confirmado.png",
+   "http": 200,
+   "bytes": 111296,
+   "sha256": "cd9e8dafce1bcfbb679fe72c8700cdb8b5f03d244f44607fa2fd42312329edde",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/despliegue.json",
+   "http": 200,
+   "bytes": 16328,
+   "sha256": "134a40047365fcd1089f2f2e72cf17100d0274ef139ed0e49097e6a67728b27e",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/index-escritorio.png",
+   "http": 200,
+   "bytes": 84131,
+   "sha256": "a173c31eadfc4dd34bd6c2665bf133f3fc377c596886923d8ea59b3cd1ced0f4",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/index-movil.png",
+   "http": 200,
+   "bytes": 54036,
+   "sha256": "510e292c6d8d25a0d976f442dd639ac07214a7980f691c9dd1ac132b68473314",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/politica-privacidad-escritorio.png",
+   "http": 200,
+   "bytes": 90345,
+   "sha256": "ec1bd67983cdd1507492d8027e2fa31d91e4c8d2c0528f089a05e2c67e242afc",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/politica-privacidad-movil.png",
+   "http": 200,
+   "bytes": 65786,
+   "sha256": "bd5bed0556b0de3cc2d8e958a290b2be34d8e2dea5c3a4f48818c263625de689",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/terminos-arrepentimiento.png",
+   "http": 200,
+   "bytes": 132299,
+   "sha256": "039cd9f080864324eead5a3b94ba52255ae505d968333b5b4c94d1831ece9e7a",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/terminos-y-condiciones-escritorio.png",
+   "http": 200,
+   "bytes": 84955,
+   "sha256": "9eee137c85f6737a38fa355120e03c9e5a880b8b1830bf6f1a7e1173b8b638be",
+   "igual": true
+  },
+  {
+   "archivo": "docs/sprint-4/evidencia/terminos-y-condiciones-movil.png",
+   "http": 200,
+   "bytes": 65621,
+   "sha256": "89dd405cf3640be978e16ae92882fdf826df01384b16ef56b212e092d38c4c65",
+   "igual": true
+  },
+  {
    "archivo": "index.html",
    "http": 200,
-   "bytes": 10494,
-   "sha256": "57f14766e3f1fa9ecf946d2494de4019fd490b9d5aced37144a5f852565000c6",
+   "bytes": 10552,
+   "sha256": "2bf0926a06b25595c9727e905a54bf8a219def6cd39ae23160e8460fe1fbce73",
    "igual": true
   },
   {
@@ -561,8 +666,8 @@
   {
    "archivo": "politica-privacidad.html",
    "http": 200,
-   "bytes": 14893,
-   "sha256": "a48c9817f8160792ebeb487cdecc310b5982204e9f22c8b5ec07dcf91ef76b35",
+   "bytes": 15589,
+   "sha256": "36c602c7203ccccdcaeca69e802085b4ae703e73f026fd1df6b625f5d1e83112",
    "igual": true
   },
   {
@@ -575,8 +680,8 @@
   {
    "archivo": "pruebas/auditoria_legal.mjs",
    "http": 200,
-   "bytes": 16596,
-   "sha256": "2ccde9b670bee639a91cec58583a11f9d9c8496cb4fddde32626c3c8ec3f67a6",
+   "bytes": 16640,
+   "sha256": "7954fb5127f19512fc6e26158cfc56546789f638c7411b526ab9c71bc41f283b",
    "igual": true
   },
   {
@@ -589,15 +694,15 @@
   {
    "archivo": "pruebas/responsive.mjs",
    "http": 200,
-   "bytes": 23893,
-   "sha256": "8131c1195853aa88c7695f1c72d27780f7eb515171eb36718ff3dfa2b38759d8",
+   "bytes": 24038,
+   "sha256": "8227881f103ea36d6d29d2576e4898cee863651988ea25ddfd88f8d6c6b45b03",
    "igual": true
   },
   {
    "archivo": "terminos-y-condiciones.html",
    "http": 200,
-   "bytes": 23464,
-   "sha256": "e8ba31dd2ed4c6bdd4ff2d8a5d033bed1609be5e33ab7431a07fb5d481f9eb66",
+   "bytes": 23770,
+   "sha256": "4e90e3a8e7e347ac37dfb08e19deee7f1c35d84d740b5820464a917e1cdb1258",
    "igual": true
   }
  ]
