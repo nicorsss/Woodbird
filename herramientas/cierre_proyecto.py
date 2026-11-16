@@ -77,8 +77,8 @@ PAQUETES = [
     ("1.4", "CSS responsive", "Software", 4, 5, d(22, 9), ""),
     ("1.5", "productos.json", "Software", 5, 5, d(22, 9), ""),
     ("1.6", "Pruebas responsive", "Software", 6, 6, d(28, 9), ""),
-    ("1.7", "Backend y base de datos", "Software", 7, 8, None, "No ejecutado: reemplazado por productos.json con Fetch API (22/10), SC-01"),
-    ("1.8", "Integración de pagos", "Software", 9, 9, d(22, 10), "Alcance reducido: checkout simulado (SC-01)"),
+    ("1.7", "Backend y base de datos", "Software", 7, 8, None, "No ejecutado: reemplazado por productos.json con Fetch API (22/10) y una función serverless de pago (16/11), SC-01"),
+    ("1.8", "Integración de pagos", "Software", 9, 9, d(22, 10), "Checkout simulado el 22/10 (SC-01); Mercado Pago Checkout Pro de prueba agregado el 16/11"),
     ("1.9", "Pruebas funcionales de compra", "Software", 10, 10, d(16, 11), "Automáticas el 03/11; manuales el 16/11"),
     ("1.10", "Corrección de errores y build final", "Software", 11, 11, d(3, 11), "Ícono, srcset y consola sin errores"),
     ("2.1", "Marca INPI y dominio NIC", "Legal", 1, 1, d(8, 9), ""),
@@ -86,7 +86,7 @@ PAQUETES = [
     ("2.3", "Política de privacidad", "Legal", 5, 5, d(22, 9), ""),
     ("2.4", "Licenciamiento", "Legal", 6, 6, d(23, 9), ""),
     ("2.5", "Revisión normativa (Términos y arrepentimiento)", "Legal", 8, 8, d(22, 10), ""),
-    ("2.6", "Publicación legal final y auditoría", "Legal", 11, 11, d(3, 11), "Auditoría 49/49"),
+    ("2.6", "Publicación legal final y auditoría", "Legal", 11, 11, d(3, 11), "Auditoría 49/49; 50/50 el 16/11"),
     ("3.1", "Lienzo Canvas", "Negocio", 1, 1, d(8, 9), ""),
     ("3.2", "Triple impacto", "Negocio", 2, 2, d(14, 9), ""),
     ("3.3", "Informe Startup vs. Tradicional", "Negocio", 4, 5, d(23, 9), ""),
@@ -137,7 +137,7 @@ SESIONES = [
     (d(27, 10), 3, 2.0, "Cuenta de Instagram y publicación de las 8 piezas", "Fecha de las publicaciones"),
     (d(28, 10), 3, 1.5, "Carpeta del Sprint 3 con la evidencia de Instagram", "Commit 5a7edc9"),
     (d(3, 11), 4, 6.0, "Imágenes con IA, despliegue, auditoría legal, pruebas automáticas y Lighthouse", "7 commits (12:51 a 16:49) y la generación en Gemini"),
-    (d(16, 11), 4, 6.5, "Pruebas manuales, métricas finales, costos, Acta de Cierre, portafolio y pitch", "Commits del 16/11"),
+    (d(16, 11), 4, 10.5, "Pago con Mercado Pago (función en Vercel), corrección del carrito y del checkout, Términos 1.3 y Política 1.2, pruebas manuales, métricas finales, costos, Acta de Cierre, portafolio y pitch", "Commits del 16/11 (9ab919a a 3a7ed2e) y el pago aprobado con un comprador de prueba"),
 ]
 HORAS_REALES = sum(s[2] for s in SESIONES)
 
@@ -147,10 +147,10 @@ RUBROS = [
      f"{num(HORAS_REALES)} h reales × {pesos(VALOR_HORA)}. El Acta no estimó horas: a ese valor, $80.000 alcanzan para "
      f"{num(80000 / VALOR_HORA)} h, la mitad de lo que llevó el proyecto."),
     ("Infraestructura, hosting y dominio", 30000, 0,
-     "GitHub Pages es gratuito e incluye HTTPS. No se registró el dominio woodbird.com.ar (hallazgo H2 de la auditoría): "
+     "GitHub Pages y el plan Hobby de Vercel (la función de pago) son gratuitos e incluyen HTTPS. No se registró el dominio woodbird.com.ar (hallazgo H2 de la auditoría): "
      "el contacto pasó a una cuenta de Gmail."),
     ("Servicios de pagos", 20000, 0,
-     "No se integró una pasarela real: el checkout es simulado, como piden las consignas (SC-01)."),
+     "Mercado Pago Checkout Pro se integró con credenciales de prueba, que no tienen costo ni cobran dinero real: las piezas son ficticias (SC-01, SC-06). En producción, Mercado Pago cobra una comisión por venta, no un abono."),
     ("Recursos gráficos, pruebas y contingencias", 20000, 0,
      "Imágenes generadas con el plan gratuito de Gemini; pruebas con Chrome, Edge, Lighthouse y Node, todos gratuitos."),
 ]
@@ -296,7 +296,8 @@ def costos():
     doc.add_picture(str(DESTINO / "05_Curva_S_Horas.png"), width=Inches(6.5))
     doc.add_paragraph(
         "La curva planificada sube de manera pareja; la real avanza en escalones. Todo el proyecto se hizo en 14 jornadas, y "
-        "cuatro de ellas (08/09, 22/09, 22/10 y 03/11) concentran el 49 % de las horas. Entre los escalones hay mesetas largas "
+        f"las cuatro más largas ({', '.join(corto(s[0]) for s in sorted(SESIONES, key=lambda s: -s[2])[:4])}) concentran el "
+        f"{num(sum(sorted((s[2] for s in SESIONES), reverse=True)[:4]) / HORAS_REALES * 100, 0)} % de las horas. Entre los escalones hay mesetas largas "
         "sin avances: del 05/10 al 21/10 y del 04/11 al 15/11. Esa forma es la que explica los atrasos: el esfuerzo total "
         "alcanzó, pero llegó tarde.")
 
@@ -326,12 +327,12 @@ def costos():
 
     doc.add_heading("6. Justificación de los desvíos", level=1)
     tabla(doc, ["Desvío", "Tipo", "Causa", "Efecto"], [
-        ("Horas de desarrollo +106 %", "Económico",
+        (f"Horas de desarrollo +{num((HORAS_REALES / HORAS_PLAN - 1) * 100, 0)} %", "Económico",
          "El Acta asignó $80.000 a desarrollo sin estimar horas por paquete. La EDT tampoco las tiene.",
          "La línea base de esfuerzo era irreal desde el inicio: el desvío es de estimación más que de ejecución."),
         ("Infraestructura, pagos y gráficos −100 %", "Económico (alcance)",
-         "Se eligieron servicios gratuitos (GitHub Pages, Gemini) y el checkout simulado de las consignas (SC-01).",
-         "Ahorro de $70.000, a cambio de no tener dominio propio ni pasarela de pagos real."),
+         "Se eligieron servicios gratuitos (GitHub Pages, Vercel, Gemini) y Mercado Pago con credenciales de prueba, sin cobros reales (SC-01).",
+         "Ahorro de $70.000, a cambio de no tener dominio propio ni cobrar ventas reales."),
         ("Sprint 1: +3 a +18 días", "Temporal",
          "Trabajo concentrado en la fecha de corrección y un repositorio que quedó vacío 18 días en el camino crítico.",
          "Corregido en el Sprint 2 con fast tracking: los paquetes S4–S6 cerraron antes de lo previsto."),
@@ -340,9 +341,9 @@ def costos():
          "Carpeta entregada el 28/10 (+5 d); campaña de Instagram publicada el 27/10 de una sola vez."),
         ("Sprint 4: +6 días", "Temporal",
          "Las tareas técnicas y legales cerraron el 03/11, una semana antes; después hubo 12 días sin avances.",
-         "Costos, Acta de Cierre, métricas, pruebas manuales y portafolio se entregaron el 16/11."),
+         "El pago con Mercado Pago, los costos, el Acta de Cierre, las métricas, las pruebas manuales y el portafolio se hicieron el 16/11."),
         ("Backend y base de datos", "Alcance",
-         "Las consignas del Sprint 3 piden consumir un JSON con Fetch API y una compra simulada.",
+         "Las consignas del Sprint 3 piden consumir un JSON con Fetch API. El único código de servidor es la función de pago (16/11).",
          "Paquete 1.7 no ejecutado; la SC-01 que lo formaliza sigue sin respuesta del docente (riesgo R4)."),
     ], [1.3, 0.9, 2.2, 2.1])
 
@@ -353,15 +354,16 @@ def costos():
         ("Avance físico (paquetes ejecutados)", f"{len(ejecutados)} de {len(PAQUETES)} ({num(va * 100, 0)} %)", "Uno reemplazado por cambio de alcance."),
         ("Índice de desempeño del cronograma (SPI) al 10/11", num(al_10 / len(PAQUETES), 2),
          f"Al 10/11 había {al_10} paquetes terminados de {len(PAQUETES)} planificados; los de cierre se completaron el 16/11."),
-        ("Esfuerzo real ÷ esfuerzo planificado", num(HORAS_REALES / HORAS_PLAN, 2), "Se trabajó el doble de lo estimado en el Acta."),
-        ("Costo real ÷ presupuesto (CPI inverso)", num(REAL_TOTAL / PLAN_TOTAL, 2), "Dentro de un 10 % del presupuesto total, gracias a los servicios gratuitos."),
+        ("Esfuerzo real ÷ esfuerzo planificado", num(HORAS_REALES / HORAS_PLAN, 2), "Se trabajó más del doble de lo estimado en el Acta."),
+        ("Costo real ÷ presupuesto (CPI inverso)", num(REAL_TOTAL / PLAN_TOTAL, 2),
+         f"{num((REAL_TOTAL / PLAN_TOTAL - 1) * 100, 0)} % por encima del presupuesto total; los servicios gratuitos compensaron parte de las horas."),
         ("Atraso de la entrega final", "6 días corridos", "Entrega comprometida el 10/11; real el 16/11."),
     ], [2.3, 1.4, 2.8])
 
     doc.add_heading("8. Conclusión", level=1)
     doc.add_paragraph(
-        "En lo económico, el proyecto cerró cerca del presupuesto total, pero por compensación: el esfuerzo de desarrollo se "
-        "subestimó a la mitad y los servicios pagos previstos se reemplazaron por alternativas gratuitas o simuladas. En lo "
+        f"En lo económico, el proyecto cerró un {num((REAL_TOTAL / PLAN_TOTAL - 1) * 100, 0)} % por encima del presupuesto total, y no más por compensación: el esfuerzo de desarrollo se "
+        "subestimó a menos de la mitad y los servicios pagos previstos se reemplazaron por alternativas gratuitas o de prueba. En lo "
         "temporal, el problema no fue la cantidad de horas sino su distribución: se trabajó en 14 jornadas aisladas, con dos "
         "mesetas de 17 y 12 días sin avances, y cada meseta terminó en una entrega atrasada. El producto se entregó completo "
         "y funcionando en producción; lo que falló fue la constancia del seguimiento.")
@@ -407,7 +409,7 @@ def acta():
         ("Carrito que permita agregar, quitar y modificar cantidades",
          "Carrito persistente con tope de unidades, control de stock y totales con envío (CP-11 a CP-16).", "Cumplido"),
         ("Sistema de pago que simule o procese una transacción",
-         "Checkout con pago simulado y número de pedido WB-XXXXXX. No hay pasarela real (SC-01).", "Cumplido como simulación"),
+         "Mercado Pago Checkout Pro con credenciales de prueba: el pago de un comprador de prueba se aprobó el 16/11 y el sitio muestra el resultado con el número de pedido WB-XXXXXX. No se cobra dinero real (SC-01).", "Cumplido en modo de prueba"),
         ("Checkout con datos del comprador y confirmación",
          "Formulario validado, consentimiento de privacidad, aceptación de Términos y aviso de arrepentimiento.", "Cumplido"),
         ("Pruebas funcionales antes de la presentación final",
@@ -419,9 +421,10 @@ def acta():
     doc.add_heading("3. Entrega del producto al cliente", level=1)
     doc.add_paragraph("Se entrega al cliente simulado (la cátedra) el siguiente producto, en su versión final:")
     tabla(doc, ["Entregable", "Ubicación", "Estado"], [
-        ("Sitio de comercio electrónico (catálogo, carrito, checkout simulado)", URL, "En producción, HTTPS"),
+        ("Sitio de comercio electrónico (catálogo, carrito, checkout y pago de prueba con Mercado Pago)", URL, "En producción, HTTPS"),
+        ("Función de pago (crea la preferencia de Mercado Pago)", "https://woodbird-h7cb.vercel.app (api/crear-preferencia.js)", "En producción, credenciales de prueba"),
         ("Código fuente y documentación de los 4 sprints", f"{REPO} (docs/sprint-1 a sprint-4)", "Público"),
-        ("Instrumentos legales en el sitio", "Declaración de IA, Política de Privacidad v1.1, Términos y Condiciones v1.2, botón de arrepentimiento", "Auditoría 49/49"),
+        ("Instrumentos legales en el sitio", "Declaración de IA, Política de Privacidad v1.2, Términos y Condiciones v1.3, botón de arrepentimiento", "Auditoría 50/50"),
         ("Cuenta comercial de Instagram", "@woodbird.ar (8 piezas publicadas)", "Activa"),
         ("Tablero Kanban", "Trello «Woodbird»", "Todas las tarjetas en Hecho, salvo SC-01"),
         ("Generadores de documentos y pruebas", "herramientas/ en el repositorio (cierre del riesgo R8)", "Versionados"),
@@ -429,7 +432,7 @@ def acta():
     doc.add_paragraph("Criterios de aceptación verificados: el sitio responde por HTTPS con certificado válido, el contenido "
                       "publicado es idéntico al del repositorio, la consola no registra errores, los 33 casos automáticos "
                       "cumplen en dos navegadores, Lighthouse da 100 en accesibilidad, buenas prácticas y SEO, y la auditoría "
-                      "legal cumple las 49 verificaciones.")
+                      "legal cumple las 50 verificaciones.")
 
     doc.add_heading("4. Pruebas manuales previas a la entrega", level=1)
     nombres = {"CP-32": "Correo de arrepentimiento", "CP-35": "Recorrido con teclado", "CP-36": "Lector de pantalla (NVDA)",
@@ -442,7 +445,7 @@ def acta():
          "Atrasos en los cuatro sprints. Es la causa estructural de los desvíos (ver 05_Costos)."),
         ("R2 Inicio tardío de cada sprint", "Materializado. Cerrado", "Mesetas del 05/10 al 21/10 y del 04/11 al 15/11."),
         ("R3 Campaña de Instagram sin publicar", "Cerrado", "Publicada el 27/10; métricas reales en el documento 07."),
-        ("R4 Alcance del Acta frente a la consigna (SC-01)", "Abierto", "Sin respuesta del docente. Se entrega con el alcance simulado de las consignas."),
+        ("R4 Alcance del Acta frente a la consigna (SC-01)", "Abierto", "Sin respuesta del docente. Se entrega con Mercado Pago en modo de prueba, sin cobros reales."),
         ("R6 Imágenes con IA", "Cerrado (03/11)", "12 imágenes con registro de herramienta y prompt."),
         ("R7 Navegadores y dispositivos no probados", "Cerrado", "CP-37 y CP-38 (sección 4)."),
         ("R8 Herramientas fuera del repositorio", "Cerrado (16/11)", "Los generadores se versionaron en herramientas/, sin credenciales."),
@@ -452,7 +455,7 @@ def acta():
 
     doc.add_heading("6. Solicitudes de cambio", level=1)
     tabla(doc, ["Solicitud", "Decisión", "Estado al cierre"], [
-        ("SC-01 Alcance simulado (sin backend ni pasarela real)", "Pendiente del docente", "Abierta"),
+        ("SC-01 Alcance simulado (sin base de datos ni cobros reales)", "Pendiente del docente", "Abierta; el pago usa Mercado Pago de prueba"),
         ("SC-02 Filtros y buscador", "Aprobada por el PM", "Implementada"),
         ("SC-03 Botón de arrepentimiento y Ventanilla Única", "Aprobada por el PM", "Implementada"),
         ("SC-04 Garantía propia de 12 meses", "Aprobada por el PM", "En Términos y Condiciones"),
@@ -469,8 +472,8 @@ def acta():
     doc.add_paragraph("El equipo es unipersonal, así que la evaluación se hace por rol, sobre una escala de 1 a 5.")
     tabla(doc, ["Rol", "Puntaje", "Fortalezas", "Aspectos a mejorar"], [
         ("Desarrollador", "4", "Sitio accesible y probado de forma automática; 0 errores de consola; Lighthouse 100 en tres categorías.",
-         "El backend previsto en el Acta no se hizo; pruebas manuales hechas al final."),
-        ("Responsable Legal", "4", "Términos, privacidad y arrepentimiento coherentes con el software; auditoría 49/49.",
+         "Del backend previsto en el Acta sólo se hizo la función de pago; pruebas manuales hechas al final."),
+        ("Responsable Legal", "4", "Términos, privacidad y arrepentimiento coherentes con el software, incluido Mercado Pago; auditoría 50/50.",
          "Cuatro hallazgos detectados recién en la auditoría final (H1 a H4)."),
         ("Responsable de Negocio", "3", "Propuesta de triple impacto clara; campaña de 8 piezas con CTA.",
          "Campaña publicada de una sola vez y tarde; poco tiempo para medir."),
@@ -484,7 +487,7 @@ def acta():
          "La constancia importa más que el esfuerzo total", "Hito semanal obligatorio y verificable"),
         ("Entregables exigidos que no estaban en la EDT ni en el tablero", "Carpeta del Sprint 1 e imágenes atrasadas",
          "Lo que no está en el tablero no se hace", "Cargar cada consigna completa en Trello el primer día"),
-        ("El Acta presupuestó sin estimar horas", "Desvío de +106 % en horas",
+        ("El Acta presupuestó sin estimar horas", f"Desvío de +{num((HORAS_REALES / HORAS_PLAN - 1) * 100, 0)} % en horas",
          "Un presupuesto sin estimación no sirve de línea base", "Estimar horas por paquete y registrar las reales"),
         ("Alcance del Acta distinto del de las consignas", "SC-01 abierta todo el proyecto",
          "Las diferencias de alcance hay que resolverlas al inicio", "Validar el Acta con el docente antes de la EDT"),
@@ -500,7 +503,7 @@ def acta():
     viñeta(doc, "SC-01.", "Respuesta del docente sobre el alcance simulado. Si se aprueba, se cierra R4.")
     viñeta(doc, "Dominio propio.", "Registrar woodbird.com.ar en NIC Argentina si el emprendimiento sigue (presupuesto previsto: $30.000).")
     viñeta(doc, "Fuentes locales.", "Alojar las fuentes en el sitio para subir el rendimiento móvil de las páginas legales (87 → ~100).")
-    viñeta(doc, "Pasarela real.", "Integrar Mercado Pago y un backend sólo si las piezas pasan a fabricarse y venderse.")
+    viñeta(doc, "Cobros reales.", "Pasar Mercado Pago a credenciales de producción (y quitar MP_MONTO_PRUEBA) sólo si las piezas pasan a fabricarse y venderse.")
 
     doc.add_heading("11. Aceptación y cierre", level=1)
     doc.add_paragraph("Con la firma de esta acta, el Project Manager declara cerrado el proyecto Woodbird y entrega el producto y su "

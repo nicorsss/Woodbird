@@ -1,6 +1,6 @@
 {
  "base": "https://nicorsss.github.io/Woodbird/",
- "fecha": "2026-11-03T18:51:06.061Z",
+ "fecha": "2026-11-16T19:50:20.890Z",
  "resultados": [
   {
    "id": "L01",
@@ -296,7 +296,7 @@
    "requisito": "Declara el consentimiento, la finalidad y los terceros que reciben datos técnicos",
    "norma": "Ley 25.326 arts. 5, 6 y 11",
    "cumple": true,
-   "evidencia": "Menciona: consentimiento, finalidad, Google Fonts"
+   "evidencia": "Menciona: consentimiento, finalidad, Google Fonts, Mercado Pago, Vercel"
   },
   {
    "id": "L13",
@@ -333,7 +333,7 @@
   {
    "id": "L17",
    "pagina": "Checkout",
-   "requisito": "Aviso visible de tienda de demostración: no hay ventas ni cobros",
+   "requisito": "Aviso visible de tienda de demostración: pago en modo de prueba, sin cobro real",
    "norma": "Ley 24.240 art. 4",
    "cumple": true,
    "evidencia": "Presente sobre el formulario"
@@ -365,10 +365,18 @@
   {
    "id": "L21",
    "pagina": "Checkout",
-   "requisito": "Al confirmar la compra no sale ningún pedido de red con los datos",
-   "norma": "Política de privacidad, cláusula 8; Ley 25.326 art. 9",
+   "requisito": "Al pasar al pago no sale ningún dato personal: sólo las piezas y cantidades a la función de pago",
+   "norma": "Política de privacidad, cláusulas 2, 7 y 8; Ley 25.326 art. 9",
    "cumple": true,
-   "evidencia": "0 pedidos de red durante la confirmación (0 con cuerpo); URL sin datos: true; formulario borrado: true. Mensaje: «¡Listo, Ana! Tu pedido simulado WB-11MX5N (2 piezas, $69.200 con envío) quedó confirmado. Como es una demostra…»"
+   "evidencia": "1 pedidos de red al pagar; a la función de pago: {\"items\":[{\"id\":1,\"cantidad\":1},{\"id\":3,\"cantidad\":1}]}; con datos personales: 0; URL sin datos: true; formulario borrado: true"
+  },
+  {
+   "id": "L25",
+   "pagina": "Checkout",
+   "requisito": "Al volver del pago se informa el número de pedido y el plazo de arrepentimiento",
+   "norma": "Ley 24.240 art. 34; CCyC art. 1111",
+   "cumple": true,
+   "evidencia": "«¡Gracias! Mercado Pago aprobó tu pago y te envió el comprobante por correo. Tu número de pedido es WB-PRUEBA: guardalo p…»; dirección final: #checkout"
   },
   {
    "id": "L22",
@@ -392,7 +400,7 @@
    "requisito": "Todas las páginas se sirven por HTTPS con un certificado válido",
    "norma": "Ley 25.326 art. 9 (seguridad de los datos)",
    "cumple": true,
-   "evidencia": "4 documentos; TLS 1.3, AES_128_GCM, certificado *.github.io emitido por YR1, válido hasta 2026-12-29"
+   "evidencia": "5 documentos; TLS 1.3, AES_128_GCM, certificado *.github.io emitido por YR1, válido hasta 2026-12-29"
   }
  ],
  "terceros": [
@@ -431,13 +439,29 @@
    "emisor": "YR1",
    "validoHasta": "2026-12-29",
    "estado": "secure"
+  },
+  "https://nicorsss.github.io/Woodbird/index.html?pago=aprobado&external_reference=WB-PRUEBA&payment_id=1": {
+   "protocolo": "TLS 1.3",
+   "cifrado": "AES_128_GCM",
+   "certificado": "*.github.io",
+   "emisor": "YR1",
+   "validoHasta": "2026-12-29",
+   "estado": "secure"
   }
  },
  "confirmacion": {
-  "texto": "¡Listo, Ana! Tu pedido simulado WB-11MX5N (2 piezas, $69.200 con envío) quedó confirmado. Como es una demostración, no se cobró nada y tus datos no se enviaron ni se guardaron. Si te arrepentís, tenés 10 días corridos desde la entrega: usá el Botón de arrepentimiento con el número WB-11MX5N.",
+  "redirige": true,
+  "error": "",
   "formularioVacio": true
  },
- "pedidosCompra": [],
+ "pedidosCompra": [
+  {
+   "metodo": "POST",
+   "url": "https://woodbird-h7cb.vercel.app/api/crear-preferencia",
+   "conCuerpo": true,
+   "cuerpo": "{\"items\":[{\"id\":1,\"cantidad\":1},{\"id\":3,\"cantidad\":1}]}"
+  }
+ ],
  "estados": {
   "Inicio movil": {
    "arrepentimiento": {

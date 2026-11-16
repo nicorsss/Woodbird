@@ -208,7 +208,7 @@ def despliegue(h, sinc, mixto, auditoria):
     doc.add_paragraph(
         "La auditoría automática recorrió el sitio publicado en un teléfono de 390 px y en un escritorio de 1366 px: el catálogo se "
         "carga con Fetch desde productos.json, las imágenes generadas con IA se muestran con su sello, el carrito suma y el checkout "
-        "confirma una compra simulada sin enviar datos. El detalle está en la Auditoría Legal Final (Tarea 4.6).")
+        "pasa al pago de Mercado Pago (en modo de prueba) enviando sólo las piezas y las cantidades. El detalle está en la Auditoría Legal Final (Tarea 4.6).")
     for nombre, ancho, pie in [("index-escritorio", 6.3, "Portada publicada en escritorio (1366 px)."),
                                ("catalogo-sello-ia", 6.3, "Catálogo en producción: tarjetas generadas desde productos.json, con imagen y sello «Imagen con IA».")]:
         doc.add_picture(str(EVIDENCIA / f"{nombre}.png"), width=Inches(ancho))
@@ -346,7 +346,7 @@ def auditoria_legal(a):
         celda.add_paragraph(pie).runs[0].italic = True
     doc.add_paragraph()
     doc.add_picture(str(EVIDENCIA / "checkout-confirmado.png"), width=Inches(6.3))
-    doc.add_paragraph("Compra simulada confirmada en producción: aceptación de Términos y Política, aviso de 10 días y número de pedido.").runs[0].italic = True
+    doc.add_paragraph("Vuelta desde Mercado Pago en producción: pago aprobado, número de pedido y recordatorio del plazo de arrepentimiento.").runs[0].italic = True
 
     doc.add_heading("5. Hallazgos de la revisión manual", level=1)
     doc.add_paragraph(
