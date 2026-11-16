@@ -861,6 +861,48 @@ body > footer small {
   color: var(--musgo);
 }
 
+/* Enlace destacado a Instagram: píldora con contorno, como «Agregar» */
+body > footer .instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 2);
+  min-height: var(--alto-tactil);
+  padding: calc(var(--u) * 2) calc(var(--u) * 5);
+  border: 1px solid var(--albura);
+  border-radius: var(--r-pildora);
+  color: var(--albura);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body > footer .instagram span {
+  font-weight: 400;
+  color: var(--musgo);
+}
+
+body > footer .instagram svg {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+body > footer .instagram svg .punto {
+  fill: currentColor;
+  stroke: none;
+}
+
+body > footer .instagram:hover,
+body > footer .instagram:focus-visible {
+  background: var(--albura);
+  color: var(--corteza);
+}
+
+body > footer .instagram:hover span,
+body > footer .instagram:focus-visible span {
+  color: var(--duramen);
+}
+
 /* ============================================================
    TABLETA (≥ 600px)
    ============================================================ */
