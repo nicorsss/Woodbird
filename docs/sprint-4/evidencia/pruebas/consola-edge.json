@@ -1,0 +1,23 @@
+[
+  {
+    "fase": "falla provocada (CP-10)",
+    "pagina": "index.html (390 px)",
+    "tipo": "recurso fallido",
+    "texto": "net::ERR_CONNECTION_FAILED",
+    "url": "https://nicorsss.github.io/Woodbird/productos.json"
+  },
+  {
+    "fase": "falla provocada (CP-10)",
+    "pagina": "index.html (390 px)",
+    "tipo": "navegador (error)",
+    "texto": "Failed to load resource: net::ERR_CONNECTION_FAILED",
+    "url": "https://nicorsss.github.io/Woodbird/productos.json"
+  },
+  {
+    "fase": "falla provocada (CP-10)",
+    "pagina": "index.html (390 px)",
+    "tipo": "console.error",
+    "texto": "Woodbird: no se pudo cargar el catálogo. TypeError: Failed to fetch\n    at cargarProductos (https://nicorsss.github.io/Woodbird/js/catalogo.js:26:27)\n    at https://nicorsss.github.io/Woodbird/js/app.js:11:27 Si abriste index.html como archivo, servilo con «python -m http.server».",
+    "url": ""
+  }
+]
