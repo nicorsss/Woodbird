@@ -568,7 +568,8 @@ main > section {
   color: var(--corteza);
 }
 
-#titulo-carrito:focus {
+#titulo-carrito:focus,
+#titulo-checkout:focus {
   outline: none;
 }
 

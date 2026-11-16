@@ -16,9 +16,9 @@ from docx.oxml.ns import qn
 from docx.shared import Pt, RGBColor, Inches
 
 RAIZ = Path(__file__).resolve().parent.parent / "sitio"
-VERSION = "1.2"
-VIGENCIA_ISO = "2026-11-03"
-VIGENCIA = "3 de noviembre de 2026"
+VERSION = "1.3"
+VIGENCIA_ISO = "2026-11-16"
+VIGENCIA = "16 de noviembre de 2026"
 
 # Hallazgo H2 de la auditoría del Sprint 4: el dominio woodbird.com.ar no existe; se usa un correo real.
 CORREO = "woodbirdshop@gmail.com"
@@ -55,8 +55,11 @@ CLAUSULAS = [
     ("caracter-de-demostracion", "Carácter de demostración del sitio", [
         ("p", "Woodbird es un proyecto académico de la Tecnicatura Superior en Desarrollo de Software del IES «René Favaloro». "
               "Mientras funcione como demostración, la tienda es una simulación: no se venden ni se entregan productos, no se "
-              "cobra ningún importe y los pedidos confirmados no generan obligaciones de pago ni de entrega para ninguna de "
-              "las partes."),
+              "cobra ningún importe real y los pedidos confirmados no generan obligaciones de pago ni de entrega para ninguna "
+              "de las partes."),
+        ("p", "El pago se hace con Mercado Pago en modo de prueba: sólo acepta cuentas y tarjetas de prueba de Mercado Pago "
+              "y no debita dinero. Durante las pruebas, Mercado Pago puede mostrar un importe simbólico, distinto del precio "
+              "del catálogo."),
         ("p", "Las piezas del catálogo son diseños ficticios generados con inteligencia artificial, inspirados en el tallado "
               "tradicional en maderas nativas del Chaco. No existe una pieza física detrás de cada diseño: Woodbird no tala "
               "ni trabaja madera y no envía productos. Esa es la propuesta de triple impacto del proyecto, porque el palo "
@@ -115,17 +118,24 @@ CLAUSULAS = [
             "quitarlas. El carrito muestra en todo momento el subtotal, el envío y el total.",
             "Datos: el usuario completa sus datos de contacto y la dirección de entrega, y acepta estos Términos y Condiciones "
             "y la [Política de privacidad](politica-privacidad.html).",
-            "Confirmación: al presionar «Ir al pago», el sitio verifica que el carrito no esté vacío y que los datos estén "
-            "completos y sean coherentes. Si todo es correcto, muestra la confirmación con un número de pedido (con el formato "
-            "WB-XXXXXX), la cantidad de piezas, el total y un recordatorio del derecho de arrepentimiento.",
+            "Pago: al presionar «Ir al pago», el sitio verifica que el carrito no esté vacío y que los datos estén completos "
+            "y sean coherentes. Si todo es correcto, lleva al usuario a Mercado Pago, que muestra el detalle de las piezas, "
+            "el envío y el total, y donde el usuario elige el medio de pago y confirma.",
+            "Resultado: al terminar, Mercado Pago devuelve al usuario al sitio, que informa si el pago fue aprobado, quedó "
+            "pendiente o fue rechazado. Si fue aprobado o quedó pendiente, muestra el número de pedido (con el formato "
+            "WB-XXXXXX) y un recordatorio del derecho de arrepentimiento. Mercado Pago envía además el comprobante por correo.",
         ]),
-        ("p", "Hasta presionar «Ir al pago», el usuario puede revisar y corregir su pedido. El número de pedido identifica la "
-              "compra en cualquier consulta, reclamo, uso de la garantía o arrepentimiento."),
+        ("p", "Hasta confirmar el pago en Mercado Pago, el usuario puede volver a la tienda y corregir su pedido. El número de "
+              "pedido identifica la compra en cualquier consulta, reclamo, uso de la garantía o arrepentimiento."),
     ]),
     ("medios-de-pago", "Medios de pago", [
-        ("p", "En la versión de demostración no se solicita ni se procesa ningún medio de pago. En una operación real, los "
-              "medios disponibles se informarán en el resumen de pago antes de confirmar, el cobro se hará a través de un "
-              "procesador de pagos autorizado y Woodbird no almacenará los datos de tarjetas."),
+        ("p", "El cobro lo procesa Mercado Pago, mediante su servicio Checkout Pro. Los medios de pago disponibles (por "
+              "ejemplo, tarjetas de crédito y de débito, dinero en cuenta o efectivo) los informa Mercado Pago antes de "
+              "confirmar. El usuario ingresa los datos de su tarjeta o de su cuenta directamente en Mercado Pago: Woodbird no "
+              "los recibe ni los almacena."),
+        ("p", "Los precios que cobra Mercado Pago los calcula el servidor de Woodbird a partir del catálogo publicado, nunca a "
+              "partir de lo que envía el navegador. Mientras el sitio sea una demostración, la integración funciona en modo de "
+              "prueba y no se debita ningún importe real."),
     ]),
     ("envios", "Envíos y entrega", [
         ("p", "El envío dentro de la ciudad de Resistencia tiene un costo fijo de $5.900 por pedido, que se suma al total "
@@ -209,8 +219,10 @@ CLAUSULAS = [
     ]),
     ("datos-personales", "Protección de datos personales", [
         ("p", "Los datos que se ingresan para comprar se tratan según la [Política de privacidad](politica-privacidad.html) "
-              "(Ley N° 25.326). Mientras el sitio sea una demostración, no se envían a ningún servidor ni se guardan: se "
-              "procesan sólo en su navegador. El carrito tampoco se guarda y se vacía al cerrar o recargar la página."),
+              "(Ley N° 25.326). Los datos del formulario de compra no se envían a ningún servidor ni se guardan: se validan "
+              "sólo en su navegador y se borran antes de pasar a Mercado Pago. Al servidor de pago de Woodbird sólo viajan las "
+              "piezas y sus cantidades. Los datos que el usuario ingrese en Mercado Pago para pagar los trata Mercado Pago, "
+              "según sus propias políticas. El carrito no se guarda y se vacía al cerrar o recargar la página."),
     ]),
     ("interpretacion", "Interpretación", [
         ("p", "Estos términos se interpretan en el sentido más favorable al consumidor y, si hay dudas sobre el alcance de una "
@@ -447,12 +459,14 @@ COHERENCIA = [
     ("6. Hasta 10 unidades", "Tope por pieza.", "js/carrito.js, constante MAXIMO; el campo corrige valores fuera de rango."),
     ("6. Verificación previa", "No se confirma con el carrito vacío ni con datos incoherentes.",
      "js/checkout.js: bloqueo con carrito vacío y reglas de nombre, correo, teléfono y código postal."),
-    ("6 y 9. Número de pedido y recordatorio", "La confirmación identifica el pedido y recuerda el arrepentimiento.",
-     "js/checkout.js: número WB-XXXXXX y aviso de 10 días en el mensaje de confirmación."),
+    ("6 y 9. Número de pedido y recordatorio", "El resultado del pago identifica el pedido y recuerda el arrepentimiento.",
+     "api/crear-preferencia.js genera el número WB-XXXXXX; js/checkout.js lo muestra al volver de Mercado Pago, con el recordatorio."),
+    ("7. Medios de pago", "El cobro lo hace Mercado Pago; los precios salen del catálogo.",
+     "api/crear-preferencia.js (Vercel) arma la preferencia de Checkout Pro con los precios de productos.json; el sitio no tiene campos de tarjeta."),
     ("9. Botón de arrepentimiento", "Acceso directo desde la página de inicio.",
      "Encabezado de index.html, politica-privacidad.html y terminos-y-condiciones.html."),
-    ("13. Datos personales", "Los datos no salen del navegador.",
-     "La compra no hace peticiones de red (verificado por pruebas/responsive.mjs en 11 anchos)."),
+    ("13. Datos personales", "Los datos del formulario no salen del navegador.",
+     "js/checkout.js sólo envía ids y cantidades a api/crear-preferencia.js y ejecuta reset() antes de pasar a Mercado Pago."),
     ("15. Reclamos", "Enlace a la Ventanilla Única Federal.", "Pie de las tres páginas del sitio."),
 ]
 
@@ -593,13 +607,14 @@ def documento():
                               "al botón «Ir al pago» y recordatorio en el mensaje de confirmación.")
 
     doc.add_heading("7. Requisitos pendientes antes de una operación real", level=1)
-    doc.add_paragraph("Mientras Woodbird funcione como simulación no hay ventas. Si el proyecto pasara a operar, antes del "
+    doc.add_paragraph("Mientras Woodbird funcione como simulación no hay ventas y Mercado Pago opera con credenciales de "
+                      "prueba. Si el proyecto pasara a operar, antes del "
                       "primer pedido habría que:")
     for item in [
         "Completar los datos de identificación del proveedor: razón social, CUIT y domicilio legal.",
         "Registrar un dominio propio y habilitar casillas de contacto y de arrepentimiento, con un responsable que responda dentro de las 24 h.",
         "Contratar el transporte y el seguro para los retiros por arrepentimiento y por garantía.",
-        "Definir los medios de pago y el procesador, y el procedimiento de reintegro.",
+        "Pasar Mercado Pago a credenciales de producción, quitar el importe simbólico de prueba y definir el procedimiento de reintegro.",
         "Publicar una nueva versión de estos términos e informar el cambio en el sitio.",
     ]:
         viñeta(doc, None, item)

@@ -16,6 +16,9 @@ const boton = document.getElementById("ir-al-pago");
 const confirmacion = document.getElementById("confirmacion");
 const error = document.getElementById("error-pago");
 const total = document.getElementById("total-checkout");
+const espera = document.getElementById("checkout-espera");
+const continuar = document.querySelector("#continuar-compra a");
+const titulo = document.getElementById("titulo-checkout");
 
 // Dirección de la función de pago desplegada en Vercel
 const API_PAGO = "https://woodbird-h7cb.vercel.app/api/crear-preferencia";
@@ -52,10 +55,38 @@ function aplicarRegla(campo) {
 // El mensaje de error se recalcula mientras la persona corrige el campo
 formulario.addEventListener("input", (evento) => aplicarRegla(evento.target));
 
+// Paso actual de la compra: carrito → datos → pago
+function marcarPaso(paso) {
+  for (const li of document.querySelectorAll("[data-paso]")) {
+    if (li.dataset.paso === paso) li.setAttribute("aria-current", "step");
+    else li.removeAttribute("aria-current");
+  }
+}
+
+// El formulario de datos se muestra recién cuando el carrito está listo
+function mostrarFormulario(visible) {
+  formulario.hidden = !visible;
+  espera.hidden = visible;
+  marcarPaso(visible ? "datos" : "carrito");
+}
+
+continuar.addEventListener("click", (evento) => {
+  // El salto se hace a mano para que el foco quede en el título y no lo pise el ancla
+  evento.preventDefault();
+  confirmacion.textContent = "";
+  error.textContent = "";
+  mostrarFormulario(true);
+  document.getElementById("checkout").scrollIntoView({ block: "start" });
+  titulo.focus({ preventScroll: true });
+  history.replaceState(null, "", "#checkout");
+});
+
 // El total del checkout sigue al carrito en tiempo real
 alCambiar((pedido) => {
   total.replaceChildren(precio(pedido.total));
   if (pedido.piezas > 0) error.textContent = "";
+  // Si el carrito queda vacío, se vuelve al primer paso
+  else if (!formulario.hidden && !boton.disabled) mostrarFormulario(false);
 });
 
 boton.addEventListener("click", async () => {
@@ -75,6 +106,7 @@ boton.addEventListener("click", async () => {
 
   boton.disabled = true;
   boton.textContent = "Conectando con Mercado Pago…";
+  marcarPaso("pago");
   try {
     const respuesta = await fetch(API_PAGO, {
       method: "POST",
@@ -93,23 +125,39 @@ boton.addEventListener("click", async () => {
     vaciar();
     window.location.assign(datos.url);
   } catch (falla) {
+    restaurarBoton();
+    marcarPaso("datos");
     // Un TypeError de fetch es una falla de red; su mensaje viene en inglés
     error.textContent = falla instanceof TypeError
       ? "No pudimos conectar con Mercado Pago. Revisá tu conexión y probá de nuevo."
       : falla.message;
-    boton.disabled = false;
-    boton.textContent = "Ir al pago";
   }
+});
+
+function restaurarBoton() {
+  boton.disabled = false;
+  boton.textContent = "Ir al pago";
+}
+
+// Si la persona vuelve desde Mercado Pago con «Atrás», el navegador puede restaurar la
+// página tal como quedó (con el botón bloqueado): se rehabilita y se vuelve al carrito.
+window.addEventListener("pageshow", (evento) => {
+  if (!evento.persisted || !boton.disabled) return;
+  restaurarBoton();
+  if (resumen().piezas === 0) mostrarFormulario(false);
 });
 
 // Vuelta desde Mercado Pago: muestra el resultado y limpia la dirección
 const vuelta = new URLSearchParams(window.location.search);
 const estado = vuelta.get("pago");
 if (VUELTAS[estado]) {
+  espera.hidden = true;
+  marcarPaso("pago");
   const numero = vuelta.get("external_reference");
   (estado === "rechazado" ? error : confirmacion).textContent =
     VUELTAS[estado] + (numero && estado !== "rechazado"
-      ? ` Tu número de pedido es ${numero}: guardalo para cualquier consulta o para usar el Botón de arrepentimiento.`
+      ? ` Tu número de pedido es ${numero}: guardalo para cualquier consulta. Si te arrepentís, tenés 10 días corridos ` +
+        "desde la entrega: usá el Botón de arrepentimiento con ese número."
       : "");
   history.replaceState(null, "", window.location.pathname + "#checkout");
 }

@@ -64,7 +64,10 @@ function armarItems(lineas) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", ORIGEN);
+  // Se acepta el sitio publicado y, para las pruebas, un servidor local
+  const origen = req.headers?.origin ?? "";
+  const local = /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(origen);
+  res.setHeader("Access-Control-Allow-Origin", local ? origen : ORIGEN);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Vary", "Origin");

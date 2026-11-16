@@ -28,7 +28,7 @@ const seguridad = {};
 b.on((e) => {
   if (e.method === "Network.requestWillBeSent") {
     const r = e.params.request;
-    pedidos.push({ metodo: r.method, url: r.url, conCuerpo: Boolean(r.hasPostData || r.postData) });
+    pedidos.push({ metodo: r.method, url: r.url, conCuerpo: Boolean(r.hasPostData || r.postData), cuerpo: r.postData ?? "" });
   }
   if (e.method === "Network.responseReceived" && e.params.type === "Document" && e.params.response.securityDetails) {
     const s = e.params.response.securityDetails;
@@ -144,7 +144,7 @@ for (const [id, pagina, requisito, norma, t, claves] of [
   ["L09", "Privacidad", "Identifica al responsable del tratamiento y su domicilio", "Ley 25.326 art. 6", priv, ["Responsable del tratamiento", "Reiss Jorge Nicolás", "Resistencia"]],
   ["L10", "Privacidad", "Informa los derechos de acceso, rectificación y supresión y cómo ejercerlos", "Ley 25.326 arts. 14 a 16", priv, ["acceso", "rectificación", "supresión"]],
   ["L11", "Privacidad", "Informa a la autoridad de control (AAIP)", "Ley 25.326 art. 29; Ley 27.275", priv, ["Agencia de Acceso a la Información Pública"]],
-  ["L12", "Privacidad", "Declara el consentimiento, la finalidad y los terceros que reciben datos técnicos", "Ley 25.326 arts. 5, 6 y 11", priv, ["consentimiento", "finalidad", "Google Fonts"]],
+  ["L12", "Privacidad", "Declara el consentimiento, la finalidad y los terceros que reciben datos técnicos", "Ley 25.326 arts. 5, 6 y 11", priv, ["consentimiento", "finalidad", "Google Fonts", "Mercado Pago", "Vercel"]],
   ["L13", "Términos", "Informa el derecho de arrepentimiento de 10 días corridos", "Ley 24.240 art. 34", term, ["arrepentimiento", "10 días"]],
   ["L14", "Términos", "Informa la garantía legal", "Ley 24.240 art. 11", term, ["garantía"]],
   ["L15", "Términos", "Declara el carácter simulado de la tienda y el uso de IA", "Ley 24.240 art. 4 (información veraz)", term, ["inteligencia artificial", "demostración"]],
@@ -177,16 +177,19 @@ await abrir("index.html", 1366, 1000);
 const chk = await b.evaluar(`(async () => {
   for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
   await new Promise((r) => setTimeout(r, 300));
+  // El formulario de datos aparece con «Continuar»
+  document.querySelector("#continuar-compra a").click();
+  await new Promise((r) => setTimeout(r, 300));
   const f = document.querySelector("#form-checkout");
   const sec = document.querySelector("#checkout");
   return {
     action: f.getAttribute("action"), metodo: f.getAttribute("method"), submit: f.querySelectorAll('[type="submit"]').length,
     terminosObligatorio: f.elements.terminos.required, consentimientoObligatorio: f.elements.consentimiento.required,
-    avisoDemo: /no se realizan ventas/i.test(sec.innerText),
+    avisoDemo: /demostración/i.test(sec.innerText) && /modo de prueba/i.test(sec.innerText) && /no se cobra dinero real/i.test(sec.innerText),
     aviso10: /10 días/.test(sec.innerText),
   };
 })()`);
-verificar("L17", "Checkout", "Aviso visible de tienda de demostración: no hay ventas ni cobros", "Ley 24.240 art. 4", chk.avisoDemo, chk.avisoDemo ? "Presente sobre el formulario" : "Falta");
+verificar("L17", "Checkout", "Aviso visible de tienda de demostración: pago en modo de prueba, sin cobro real", "Ley 24.240 art. 4", chk.avisoDemo, chk.avisoDemo ? "Presente sobre el formulario" : "Falta");
 verificar("L18", "Checkout", "Aceptación obligatoria de los Términos y de la Política de privacidad", "Ley 25.326 art. 5; Ley 24.240", chk.terminosObligatorio && chk.consentimientoObligatorio,
   `#terminos required=${chk.terminosObligatorio}; #consentimiento required=${chk.consentimientoObligatorio}`);
 verificar("L19", "Checkout", "Aviso del plazo de arrepentimiento antes de confirmar", "Ley 24.240 art. 34", chk.aviso10, chk.aviso10 ? "«Tenés 10 días corridos…» junto al botón de pago" : "Falta");
@@ -201,7 +204,22 @@ const sinAceptar = await b.evaluar(`(() => {
 verificar("L20", "Checkout", "Sin aceptar los Términos y la Política no se puede confirmar", "Ley 25.326 art. 5 (consentimiento libre, expreso e informado)",
   !sinAceptar.valido && sinAceptar.terminos && sinAceptar.consentimiento, `checkValidity()=${sinAceptar.valido}; las dos casillas informan un error de validación`);
 
-// Compra completa: se registra toda la red desde el clic de confirmación
+// Compra completa: se registra toda la red desde el clic de «Ir al pago». La función de pago se
+// reemplaza por una respuesta simulada que «redirige» a #pago-simulado, para no crear pagos reales.
+const CORS = [
+  { name: "Access-Control-Allow-Origin", value: new URL(BASE).origin },
+  { name: "Access-Control-Allow-Methods", value: "POST, OPTIONS" },
+  { name: "Access-Control-Allow-Headers", value: "Content-Type" },
+];
+await b.send("Fetch.enable", { patterns: [{ urlPattern: "*crear-preferencia*" }] });
+b.on((m) => {
+  if (m.method !== "Fetch.requestPaused") return;
+  const json = JSON.stringify({ numero: "WB-PRUEBA", url: BASE + "index.html#pago-simulado" });
+  b.send("Fetch.fulfillRequest", m.params.request.method === "OPTIONS"
+    ? { requestId: m.params.requestId, responseCode: 204, responseHeaders: CORS }
+    : { requestId: m.params.requestId, responseCode: 200, responseHeaders: [...CORS, { name: "Content-Type", value: "application/json" }],
+        body: Buffer.from(json).toString("base64") });
+});
 await b.evaluar(`(() => { const f = document.querySelector("#form-checkout"); f.elements.terminos.checked = true; f.elements.consentimiento.checked = true; })()`);
 await b.evaluar(`document.getElementById("checkout").scrollIntoView()`);
 await captura("checkout-completo");
@@ -209,20 +227,30 @@ pedidos = [];
 const urlAntes = await b.evaluar("location.href");
 const confirmacion = await b.evaluar(`(async () => {
   document.getElementById("ir-al-pago").click();
-  await new Promise((r) => setTimeout(r, 1500));
-  return { texto: document.getElementById("confirmacion").textContent.trim(), formularioVacio: document.querySelector("#form-checkout").elements.nombre.value === "" };
+  for (let i = 0; i < 30 && location.hash !== "#pago-simulado"; i++) await new Promise((r) => setTimeout(r, 100));
+  return { redirige: location.hash === "#pago-simulado", error: document.getElementById("error-pago").textContent,
+    formularioVacio: document.querySelector("#form-checkout").elements.nombre.value === "" };
 })()`);
+await b.send("Fetch.disable");
 await espera(1500);
+const pedidosCompra = pedidos.filter((p) => p.metodo !== "OPTIONS");
+const urlDespues = await b.evaluar("location.href");
+const datosEnUrl = /Ana|correo|Sarmiento|3500/i.test(urlDespues);
+const conDatos = pedidosCompra.filter((p) => /Ana|P[ée]rez|correo|Sarmiento|Resistencia|3500/i.test(p.url + p.cuerpo));
+const alPago = pedidosCompra.filter((p) => p.url.includes("crear-preferencia"));
+verificar("L21", "Checkout", "Al pasar al pago no sale ningún dato personal: sólo las piezas y cantidades a la función de pago", "Política de privacidad, cláusulas 2, 7 y 8; Ley 25.326 art. 9",
+  confirmacion.redirige && !confirmacion.error && confirmacion.formularioVacio && conDatos.length === 0 && alPago.length === 1 && !datosEnUrl,
+  `${pedidosCompra.length} pedidos de red al pagar; a la función de pago: ${alPago.map((p) => p.cuerpo).join(" ") || "ninguno"}; con datos personales: ${conDatos.length}; URL sin datos: ${!datosEnUrl}; formulario borrado: ${confirmacion.formularioVacio}`);
+
+// Vuelta desde Mercado Pago: resultado con número de pedido y dirección limpia
+await abrir("index.html?pago=aprobado&external_reference=WB-PRUEBA&payment_id=1#checkout");
+const vuelta = await b.evaluar(`({ texto: document.getElementById("confirmacion").textContent, direccion: location.search + location.hash })`);
 await b.evaluar(`document.getElementById("confirmacion").scrollIntoView({ block: "center" })`);
 await espera(300);
 await captura("checkout-confirmado");
-const pedidosCompra = pedidos.slice();
-const urlDespues = await b.evaluar("location.href");
-const datosEnUrl = /Ana|correo|Sarmiento|3500/i.test(urlDespues);
-verificar("L21", "Checkout", "Al confirmar la compra no sale ningún pedido de red con los datos", "Política de privacidad, cláusula 8; Ley 25.326 art. 9",
-  confirmacion.texto.startsWith("¡Listo") && confirmacion.formularioVacio &&
-  pedidosCompra.filter((p) => p.conCuerpo || /Ana|correo|Sarmiento/i.test(p.url)).length === 0 && !datosEnUrl,
-  `${pedidosCompra.length} pedidos de red durante la confirmación (${pedidosCompra.filter((p) => p.conCuerpo).length} con cuerpo); URL sin datos: ${!datosEnUrl}; formulario borrado: ${confirmacion.formularioVacio}. Mensaje: «${confirmacion.texto.slice(0, 110)}…»`);
+verificar("L25", "Checkout", "Al volver del pago se informa el número de pedido y el plazo de arrepentimiento", "Ley 24.240 art. 34; CCyC art. 1111",
+  vuelta.texto.includes("WB-PRUEBA") && vuelta.texto.includes("arrepentimiento") && vuelta.direccion === "#checkout",
+  `«${vuelta.texto.slice(0, 120)}…»; dirección final: ${vuelta.direccion}`);
 
 // Cookies y almacenamiento al terminar el recorrido
 const { cookies } = await b.send("Network.getAllCookies");

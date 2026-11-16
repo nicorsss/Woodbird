@@ -29,7 +29,7 @@ export function iniciarCarrito(productos) {
 
   cuerpo.addEventListener("click", (evento) => {
     const boton = evento.target.closest("[data-quitar]");
-    if (boton) quitar(Number(boton.dataset.quitar));
+    if (boton) quitarUno(Number(boton.dataset.quitar));
   });
 
   // Mientras se escribe sólo se aceptan cantidades válidas; al salir del campo
@@ -63,6 +63,20 @@ export function agregar(id) {
   }
   lineas.set(id, actual + 1);
   anunciar(`Agregaste ${producto.nombre} al carrito.`);
+  dibujar();
+}
+
+// «Quitar» saca una unidad; la fila desaparece recién cuando no queda ninguna
+export function quitarUno(id) {
+  const actual = lineas.get(id);
+  if (!actual) return;
+  if (actual === 1) {
+    quitar(id);
+    return;
+  }
+  lineas.set(id, actual - 1);
+  const producto = catalogo.get(id);
+  anunciar(`Quitaste un ${producto.nombre}. Quedan ${actual - 1} en el carrito.`);
   dibujar();
 }
 
@@ -110,7 +124,7 @@ function fila(producto) {
     el("td", { class: "cantidad" },
       el("label", { class: "visualmente-oculto", for: idCampo }, `Cantidad de ${producto.nombre}`),
       el("input", { type: "number", id: idCampo, name: idCampo, value: 1, min: 1, max: MAXIMO, "data-cantidad": producto.id }),
-      el("button", { type: "button", class: "quitar", "data-quitar": producto.id, "aria-label": `Quitar ${producto.nombre} del carrito` }, "Quitar")),
+      el("button", { type: "button", class: "quitar", "data-quitar": producto.id, "aria-label": `Quitar un ${producto.nombre} del carrito` }, "Quitar")),
     el("td", { class: "subtotal" }));
 }
 

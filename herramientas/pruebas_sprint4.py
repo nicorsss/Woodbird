@@ -35,6 +35,7 @@ def cargar(nav):
         return None
     leer = lambda n: json.loads((d / n).read_text(encoding="utf-8"))
     return {"r": leer("resultados.json"), "ec": leer("error-carga.json"),
+            "vuelta": leer("vuelta-pago.json") if (d / "vuelta-pago.json").exists() else None,
             "consola": leer("consola.json") if (d / "consola.json").exists() else None}
 
 
@@ -72,11 +73,17 @@ def evaluar(datos):
     caso("CP-13", todos(lambda x: x["carrito"]["cantidad3"]["total"] == 126000 == x["carrito"]["cantidad3"]["totalCheckout"]),
          f"total ${c0['cantidad3']['total']:,} en carrito y checkout".replace(",", "."))
     caso("CP-14", todos(lambda x: x["carrito"]["fueraDeRango"]["valor"] == "10"), f"25 → {c0['fueraDeRango']['valor']}")
-    caso("CP-15", todos(lambda x: tot(x["carrito"]["quitar"], 1, 1, 34300) and x["carrito"]["quitar"]["foco"] == "titulo-carrito"),
-         f"1 fila, total ${c0['quitar']['total']:,}, foco en #{c0['quitar']['foco']}".replace(",", "."))
+    # Desde el 16/11 «Quitar» saca una unidad: con 2 Cardenales queda 1; con 1, la fila desaparece
+    caso("CP-15", todos(lambda x: tot(x["carrito"]["quitarUno"], 2, 2, 69200) and x["carrito"]["quitarUno"]["cantidad"] == "1"
+                        and tot(x["carrito"]["quitar"], 1, 1, 34300) and x["carrito"]["quitar"]["foco"] == "titulo-carrito"),
+         f"Cardenal ×2 → ×1 (total ${c0['quitarUno']['total']:,}); con 1 unidad la fila se quita: 1 fila, total "
+         f"${c0['quitar']['total']:,}, foco en #{c0['quitar']['foco']}".replace(",", "."))
     v = c0["vacio"]
-    caso("CP-16", todos(lambda x: (lambda v: v["tablaOculta"] and v["contadorOculto"] and v["mensajeVisible"] and v["total"] == 0)(x["carrito"]["vacio"])),
-         "tabla y contador ocultos, mensaje visible, total $0")
+    # Con el carrito vacío tampoco se muestra el formulario de datos: el paso actual es «Carrito»
+    caso("CP-16", todos(lambda x: (lambda v: v["tablaOculta"] and v["contadorOculto"] and v["mensajeVisible"] and v["total"] == 0
+                                   and v["formularioOculto"] and v["paso"] == "carrito")(x["carrito"]["vacio"])
+                        and x["preparar"]["inicial"] == {"formularioOculto": True, "paso": "carrito"}),
+         "tabla y contador ocultos, mensaje visible, total $0; formulario de datos oculto y paso «Carrito» al cargar y al vaciar")
     caso("CP-17", todos(lambda x: x["carrito"]["anuncio"] == "Agregaste Cardenal al carrito."), f"«{c0['anuncio']}»")
     esperados = {"nombre", "email", "direccion", "localidad", "cp", "terminos", "consentimiento"}
     caso("CP-18", todos(lambda x: x["checkout"]["vacioBloquea"] and esperados <= set(x["checkout"]["invalidos"])),
@@ -84,13 +91,34 @@ def evaluar(datos):
     caso("CP-19", todos(lambda x: x["checkout"]["datosInconsistentesBloquean"] and len(x["checkout"]["mensajes"]) == 4),
          f"{len(k0['mensajes'])} mensajes propios: " + "; ".join(k0["mensajes"].values()))
     caso("CP-20", todos(lambda x: x["checkout"]["cpInvalidoBloquea"]), "No confirma con CP «35000»")
-    caso("CP-21", todos(lambda x: x["checkout"]["confirma"].startswith("¡Listo") and "WB-" in x["checkout"]["confirma"]
-                        and x["checkout"]["confVisible"] and x["checkout"]["borrado"] and x["checkout"]["carritoVaciado"]),
-         k0["confirma"][:110] + "…")
+    # Desde el 16/11 la compra válida pasa a Mercado Pago (Checkout Pro en modo de prueba): se verifica que el
+    # sitio redirija con la dirección que devuelve la función de pago, borre el formulario y el carrito, y que a
+    # la vuelta muestre el resultado con el número de pedido y limpie la dirección.
+    vu = datos.get("vuelta") or {}
+    vuelta_ok = (vu.get("aprobado", {}).get("confirmacion", "").startswith("¡Gracias") and "WB-PRUEBA" in vu["aprobado"]["confirmacion"]
+                 and "pendiente" in vu.get("pendiente", {}).get("confirmacion", "")
+                 and vu.get("rechazado", {}).get("error", "").startswith("Mercado Pago no pudo")
+                 and all(v["direccion"] == "#checkout" for v in vu.values()))
+    caso("CP-21", vuelta_ok and todos(lambda x: x["checkout"]["redirige"] and not x["checkout"]["errorPago"]
+                                      and x["checkout"]["pasoPago"] == "pago" and x["checkout"]["botonRestaurado"]
+                                      and x["checkout"]["borrado"] and x["checkout"]["carritoVaciado"]
+                                      and x["preparar"]["alContinuar"] == {"formularioVisible": True, "paso": "datos", "foco": "titulo-checkout"}),
+         "«Continuar» muestra el formulario (paso «Datos»); redirige a Mercado Pago (paso «Pago»), borra formulario y carrito "
+         "y rehabilita el botón al volver con «Atrás»; a la vuelta: «"
+         + vu.get("aprobado", {}).get("confirmacion", "sin datos")[:90] + "…»")
     caso("CP-22", todos(lambda x: str(x["checkout"]["carritoVacioBloquea"]).startswith("Tu carrito está vacío")), k0["carritoVacioBloquea"])
     caso("CP-23", todos(lambda x: x["legales"]["checkout"]["terminosObligatorio"] and "terminos" in x["checkout"]["invalidos"]),
          "#terminos required y marcado inválido")
-    caso("CP-24", todos(lambda x: x["checkout"]["peticionesDuranteCompra"] == []), "0 peticiones de red durante la compra")
+    # Sólo puede salir el pedido a la función de pago, y su cuerpo sólo lleva ids y cantidades
+    def sin_datos(x):
+        envios = [p for p in x["checkout"]["peticionesDuranteCompra"] if p["metodo"] != "OPTIONS"]
+        if len(envios) != 1 or "crear-preferencia" not in envios[0]["url"]:
+            return False
+        cuerpo = json.loads(envios[0]["cuerpo"] or "{}")
+        return list(cuerpo) == ["items"] and all(set(i) == {"id", "cantidad"} for i in cuerpo["items"])
+    caso("CP-24", todos(sin_datos),
+         "1 petición durante la compra, a la función de pago, sólo con ids y cantidades: "
+         + next((p["cuerpo"] for p in k0["peticionesDuranteCompra"] if p["metodo"] == "POST"), "sin datos"))
 
     paginas = sorted({x["pagina"] for x in r})
     n = len(r)

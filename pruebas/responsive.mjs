@@ -214,9 +214,16 @@ const CARRUSEL = `(async () => {
 const PREPARAR = `(async () => {
   // En producción el catálogo puede tardar más que la espera fija: se espera hasta 15 s a que aparezcan los botones
   for (let i = 0; i < 150 && !document.querySelector('[data-agregar="3"]'); i++) await new Promise((r) => setTimeout(r, 100));
+  const paso = () => document.querySelector("[data-paso][aria-current]")?.dataset.paso;
+  // Con el carrito vacío el formulario de datos no se muestra: el paso actual es «Carrito»
+  const inicial = { formularioOculto: document.querySelector("#form-checkout").hidden, paso: paso() };
   for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
   await new Promise((r) => setTimeout(r, 100));
-  return document.querySelectorAll("#filas-carrito tr").length;
+  // «Continuar» muestra el formulario y pasa al paso «Datos»
+  document.querySelector("#continuar-compra a").click();
+  await new Promise((r) => setTimeout(r, 100));
+  return { inicial, alContinuar: { formularioVisible: !document.querySelector("#form-checkout").hidden, paso: paso(),
+    foco: document.activeElement.id }, filas: document.querySelectorAll("#filas-carrito tr").length };
 })()`;
 
 // Catálogo generado desde productos.json, carrito, filtros y buscador
@@ -261,7 +268,12 @@ const CARRITO = `(async () => {
   r.cantidad3 = estado();                                  // 3 × 28400 + 34900 + 5900 = 126000
   await escribir(document.querySelector("#cant-1"), "25");
   r.fueraDeRango = { valor: document.querySelector("#cant-1").value, ...estado() };    // se corrige a 10
-  await escribir(document.querySelector("#cant-1"), "1");
+  await escribir(document.querySelector("#cant-1"), "2");
+
+  // «Quitar» saca una sola unidad: con 2 Cardenales queda 1 y la fila sigue
+  document.querySelector('[data-quitar="1"]').click();
+  await espera(100);
+  r.quitarUno = { ...estado(), cantidad: document.querySelector("#cant-1")?.value };      // 2 filas, Cardenal ×1: 69200
 
   document.querySelector('[data-quitar="3"]').click();
   await espera(100);
@@ -270,6 +282,8 @@ const CARRITO = `(async () => {
   document.querySelector('[data-quitar="1"]').click();
   await espera(100);
   r.vacio = { ...estado(), tablaOculta: document.querySelector("#carrito table").hidden,
+    formularioOculto: document.querySelector("#form-checkout").hidden,
+    paso: document.querySelector("[data-paso][aria-current]")?.dataset.paso,
     contadorOculto: document.querySelector("#contador-carrito").hidden,
     mensajeVisible: !document.querySelector("#carrito-vacio").hidden };
 
@@ -280,13 +294,16 @@ const CARRITO = `(async () => {
   r.sinResultados = { tarjetas: (await filtrar("todas", "pingüino")).length, estado: document.querySelector("#estado-catalogo").textContent };
   await filtrar("todas");
 
-  // Se deja el carrito como lo espera la prueba del checkout
+  // Se deja el carrito como lo espera la prueba del checkout, con el formulario visible
   for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
+  await espera(100);
+  document.querySelector("#continuar-compra a").click();
   await espera(100);
   return r;
 })()`;
 
-// Checkout simulado: valida, confirma, borra y no envía nada por la red
+// Checkout: valida, borra y pasa al pago. La función de pago (Vercel) se reemplaza
+// por una respuesta simulada que «redirige» a #pago-simulado, sin salir de la página.
 const CHECKOUT = `(async () => {
   const f = document.querySelector("#form-checkout"), b = document.querySelector("#ir-al-pago"), conf = document.querySelector("#confirmacion");
   b.click();
@@ -305,9 +322,14 @@ const CHECKOUT = `(async () => {
   const cpInvalidoBloquea = conf.textContent === "";
   set("cp", "3500");
   b.click();
-  await new Promise((r) => setTimeout(r, 200));
-  const confirma = conf.textContent;
-  const confVisible = conf.getBoundingClientRect().height > 0;
+  for (let i = 0; i < 30 && location.hash !== "#pago-simulado"; i++) await new Promise((r) => setTimeout(r, 100));
+  const redirige = location.hash === "#pago-simulado";
+  const pasoPago = document.querySelector("[data-paso][aria-current]")?.dataset.paso;
+  const errorPago = document.querySelector("#error-pago").textContent;
+  history.replaceState(null, "", location.pathname);
+  // Simula la vuelta con «Atrás» desde Mercado Pago (página restaurada de la caché)
+  window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true }));
+  const botonRestaurado = !b.disabled && b.textContent === "Ir al pago";
   const borrado = ["nombre", "email", "telefono", "direccion", "localidad", "cp"].every((id) => f.elements[id].value === "") && !f.elements.consentimiento.checked && !f.elements.terminos.checked;
   const carritoVaciado = document.querySelectorAll("#filas-carrito tr").length === 0 && document.querySelector("#contador-carrito").hidden;
 
@@ -319,7 +341,7 @@ const CHECKOUT = `(async () => {
   const carritoVacioBloquea = conf.textContent === "" ? document.querySelector("#error-pago").textContent : false;
   f.reset();
   conf.textContent = "";
-  return { vacioBloquea, invalidos, datosInconsistentesBloquean, mensajes, cpInvalidoBloquea, confirma, confVisible, borrado, carritoVaciado, carritoVacioBloquea };
+  return { vacioBloquea, invalidos, datosInconsistentesBloquean, mensajes, cpInvalidoBloquea, redirige, pasoPago, botonRestaurado, errorPago, borrado, carritoVaciado, carritoVacioBloquea };
 })()`;
 
 const PAGINAS = [
@@ -332,7 +354,10 @@ const PAGINAS = [
 const b = await lanzar();
 const peticiones = [];
 b.on((m) => {
-  if (m.method === "Network.requestWillBeSent") peticiones.push({ url: m.params.request.url, metodo: m.params.request.method, tipo: m.params.type });
+  if (m.method === "Network.requestWillBeSent") {
+    const q = m.params.request;
+    peticiones.push({ url: q.url, metodo: q.method, tipo: m.params.type, cuerpo: q.postData ?? null });
+  }
   if (m.method === "Network.responseReceived") {
     const p = peticiones.findLast((x) => x.url === m.params.response.url);
     if (p) p.estado = m.params.response.status;
@@ -362,6 +387,22 @@ b.on((m) => {
 });
 await b.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
 
+// Función de pago simulada: responde como api/crear-preferencia.js, con CORS
+const CORS = [
+  { name: "Access-Control-Allow-Origin", value: new URL(BASE).origin },
+  { name: "Access-Control-Allow-Methods", value: "POST, OPTIONS" },
+  { name: "Access-Control-Allow-Headers", value: "Content-Type" },
+];
+await b.send("Fetch.enable", { patterns: [{ urlPattern: "*crear-preferencia*" }] });
+b.on((m) => {
+  if (m.method !== "Fetch.requestPaused" || !m.params.request.url.includes("crear-preferencia")) return;
+  const json = JSON.stringify({ numero: "WB-PRUEBA", url: BASE + "index.html#pago-simulado" });
+  b.send("Fetch.fulfillRequest", m.params.request.method === "OPTIONS"
+    ? { requestId: m.params.requestId, responseCode: 204, responseHeaders: CORS }
+    : { requestId: m.params.requestId, responseCode: 200, responseHeaders: [...CORS, { name: "Content-Type", value: "application/json" }],
+        body: Buffer.from(json).toString("base64") });
+});
+
 const resultados = [];
 for (const pag of PAGINAS) {
   for (const v of VISTAS) {
@@ -372,10 +413,10 @@ for (const pag of PAGINAS) {
     await b.send("Page.navigate", { url: BASE + pag.ruta });
     await new Promise((r) => setTimeout(r, 1800));
     await b.evaluar("document.fonts.ready.then(() => true)");
-    if (pag.completo) await b.evaluar(PREPARAR);
+    const preparar = pag.completo ? await b.evaluar(PREPARAR) : null;
     const cargaPeticiones = peticiones.map((p) => ({ ...p }));
     const med = await b.evaluar(MEDIR);
-    const r = { pagina: pag.id, vista: v, medicion: med, carga: cargaPeticiones };
+    const r = { pagina: pag.id, vista: v, medicion: med, carga: cargaPeticiones, preparar };
 
     // captura de página completa
     const alto = med.disposicion.alturaPagina;
@@ -403,13 +444,28 @@ for (const pag of PAGINAS) {
     console.log(pag.id, v.id, "desborde", med.desborde, "chicos", med.tactilesChicos.length, "anclas", r.anclas.filter((a) => !a.ok).length, "fallas");
   }
 }
+// Vuelta desde Mercado Pago: el sitio muestra el resultado y limpia la dirección
+await b.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+const vuelta = {};
+for (const estado of ["aprobado", "pendiente", "rechazado"]) {
+  await b.send("Page.navigate", { url: BASE + `index.html?pago=${estado}&external_reference=WB-PRUEBA&payment_id=1#checkout` });
+  await new Promise((r) => setTimeout(r, 1500));
+  vuelta[estado] = await b.evaluar(`({
+    confirmacion: document.querySelector("#confirmacion").textContent,
+    error: document.querySelector("#error-pago").textContent,
+    direccion: location.search + location.hash,
+  })`);
+}
+await b.send("Fetch.disable");
+console.log("vuelta de Mercado Pago", JSON.stringify(vuelta));
+
 // Falla de carga del catálogo: productos.json no responde (red caída o archivo ausente)
 fase = "falla provocada (CP-10)";
 paginaActual = "index.html (390 px)";
 await b.send("Network.setCacheDisabled", { cacheDisabled: true });
 await b.send("Fetch.enable", { patterns: [{ urlPattern: "*productos.json*" }] });
 b.on((m) => {
-  if (m.method === "Fetch.requestPaused") b.send("Fetch.failRequest", { requestId: m.params.requestId, errorReason: "ConnectionFailed" });
+  if (m.method === "Fetch.requestPaused" && m.params.request.url.includes("productos.json")) b.send("Fetch.failRequest", { requestId: m.params.requestId, errorReason: "ConnectionFailed" });
 });
 await b.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
 await b.send("Page.navigate", { url: BASE + "index.html" });
@@ -426,6 +482,7 @@ console.log("error de carga", JSON.stringify(errorCarga));
 b.cerrar();
 writeFileSync(join(SALIDA, "resultados.json"), JSON.stringify(resultados, null, 2));
 writeFileSync(join(SALIDA, "error-carga.json"), JSON.stringify(errorCarga, null, 2));
+writeFileSync(join(SALIDA, "vuelta-pago.json"), JSON.stringify(vuelta, null, 2));
 writeFileSync(join(SALIDA, "consola.json"), JSON.stringify(consola, null, 2));
 const enRecorrido = consola.filter((c) => c.fase === "recorrido");
 console.log("consola", enRecorrido.length, "avisos en el recorrido;", consola.length - enRecorrido.length, "en la falla provocada");
