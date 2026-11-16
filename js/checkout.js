@@ -1,19 +1,30 @@
-// Checkout simulado.
-// El formulario no se envía: se validan los campos en el navegador y se muestra
-// una confirmación. Los datos personales no salen del equipo del usuario ni se
-// guardan en ningún lado (ver politica-privacidad.html, cláusulas 2 y 8).
+// Checkout con Mercado Pago (Checkout Pro).
+// Los campos se validan en el navegador y no se envían a ningún lado: al servidor
+// de pago (api/crear-preferencia.js, en Vercel) sólo viajan los ids y las
+// cantidades del carrito. El servidor arma la preferencia con los precios de
+// productos.json y devuelve la dirección de pago de Mercado Pago, donde la
+// persona paga. Al terminar, Mercado Pago la devuelve a index.html?pago=…#checkout.
 //
 // © 2026 Reiss Jorge Nicolás
 // SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
 
 import { alCambiar, resumen, vaciar } from "./carrito.js";
-import { pesos, precio } from "./utilidades.js";
+import { precio } from "./utilidades.js";
 
 const formulario = document.getElementById("form-checkout");
 const boton = document.getElementById("ir-al-pago");
 const confirmacion = document.getElementById("confirmacion");
 const error = document.getElementById("error-pago");
 const total = document.getElementById("total-checkout");
+
+// Dirección de la función de pago desplegada en Vercel
+const API_PAGO = "https://woodbird.vercel.app/api/crear-preferencia";
+
+const VUELTAS = {
+  aprobado: "¡Gracias! Mercado Pago aprobó tu pago y te envió el comprobante por correo.",
+  pendiente: "Tu pago quedó pendiente en Mercado Pago. Cuando se acredite, Mercado Pago te avisa por correo.",
+  rechazado: "Mercado Pago no pudo procesar el pago y no se te cobró nada. Podés volver a intentarlo con otro medio.",
+};
 
 // Reglas de consistencia que los atributos del HTML no alcanzan a expresar.
 // Un campo vacío devuelve "" y lo resuelve `required`, con su propio mensaje.
@@ -47,7 +58,7 @@ alCambiar((pedido) => {
   if (pedido.piezas > 0) error.textContent = "";
 });
 
-boton.addEventListener("click", () => {
+boton.addEventListener("click", async () => {
   confirmacion.textContent = "";
   error.textContent = "";
 
@@ -62,15 +73,43 @@ boton.addEventListener("click", () => {
     return;
   }
 
-  const nombre = formulario.elements.nombre.value.trim().split(/\s+/)[0];
-  const numero = "WB-" + Date.now().toString(36).slice(-6).toUpperCase();
-  const piezas = `${pedido.piezas} ${pedido.piezas === 1 ? "pieza" : "piezas"}`;
-  confirmacion.textContent =
-    `¡Listo, ${nombre}! Tu pedido simulado ${numero} (${piezas}, ${pesos(pedido.total)} con envío) quedó confirmado. ` +
-    "Como es una demostración, no se cobró nada y tus datos no se enviaron ni se guardaron. " +
-    `Si te arrepentís, tenés 10 días corridos desde la entrega: usá el Botón de arrepentimiento con el número ${numero}.`;
+  boton.disabled = true;
+  boton.textContent = "Conectando con Mercado Pago…";
+  try {
+    const respuesta = await fetch(API_PAGO, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: pedido.items.map(({ producto, cantidad }) => ({ id: producto.id, cantidad })),
+      }),
+    });
+    const datos = await respuesta.json().catch(() => ({}));
+    if (!respuesta.ok || !datos.url) {
+      throw new Error(datos.error ?? "Mercado Pago no pudo iniciar el pago. Probá de nuevo en unos minutos.");
+    }
 
-  // Se borran los datos del formulario apenas se usan, y el carrito queda vacío.
-  formulario.reset();
-  vaciar();
+    // Se borran los datos del formulario antes de salir hacia Mercado Pago
+    formulario.reset();
+    vaciar();
+    window.location.assign(datos.url);
+  } catch (falla) {
+    // Un TypeError de fetch es una falla de red; su mensaje viene en inglés
+    error.textContent = falla instanceof TypeError
+      ? "No pudimos conectar con Mercado Pago. Revisá tu conexión y probá de nuevo."
+      : falla.message;
+    boton.disabled = false;
+    boton.textContent = "Ir al pago";
+  }
 });
+
+// Vuelta desde Mercado Pago: muestra el resultado y limpia la dirección
+const vuelta = new URLSearchParams(window.location.search);
+const estado = vuelta.get("pago");
+if (VUELTAS[estado]) {
+  const numero = vuelta.get("external_reference");
+  (estado === "rechazado" ? error : confirmacion).textContent =
+    VUELTAS[estado] + (numero && estado !== "rechazado"
+      ? ` Tu número de pedido es ${numero}: guardalo para cualquier consulta o para usar el Botón de arrepentimiento.`
+      : "");
+  history.replaceState(null, "", window.location.pathname + "#checkout");
+}

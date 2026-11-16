@@ -1,0 +1,7 @@
+{
+  "name": "woodbird",
+  "private": true,
+  "description": "Sólo para la función de pago de Vercel (api/). El sitio no tiene build ni dependencias.",
+  "type": "module",
+  "engines": { "node": "22.x" }
+}
