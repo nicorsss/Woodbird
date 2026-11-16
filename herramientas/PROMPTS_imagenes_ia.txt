@@ -1,0 +1,41 @@
+PROMPTS PARA LA APP DE GEMINI (gemini.google.com, opción «Crear imagen»)
+Pegá cada prompt tal cual, en un chat nuevo por imagen. Guardá el resultado en esta carpeta
+con el nombre de archivo indicado (la extensión puede ser .png, .jpg o .webp).
+Revisá que la madera no tenga pintura ni partes de color (copetes rojos, pico de colores, etc.).
+
+1. Cardenal  →  cardenal.png
+Professional product photograph of a handcrafted wooden sculpture of a red-crested cardinal (Paroaria coronata), carved from a single piece of palo santo wood with its natural olive-green tone and fine grain. The crest is carved with visible gouge marks, the chest is smoothly polished, beeswax finish with a soft satin sheen. The crest is the same olive wood tone as the body, with no red and no paint of any kind. Unpainted, natural wood color only. The bird stands on a small integrated wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+2. Hornero  →  hornero.png
+Professional product photograph of a handcrafted wooden sculpture of a rufous hornero (Furnarius rufus) singing with its beak open and head raised, carved from Argentine algarrobo wood, warm medium brown with dark grain streaks that follow the curve of the back and wings. Unpainted, natural wood color only. The bird stands on a small integrated wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+3. Carpintero  →  carpintero.png
+Professional product photograph of a large handcrafted wooden sculpture of a woodpecker (Colaptes melanochroos) clinging vertically to a short carved tree trunk, carved from red quebracho wood, dense reddish-brown with fine grain. Unpainted, natural wood color only. The trunk rests on a flat wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+4. Chuña  →  chuna.png
+Professional product photograph of a handcrafted wooden sculpture of a red-legged seriema (Cariama cristata) in a walking pose, with long neck and the small upright crest of feathers on its forehead, carved from a single piece of palo santo wood with natural olive-green tone, no joints. Unpainted, natural wood color only. The bird stands on a small integrated wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+5. Benteveo  →  benteveo.png
+Professional product photograph of a handcrafted wooden sculpture of a great kiskadee (Pitangus sulphuratus) perched on a short carved branch, carved from Argentine algarrobo wood, warm medium brown with dark grain. The head stripe is suggested only by a subtle change of surface texture. Unpainted, natural wood color only. The branch rests on a small wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+6. Tero  →  tero.png
+Professional product photograph of a handcrafted wooden sculpture of a southern lapwing (Vanellus chilensis) in an alert guarding stance with wings slightly open, carved from red quebracho wood, dense reddish-brown with fine grain, standing on a natural-edge slice of log as a base. Unpainted, natural wood color only. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+7. Calandria  →  calandria.png
+Professional product photograph of a slender handcrafted wooden sculpture of a chalk-browed mockingbird (Mimus saturninus) with its long tail extended, carved from palo santo wood with natural olive-green tone, fine elegant lines. Unpainted, natural wood color only. The bird stands on a small integrated wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+8. Picaflor  →  picaflor.png
+Professional product photograph of a small handcrafted wooden sculpture of a hummingbird hovering in flight with wings spread, held up by a thin wooden rod rising from a small round base, carved from Argentine algarrobo wood, warm medium brown with dark grain. Unpainted, natural wood color only. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+9. Lechucita vizcachera  →  lechucita.png
+Professional product photograph of a handcrafted wooden sculpture of a burrowing owl (Athene cunicularia) facing forward, with large round eyes carved in low relief, carved from red quebracho wood, dense reddish-brown, matte linseed oil finish. Unpainted, natural wood color only. The owl stands on a small integrated wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, front view, square format, sharp focus, e-commerce catalog style.
+
+10. Tucán  →  tucan.png
+Professional product photograph of a large handcrafted wooden sculpture of a toco toucan (Ramphastos toco) perched in profile, its huge beak taking up almost half of the figure and carved from the lighter sapwood area, body carved from palo santo wood with natural olive-green tone. Unpainted, natural wood color only, the only color contrast comes from the wood itself. The bird perches on a short wooden branch on a base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, side profile view, square format, sharp focus, e-commerce catalog style.
+
+11. Zorzal  →  zorzal.png
+Professional product photograph of a handcrafted wooden sculpture of a rufous-bellied thrush (Turdus rufiventris) with its head tilted to one side, carved from Argentine algarrobo wood, warm medium brown, the chest showing the natural untinted wood grain. Unpainted, natural wood color only. The bird stands on a small integrated wooden base. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+
+12. Garza blanca  →  garza.png
+Professional product photograph of a tall handcrafted wooden sculpture of a great egret (Ardea alba) standing on one leg with a long S-curved neck, carved from red quebracho wood, dense reddish-brown with fine grain, on a wide wooden base for stability. Unpainted, natural wood color only, not white. Plain seamless white background, soft diffused studio lighting, gentle shadow under the base, three-quarter view, square format, sharp focus, e-commerce catalog style.
+

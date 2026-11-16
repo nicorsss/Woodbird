@@ -5,3 +5,5 @@ Thumbs.db
 pruebas/salida/
 pruebas/auditoria/
 pruebas/sprint4/
+herramientas/campana_html/lista*.json
+herramientas/__pycache__/
