@@ -10,6 +10,9 @@
 //   MP_ACCESS_TOKEN  credencial de Mercado Pago (de prueba o de producción)
 //   SITIO_URL        dirección pública del sitio, con barra final
 //                    (por defecto https://nicorsss.github.io/Woodbird/)
+//   MP_MONTO_PRUEBA  opcional: si existe, cada ítem (y el envío) se cobra este
+//                    monto, por ejemplo 0.01, para probar pagos con montos mínimos.
+//                    Sin la variable se cobran los precios de productos.json.
 //
 // © 2026 Reiss Jorge Nicolás
 // SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
@@ -20,6 +23,7 @@ const ENVIO = 5900;  // igual que js/carrito.js
 const MAXIMO = 10;   // tope de unidades por pieza, igual que js/carrito.js
 const SITIO = process.env.SITIO_URL ?? "https://nicorsss.github.io/Woodbird/";
 const ORIGEN = new URL(SITIO).origin;
+const PRUEBA = Number(process.env.MP_MONTO_PRUEBA) || 0;
 const catalogo = new Map(productos.map((p) => [p.id, p]));
 
 // Arma los ítems de la preferencia, o devuelve un texto de error
@@ -40,13 +44,13 @@ function armarItems(lineas) {
     vistos.add(id);
     items.push({
       id: String(producto.id),
-      title: `Woodbird · ${producto.nombre}`,
+      title: `Woodbird · ${producto.nombre}${PRUEBA ? " (monto de prueba)" : ""}`,
       description: `${producto.categoria} · ${producto.medida_cm} cm`,
       picture_url: new URL(producto.imagen_ia_url, SITIO).href,
       category_id: "home",
       quantity: cantidad,
       currency_id: "ARS",
-      unit_price: producto.precio_simulado,
+      unit_price: PRUEBA || producto.precio_simulado,
     });
   }
   items.push({
@@ -54,7 +58,7 @@ function armarItems(lineas) {
     title: "Envío",
     quantity: 1,
     currency_id: "ARS",
-    unit_price: ENVIO,
+    unit_price: PRUEBA || ENVIO,
   });
   return items;
 }
