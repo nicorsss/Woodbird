@@ -18,7 +18,7 @@ const error = document.getElementById("error-pago");
 const total = document.getElementById("total-checkout");
 
 // Dirección de la función de pago desplegada en Vercel
-const API_PAGO = "https://woodbird.vercel.app/api/crear-preferencia";
+const API_PAGO = "https://woodbird-h7cb.vercel.app/api/crear-preferencia";
 
 const VUELTAS = {
   aprobado: "¡Gracias! Mercado Pago aprobó tu pago y te envió el comprobante por correo.",
