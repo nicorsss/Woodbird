@@ -271,7 +271,7 @@ def a_html(texto):
     partes, ultimo = [], 0
     for m in ENLACE.finditer(texto):
         partes.append(html.escape(texto[ultimo:m.start()], quote=False))
-        partes.append(f'<a href="{html.escape(m.group(2))}">{html.escape(m.group(1), quote=False)}</a>')
+        partes.append(f'<a href="{html.escape(m.group(2))}"' + (' target="_blank" rel="noopener noreferrer"' if m.group(2).startswith("https:") else "") + f'>{html.escape(m.group(1), quote=False)}</a>')
         ultimo = m.end()
     partes.append(html.escape(texto[ultimo:], quote=False))
     return "".join(partes)
@@ -355,11 +355,10 @@ def pagina():
 
   <footer>
     <p><strong>Woodbird</strong> · Aves decorativas inspiradas en el tallado en maderas nativas del Chaco.</p>
-    <p class="redes"><a class="instagram" href="https://www.instagram.com/woodbird.ar/"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="punto"/></svg>Seguinos en Instagram <span>@woodbird.ar</span></a></p>
+    <p class="redes"><a class="instagram" href="https://www.instagram.com/woodbird.ar/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="punto"/></svg>Seguinos en Instagram <span>@woodbird.ar</span></a></p>
     <address>
       Juan José Castelli, Chaco, Argentina ·
-      <a href="mailto:{CORREO}">{CORREO}</a> ·
-      <a href="{INSTAGRAM}">Instagram @woodbird.ar</a>
+      <a href="mailto:{CORREO}">{CORREO}</a>
     </address>
     <ul>
       <li><a href="declaracion-ia.html">Declaración ética y transparencia de IA</a></li>
