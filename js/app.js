@@ -4,13 +4,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
 
 import { cargarProductos, iniciarCatalogo, mostrarErrorCatalogo } from "./catalogo.js";
-import { agregar, iniciarCarrito } from "./carrito.js";
-import "./checkout.js";
+import { agregar, comprarPorMayor, iniciarCarrito } from "./carrito.js";
+import { mostrarComprobante } from "./checkout.js";
 
 try {
   const productos = await cargarProductos();
   iniciarCarrito(productos);
-  iniciarCatalogo(productos, { alAgregar: agregar });
+  iniciarCatalogo(productos, { alAgregar: agregar, alComprarPorMayor: comprarPorMayor });
+  mostrarComprobante(productos);
 } catch (error) {
   mostrarErrorCatalogo(error);
 }

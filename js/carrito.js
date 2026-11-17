@@ -6,10 +6,9 @@
 // © 2026 Reiss Jorge Nicolás
 // SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
 
-import { el, precio } from "./utilidades.js";
+import { el, precio, precioUnitario, costoEnvio, MAYOR_DESDE } from "./utilidades.js";
 
-const ENVIO = 5900;  // envío fijo a Resistencia
-const MAXIMO = 10;   // tope de unidades por pieza
+const MAXIMO = 500;  // tope de unidades por pieza (alcanza para comprar por mayor)
 
 const tabla = document.querySelector("#carrito table");
 const cuerpo = document.getElementById("filas-carrito");
@@ -20,7 +19,10 @@ const contador = document.getElementById("contador-carrito");
 const enlaceNav = contador.closest("a");
 const anuncio = document.getElementById("anuncio-carrito");
 
+const etiquetaEnvio = document.getElementById("etiqueta-envio");
+
 const lineas = new Map();   // id del producto → cantidad
+let entrega = "envio";      // "envio" (Correo Argentino) o "retiro" (en el local)
 let catalogo = new Map();   // id del producto → producto
 const oyentes = [];
 
@@ -66,6 +68,21 @@ export function agregar(id) {
   dibujar();
 }
 
+// «Comprar por mayor» lleva la pieza a 100 unidades (o deja las que haya, si ya son más)
+export function comprarPorMayor(id) {
+  const producto = catalogo.get(id);
+  if (!producto?.stock) return;
+  const actual = lineas.get(id) ?? 0;
+  if (actual >= MAYOR_DESDE) {
+    anunciar(`Ya tenés ${actual} ${producto.nombre} en el carrito, con precio por mayor.`);
+    return;
+  }
+  lineas.set(id, MAYOR_DESDE);
+  anunciar(`Agregaste ${MAYOR_DESDE} ${producto.nombre} al carrito, con precio por mayor de ${producto.precio_mayor.toLocaleString("es-AR")} pesos cada uno.`);
+  dibujar();
+  document.getElementById("carrito").scrollIntoView();
+}
+
 // «Quitar» saca una unidad; la fila desaparece recién cuando no queda ninguna
 export function quitarUno(id) {
   const actual = lineas.get(id);
@@ -94,6 +111,13 @@ export function fijarCantidad(id, cantidad) {
   dibujar();
 }
 
+// Forma de entrega elegida en el checkout: cambia el costo de envío
+export function elegirEntrega(forma) {
+  if (forma === entrega || !["envio", "retiro"].includes(forma)) return;
+  entrega = forma;
+  dibujar();
+}
+
 export function vaciar() {
   lineas.clear();
   dibujar();
@@ -103,12 +127,13 @@ export function vaciar() {
 export function resumen() {
   const items = [...lineas].map(([id, cantidad]) => {
     const producto = catalogo.get(id);
-    return { producto, cantidad, subtotal: producto.precio_simulado * cantidad };
+    const unitario = precioUnitario(producto, cantidad);
+    return { producto, cantidad, unitario, porMayor: cantidad >= MAYOR_DESDE, subtotal: unitario * cantidad };
   });
   const piezas = items.reduce((suma, item) => suma + item.cantidad, 0);
   const subtotal = items.reduce((suma, item) => suma + item.subtotal, 0);
-  const envio = piezas > 0 ? ENVIO : 0;
-  return { items, piezas, subtotal, envio, total: subtotal + envio };
+  const envio = piezas > 0 ? costoEnvio(entrega, subtotal) : 0;
+  return { items, piezas, subtotal, entrega, envio, total: subtotal + envio };
 }
 
 export function alCambiar(oyente) {
@@ -120,7 +145,7 @@ function fila(producto) {
   return el("tr", { "data-id": producto.id },
     el("th", { scope: "row" }, producto.nombre, " ",
       el("small", {}, `${producto.categoria} · ${producto.medida_cm} cm`)),
-    el("td", {}, precio(producto.precio_simulado)),
+    el("td", { class: "unitario" }),
     el("td", { class: "cantidad" },
       el("label", { class: "visualmente-oculto", for: idCampo }, `Cantidad de ${producto.nombre}`),
       el("input", { type: "number", id: idCampo, name: idCampo, value: 1, min: 1, max: MAXIMO, "data-cantidad": producto.id }),
@@ -140,11 +165,17 @@ function dibujar() {
     const tr = filas.get(id) ?? cuerpo.appendChild(fila(producto));
     const campo = tr.querySelector("input");
     if (document.activeElement !== campo) campo.value = cantidad;
-    tr.querySelector(".subtotal").replaceChildren(precio(producto.precio_simulado * cantidad));
+    const unitario = precioUnitario(producto, cantidad);
+    tr.querySelector(".unitario").replaceChildren(precio(unitario),
+      ...(cantidad >= MAYOR_DESDE ? [" ", el("small", {}, "Precio por mayor")] : []));
+    tr.querySelector(".subtotal").replaceChildren(precio(unitario * cantidad));
   }
 
   const r = resumen();
   document.getElementById("subtotal-carrito").replaceChildren(precio(r.subtotal));
+  // Con un index.html viejo en caché (sin la fila nueva) el carrito sigue funcionando
+  if (etiquetaEnvio) etiquetaEnvio.textContent = entrega === "retiro" ? "Retiro en el local (Castelli)"
+    : r.envio === 0 && r.piezas > 0 ? "Envío por Correo Argentino (gratis desde $30.000)" : "Envío por Correo Argentino";
   document.getElementById("envio-carrito").replaceChildren(precio(r.envio));
   document.getElementById("total-carrito").replaceChildren(precio(r.total));
 

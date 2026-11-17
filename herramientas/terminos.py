@@ -16,9 +16,9 @@ from docx.oxml.ns import qn
 from docx.shared import Pt, RGBColor, Inches
 
 RAIZ = Path(__file__).resolve().parent.parent / "sitio"
-VERSION = "1.3"
-VIGENCIA_ISO = "2026-11-16"
-VIGENCIA = "16 de noviembre de 2026"
+VERSION = "1.4"
+VIGENCIA_ISO = "2026-11-17"
+VIGENCIA = "17 de noviembre de 2026"
 
 # Hallazgo H2 de la auditoría del Sprint 4: el dominio woodbird.com.ar no existe; se usa un correo real.
 CORREO = "woodbirdshop@gmail.com"
@@ -41,7 +41,7 @@ CLAUSULAS = [
     ("partes-y-aceptacion", "Partes y aceptación", [
         ("p", "Estos Términos y Condiciones regulan el uso del sitio web de Woodbird y las compras que se realicen en él. "
               "El proveedor es Woodbird, tienda online de aves decorativas inspiradas en el tallado en maderas nativas y diseñadas con inteligencia artificial, representada por "
-              "Reiss Jorge Nicolás, con domicilio en Resistencia, provincia del Chaco, República Argentina, y correo electrónico "
+              "Reiss Jorge Nicolás, con domicilio en Juan José Castelli, provincia del Chaco, República Argentina, y correo electrónico "
               "[" + CORREO + "](mailto:" + CORREO + "). Quien navega el sitio es el «usuario» y, cuando "
               "compra productos como destinatario final, el «consumidor» en los términos del artículo 1 de la Ley N° 24.240."),
         ("p", "Se trata de un contrato de adhesión a cláusulas generales predispuestas (artículos 984 a 989 del Código Civil y "
@@ -107,6 +107,10 @@ CLAUSULAS = [
     ("precios", "Precios y vigencia de la oferta", [
         ("p", "Los precios se expresan en pesos argentinos y son precios finales, con todos los impuestos incluidos. El costo "
               "de envío se informa por separado en el carrito y en el resumen de pago, antes de confirmar el pedido."),
+        ("p", "Venta por mayor: desde 100 unidades de una misma pieza en el mismo pedido, cada unidad de esa pieza se cobra "
+              "al precio por mayor, que es la mitad del precio individual y se informa en la ficha de cada pieza. Las "
+              "cantidades de piezas distintas no se suman para alcanzar el mínimo. El botón «Comprar por mayor» carga las "
+              "100 unidades de una vez, y el carrito indica qué piezas tienen el precio por mayor."),
         ("p", "Los precios y las condiciones obligan a Woodbird mientras estén publicados en el sitio (artículo 7 de la Ley "
               "N° 24.240 y artículo 1108 del Código Civil y Comercial). Un cambio de precio posterior no afecta a los pedidos "
               "ya confirmados."),
@@ -114,7 +118,7 @@ CLAUSULAS = [
     ("proceso-de-compra", "Proceso de compra", [
         ("p", "La compra se realiza en tres pasos:"),
         ("ul", [
-            "Carrito: el usuario agrega piezas desde el catálogo y puede cambiar la cantidad, hasta 10 unidades por pieza, o "
+            "Carrito: el usuario agrega piezas desde el catálogo y puede cambiar la cantidad, hasta 500 unidades por pieza, o "
             "quitarlas. El carrito muestra en todo momento el subtotal, el envío y el total.",
             "Datos: el usuario completa sus datos de contacto y la dirección de entrega, y acepta estos Términos y Condiciones "
             "y la [Política de privacidad](politica-privacidad.html).",
@@ -138,9 +142,13 @@ CLAUSULAS = [
               "prueba y no se debita ningún importe real."),
     ]),
     ("envios", "Envíos y entrega", [
-        ("p", "El envío dentro de la ciudad de Resistencia tiene un costo fijo de $5.900 por pedido, que se suma al total "
-              "antes de confirmar. Los pedidos se despachan dentro de los 5 días hábiles de confirmados."),
-        ("p", "La entrega se hace en el domicilio que indique el consumidor, que es el lugar de cumplimiento del contrato "
+        ("p", "En el checkout el consumidor elige la forma de entrega. El envío a domicilio se hace por Correo Argentino, "
+              "con un costo fijo de $5.900 por pedido que se suma al total antes de confirmar; es gratis cuando el subtotal "
+              "de las piezas llega a $30.000. El retiro en el local de Woodbird, en Juan José Castelli, Chaco, no tiene "
+              "costo. Los pedidos se despachan, o quedan listos para retirar, dentro de los 5 días hábiles de confirmados."),
+        ("p", "Al volver de Mercado Pago, el sitio muestra un comprobante con el número de pedido, las piezas, los "
+              "importes y la forma de entrega, que puede imprimirse o guardarse. No reemplaza a la factura."),
+        ("p", "La entrega se hace en el domicilio que indique el consumidor o, si eligió retirar, en el local, que es el lugar de cumplimiento del contrato "
               "(artículo 1109 del Código Civil y Comercial). Hasta la entrega, el riesgo de pérdida o daño de las piezas está "
               "a cargo de Woodbird, y cada pieza viaja embalada para protegerla de golpes. Si la entrega se demora más de lo "
               "informado, el consumidor puede exigir el cumplimiento, aceptar otro producto equivalente o rescindir el "
@@ -349,7 +357,7 @@ def pagina():
     <p><strong>Woodbird</strong> · Aves decorativas inspiradas en el tallado en maderas nativas del Chaco.</p>
     <p class="redes"><a class="instagram" href="https://www.instagram.com/woodbird.ar/"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="punto"/></svg>Seguinos en Instagram <span>@woodbird.ar</span></a></p>
     <address>
-      Resistencia, Chaco, Argentina ·
+      Juan José Castelli, Chaco, Argentina ·
       <a href="mailto:{CORREO}">{CORREO}</a> ·
       <a href="{INSTAGRAM}">Instagram @woodbird.ar</a>
     </address>
@@ -456,8 +464,10 @@ COHERENCIA = [
     ("4. Imágenes con IA", "Cada imagen lleva el sello «Imagen con IA».",
      "js/catalogo.js, figura(): el sello se genera en todas las tarjetas."),
     ("5. Precio final y envío informado", "El envío se informa antes de confirmar.",
-     "js/carrito.js, resumen(): subtotal, envío ($5.900) y total, visibles en el carrito y en el checkout."),
-    ("6. Hasta 10 unidades", "Tope por pieza.", "js/carrito.js, constante MAXIMO; el campo corrige valores fuera de rango."),
+     "js/carrito.js, resumen(): subtotal, envío (costoEnvio: $5.900, gratis desde $30.000, o $0 con retiro) y total, visibles en el carrito y en el checkout."),
+    ("5. Precio por mayor", "Mitad de precio desde 100 unidades de una misma pieza.",
+     "productos.json, campo precio_mayor; js/utilidades.js precioUnitario() y api/crear-preferencia.js aplican el mínimo MAYOR_DESDE."),
+    ("6. Hasta 500 unidades", "Tope por pieza.", "js/carrito.js, constante MAXIMO; el campo corrige valores fuera de rango."),
     ("6. Verificación previa", "No se confirma con el carrito vacío ni con datos incoherentes.",
      "js/checkout.js: bloqueo con carrito vacío y reglas de nombre, correo, teléfono y código postal."),
     ("6 y 9. Número de pedido y recordatorio", "El resultado del pago identifica el pedido y recuerda el arrepentimiento.",

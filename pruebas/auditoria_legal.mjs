@@ -141,7 +141,7 @@ const priv = await textoDe("politica-privacidad.html");
 const term = await textoDe("terminos-y-condiciones.html");
 const contiene = (t, ...claves) => claves.filter((k) => !t.toLowerCase().includes(k.toLowerCase()));
 for (const [id, pagina, requisito, norma, t, claves] of [
-  ["L09", "Privacidad", "Identifica al responsable del tratamiento y su domicilio", "Ley 25.326 art. 6", priv, ["Responsable del tratamiento", "Reiss Jorge Nicolás", "Resistencia"]],
+  ["L09", "Privacidad", "Identifica al responsable del tratamiento y su domicilio", "Ley 25.326 art. 6", priv, ["Responsable del tratamiento", "Reiss Jorge Nicolás", "Juan José Castelli"]],
   ["L10", "Privacidad", "Informa los derechos de acceso, rectificación y supresión y cómo ejercerlos", "Ley 25.326 arts. 14 a 16", priv, ["acceso", "rectificación", "supresión"]],
   ["L11", "Privacidad", "Informa a la autoridad de control (AAIP)", "Ley 25.326 art. 29; Ley 27.275", priv, ["Agencia de Acceso a la Información Pública"]],
   ["L12", "Privacidad", "Declara el consentimiento, la finalidad y los terceros que reciben datos técnicos", "Ley 25.326 arts. 5, 6 y 11", priv, ["consentimiento", "finalidad", "Google Fonts", "Mercado Pago", "Vercel"]],

@@ -70,8 +70,8 @@
           <label for="filtro-todas">Todas</label>
           <input class="visualmente-oculto" type="radio" id="filtro-palo-santo" name="filtro" value="palo-santo">
           <label for="filtro-palo-santo">Palo santo</label>
-          <input class="visualmente-oculto" type="radio" id="filtro-precio" name="filtro" value="hasta-25000">
-          <label for="filtro-precio">Hasta $25.000</label>
+          <input class="visualmente-oculto" type="radio" id="filtro-precio" name="filtro" value="hasta-20000">
+          <label for="filtro-precio">Hasta $20.000</label>
         </fieldset>
       </form>
 
@@ -102,7 +102,7 @@
             <td id="subtotal-carrito"><data value="0">$0</data></td>
           </tr>
           <tr>
-            <th scope="row" colspan="3">Envío a Resistencia</th>
+            <th scope="row" colspan="3" id="etiqueta-envio">Envío por Correo Argentino</th>
             <td id="envio-carrito"><data value="0">$0</data></td>
           </tr>
           <tr>
@@ -153,7 +153,25 @@
           </p>
         </fieldset>
 
-        <fieldset>
+        <!-- La forma de entrega cambia el costo de envío (js/carrito.js, elegirEntrega) -->
+        <fieldset id="entrega">
+          <legend>Entrega</legend>
+          <p class="consentimiento">
+            <input type="radio" id="entrega-envio" name="entrega" value="envio" checked>
+            <label for="entrega-envio">
+              <b>Envío a domicilio por Correo Argentino</b>: $5.900, gratis en compras desde $30.000.
+            </label>
+          </p>
+          <p class="consentimiento">
+            <input type="radio" id="entrega-retiro" name="entrega" value="retiro">
+            <label for="entrega-retiro">
+              <b>Retiro en el local de Woodbird</b>, en Juan José Castelli, Chaco: sin cargo.
+            </label>
+          </p>
+        </fieldset>
+
+        <!-- Con «Retiro en el local» este grupo se oculta y se deshabilita (no se valida) -->
+        <fieldset id="datos-envio">
           <legend>Dirección de entrega</legend>
           <p>
             <label for="direccion">Dirección</label>
@@ -199,6 +217,9 @@
 
       <p id="error-pago" class="error" role="alert"></p>
       <p id="confirmacion" class="confirmacion" role="status" aria-live="polite"></p>
+
+      <!-- Comprobante de la compra al volver de Mercado Pago (lo arma js/checkout.js) -->
+      <article id="comprobante" class="comprobante" aria-labelledby="titulo-comprobante" hidden></article>
     </section>
 
   </main>
@@ -208,7 +229,7 @@
     <p><strong>Woodbird</strong> · Aves decorativas inspiradas en el tallado en maderas nativas del Chaco.</p>
     <p class="redes"><a class="instagram" href="https://www.instagram.com/woodbird.ar/"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="punto"/></svg>Seguinos en Instagram <span>@woodbird.ar</span></a></p>
     <address>
-      Resistencia, Chaco, Argentina ·
+      Juan José Castelli, Chaco, Argentina ·
       <a href="mailto:woodbirdshop@gmail.com">woodbirdshop@gmail.com</a> ·
       <a href="https://www.instagram.com/woodbird.ar/">Instagram @woodbird.ar</a>
     </address>

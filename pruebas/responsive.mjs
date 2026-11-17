@@ -68,7 +68,11 @@ const MEDIR = `(() => {
   const tactilesChicos = interactivos.filter((el) => {
     if (el.tagName === "LABEL" && !el.closest(".chips")) return false; // etiquetas de campo: el objetivo es el input
     if (el.type === "checkbox") return false; // se evalúa aparte
-    const r = el.getBoundingClientRect();
+    // Un botón de opción se toca junto con su etiqueta: el objetivo es la unión de los dos
+    const etiqueta = el.type === "radio" && el.id ? document.querySelector('label[for="' + el.id + '"]') : null;
+    const r = etiqueta ? (() => { const a = el.getBoundingClientRect(), b = etiqueta.getBoundingClientRect();
+      return { width: Math.max(a.right, b.right) - Math.min(a.left, b.left), height: Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top) }; })()
+      : el.getBoundingClientRect();
     return !enLinea(el) && (r.height < 44 || r.width < 44);
   }).map((el) => { const r = el.getBoundingClientRect(); return desc(el) + " " + Math.round(r.width) + "×" + Math.round(r.height); });
   const enlacesEnLinea = interactivos.filter(enLinea).map((el) => {
@@ -257,27 +261,43 @@ const CARRITO = `(async () => {
   r.recientes = [...document.querySelectorAll("#lista-recientes h3")].map((h) => h.textContent);
   r.sinStock = [...document.querySelectorAll("#lista-catalogo button:disabled")].map((b) => b.closest("article").querySelector("h3").textContent);
   r.sellosIA = document.querySelectorAll("#lista-catalogo figcaption").length;
-  r.inicial = estado();                                    // esperado: 2 filas, 2 piezas, 69200
+  r.inicial = estado();                                    // esperado: 2 filas, 2 piezas, 20000 + 25000 = 45000 (envío gratis desde 30000)
 
   document.querySelector('[data-agregar="1"]').click();
   await espera(100);
-  r.agregarRepetido = { ...estado(), cantidad: document.querySelector("#cant-1").value };   // Cardenal ×2: 97600
+  r.agregarRepetido = { ...estado(), cantidad: document.querySelector("#cant-1").value };   // Cardenal ×2: 65000
   r.anuncio = document.querySelector("#anuncio-carrito").textContent;                     // aviso para lectores de pantalla
 
   await escribir(document.querySelector("#cant-1"), "3");
-  r.cantidad3 = estado();                                  // 3 × 28400 + 34900 + 5900 = 126000
-  await escribir(document.querySelector("#cant-1"), "25");
-  r.fueraDeRango = { valor: document.querySelector("#cant-1").value, ...estado() };    // se corrige a 10
+  r.cantidad3 = estado();                                  // 3 × 20000 + 25000 = 85000
+  await escribir(document.querySelector("#cant-1"), "600");
+  r.fueraDeRango = { valor: document.querySelector("#cant-1").value, ...estado() };    // se corrige a 500
+
+  // Venta por mayor: desde 100 unidades de una pieza rige la mitad del precio
+  await escribir(document.querySelector("#cant-1"), "99");
+  r.mayor99 = estado();                                    // 99 × 20000 + 25000 = 2005000
+  await escribir(document.querySelector("#cant-1"), "100");
+  r.mayor100 = { ...estado(), aviso: document.querySelector('#filas-carrito tr[data-id="1"] .unitario small')?.textContent ?? "" };
+                                                           // 100 × 10000 + 25000 = 1025000
   await escribir(document.querySelector("#cant-1"), "2");
 
   // «Quitar» saca una sola unidad: con 2 Cardenales queda 1 y la fila sigue
   document.querySelector('[data-quitar="1"]').click();
   await espera(100);
-  r.quitarUno = { ...estado(), cantidad: document.querySelector("#cant-1")?.value };      // 2 filas, Cardenal ×1: 69200
+  r.quitarUno = { ...estado(), cantidad: document.querySelector("#cant-1")?.value };      // 2 filas, Cardenal ×1: 45000
 
   document.querySelector('[data-quitar="3"]').click();
   await espera(100);
-  r.quitar = { ...estado(), foco: document.activeElement.id };                        // 1 fila, 34300
+  r.quitar = { ...estado(), foco: document.activeElement.id };                        // 1 fila, Cardenal 20000 + envío 5900 = 25900
+
+  // Retiro en el local: sin envío y sin pedir la dirección; al volver a «Envío» se cobra de nuevo
+  document.querySelector("#entrega-retiro").click();
+  await espera(50);
+  r.retiro = { ...estado(), etiqueta: document.querySelector("#etiqueta-envio").textContent,
+    direccionOculta: document.querySelector("#datos-envio").hidden && document.querySelector("#datos-envio").disabled };   // 20000
+  document.querySelector("#entrega-envio").click();
+  await espera(50);
+  r.envio = { ...estado(), direccionVisible: !document.querySelector("#datos-envio").hidden };                        // 25900
 
   document.querySelector('[data-quitar="1"]').click();
   await espera(100);
@@ -288,11 +308,23 @@ const CARRITO = `(async () => {
     mensajeVisible: !document.querySelector("#carrito-vacio").hidden };
 
   r.filtroPaloSanto = await filtrar("palo-santo");
-  r.filtroHasta25000 = await filtrar("hasta-25000");
+  r.filtroHasta20000 = await filtrar("hasta-20000");
   r.busquedaSinTilde = await filtrar("todas", "chuna");
   r.busquedaMadera = await filtrar("todas", "quebracho");
   r.sinResultados = { tarjetas: (await filtrar("todas", "pingüino")).length, estado: document.querySelector("#estado-catalogo").textContent };
   await filtrar("todas");
+
+  // «Comprar por mayor» carga 100 unidades de la pieza; «Quitar» la deja en 99 y vuelve el precio individual
+  document.querySelector('[data-mayor="3"]').click();
+  await espera(100);
+  r.botonMayor = { ...estado(), cantidad: document.querySelector("#cant-3")?.value,
+    anuncio: document.querySelector("#anuncio-carrito").textContent };           // 1 fila, 100 piezas, 1250000
+  document.querySelector('[data-quitar="3"]').click();
+  await espera(100);
+  r.botonMayorQuitar = estado();                           // 99 × 25000 = 2475000
+  await escribir(document.querySelector("#cant-3"), "1");
+  document.querySelector('[data-quitar="3"]').click();
+  await espera(100);
 
   // Se deja el carrito como lo espera la prueba del checkout, con el formulario visible
   for (const id of [1, 3]) document.querySelector('[data-agregar="' + id + '"]').click();
@@ -447,13 +479,29 @@ for (const pag of PAGINAS) {
 // Vuelta desde Mercado Pago: el sitio muestra el resultado y limpia la dirección
 await b.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
 const vuelta = {};
+// Pedido que el checkout deja en sessionStorage antes de ir a Mercado Pago, para el comprobante
+const PEDIDOS = {
+  aprobado: { numero: "WB-PRUEBA", fecha: "2026-11-17T15:30:00.000Z", entrega: "retiro", nombre: "Ana Pérez",
+    items: [{ id: 1, cantidad: 100 }], destino: null },
+  pendiente: { numero: "WB-PRUEBA", fecha: "2026-11-17T15:30:00.000Z", entrega: "envio", nombre: "Ana Pérez",
+    items: [{ id: 8, cantidad: 1 }], destino: { direccion: "Av. Sarmiento 123", localidad: "Resistencia", cp: "3500" } },
+  rechazado: { numero: "WB-PRUEBA", fecha: "2026-11-17T15:30:00.000Z", entrega: "envio", nombre: "Ana Pérez",
+    items: [{ id: 8, cantidad: 1 }], destino: null },
+};
 for (const estado of ["aprobado", "pendiente", "rechazado"]) {
+  await b.evaluar(`sessionStorage.setItem("woodbird-pedido", ${JSON.stringify(JSON.stringify(PEDIDOS[estado]))})`);
   await b.send("Page.navigate", { url: BASE + `index.html?pago=${estado}&external_reference=WB-PRUEBA&payment_id=1#checkout` });
   await new Promise((r) => setTimeout(r, 1500));
   vuelta[estado] = await b.evaluar(`({
     confirmacion: document.querySelector("#confirmacion").textContent,
     error: document.querySelector("#error-pago").textContent,
     direccion: location.search + location.hash,
+    comprobante: document.querySelector("#comprobante").hidden ? null : {
+      texto: document.querySelector("#comprobante").innerText,
+      total: Number(document.querySelector("#comprobante dl > div:last-child data")?.value),
+      desborde: document.documentElement.scrollWidth > innerWidth,
+    },
+    almacenado: sessionStorage.length,
   })`);
 }
 await b.send("Fetch.disable");

@@ -14,6 +14,16 @@ from pathlib import Path
 
 from gestion_sprint3 import CASOS
 
+# Casos agregados en el Sprint 4 (no están en el plan del Sprint 3) y nombres que cambiaron
+NUEVOS = {
+    "CP-06": ("CP-06", "Filtro por precio (hasta $20.000)"),
+    "CP-14": ("CP-14", "Cantidad fuera de rango (tope 500)"),
+    "CP-39": ("CP-39", "Precio por mayor desde 100 unidades"),
+    "CP-40": ("CP-40", "Botón «Comprar por mayor»"),
+    "CP-41": ("CP-41", "Entrega: envío o retiro en el local"),
+    "CP-42": ("CP-42", "Comprobante de compra a la vuelta del pago"),
+}
+
 sys.stdout.reconfigure(encoding="utf-8")
 SITIO = Path(__file__).resolve().parent.parent / "sitio"
 CORRIDAS = SITIO / "pruebas" / "sprint4"
@@ -57,7 +67,7 @@ def evaluar(datos):
     caso("CP-04", todos(lambda x: x["carrito"]["sellosIA"] == 12), f"{c0['sellosIA']} de 12 tarjetas con sello")
     caso("CP-05", todos(lambda x: sorted(x["carrito"]["filtroPaloSanto"]) == sorted(["Cardenal", "Chuña", "Calandria", "Tucán"])),
          ", ".join(c0["filtroPaloSanto"]))
-    caso("CP-06", todos(lambda x: len(x["carrito"]["filtroHasta25000"]) == 7), f"{len(c0['filtroHasta25000'])} piezas")
+    caso("CP-06", todos(lambda x: len(x["carrito"]["filtroHasta20000"]) == 9), f"{len(c0['filtroHasta20000'])} piezas")
     caso("CP-07", todos(lambda x: x["carrito"]["busquedaSinTilde"] == ["Chuña"]), ", ".join(c0["busquedaSinTilde"]))
     caso("CP-08", todos(lambda x: len(x["carrito"]["busquedaMadera"]) == 4), ", ".join(c0["busquedaMadera"]))
     caso("CP-09", todos(lambda x: x["carrito"]["sinResultados"]["tarjetas"] == 0 and "pingüino" in x["carrito"]["sinResultados"]["estado"]),
@@ -67,17 +77,31 @@ def evaluar(datos):
     def tot(e, filas, contador, total):
         return e["filas"] == filas and e["contador"] == contador and e["total"] == total and e["totalCheckout"] == total
 
-    caso("CP-11", todos(lambda x: tot(x["carrito"]["inicial"], 2, 2, 69200)), f"2 filas, contador 2, total ${c0['inicial']['total']:,}".replace(",", "."))
-    caso("CP-12", todos(lambda x: tot(x["carrito"]["agregarRepetido"], 2, 3, 97600) and x["carrito"]["agregarRepetido"]["cantidad"] == "2"),
+    caso("CP-11", todos(lambda x: tot(x["carrito"]["inicial"], 2, 2, 45000)), f"2 filas, contador 2, total ${c0['inicial']['total']:,}".replace(",", "."))
+    caso("CP-12", todos(lambda x: tot(x["carrito"]["agregarRepetido"], 2, 3, 65000) and x["carrito"]["agregarRepetido"]["cantidad"] == "2"),
          f"cantidad 2, contador 3, total ${c0['agregarRepetido']['total']:,}".replace(",", "."))
-    caso("CP-13", todos(lambda x: x["carrito"]["cantidad3"]["total"] == 126000 == x["carrito"]["cantidad3"]["totalCheckout"]),
+    caso("CP-13", todos(lambda x: x["carrito"]["cantidad3"]["total"] == 85000 == x["carrito"]["cantidad3"]["totalCheckout"]),
          f"total ${c0['cantidad3']['total']:,} en carrito y checkout".replace(",", "."))
-    caso("CP-14", todos(lambda x: x["carrito"]["fueraDeRango"]["valor"] == "10"), f"25 → {c0['fueraDeRango']['valor']}")
+    caso("CP-14", todos(lambda x: x["carrito"]["fueraDeRango"]["valor"] == "500"), f"600 → {c0['fueraDeRango']['valor']}")
     # Desde el 16/11 «Quitar» saca una unidad: con 2 Cardenales queda 1; con 1, la fila desaparece
-    caso("CP-15", todos(lambda x: tot(x["carrito"]["quitarUno"], 2, 2, 69200) and x["carrito"]["quitarUno"]["cantidad"] == "1"
-                        and tot(x["carrito"]["quitar"], 1, 1, 34300) and x["carrito"]["quitar"]["foco"] == "titulo-carrito"),
+    caso("CP-15", todos(lambda x: tot(x["carrito"]["quitarUno"], 2, 2, 45000) and x["carrito"]["quitarUno"]["cantidad"] == "1"
+                        and tot(x["carrito"]["quitar"], 1, 1, 25900) and x["carrito"]["quitar"]["foco"] == "titulo-carrito"),
          f"Cardenal ×2 → ×1 (total ${c0['quitarUno']['total']:,}); con 1 unidad la fila se quita: 1 fila, total "
          f"${c0['quitar']['total']:,}, foco en #{c0['quitar']['foco']}".replace(",", "."))
+    # Venta por mayor (17/11): desde 100 unidades de una pieza rige la mitad del precio
+    caso("CP-39", todos(lambda x: tot(x["carrito"]["mayor99"], 2, 100, 2005000) and tot(x["carrito"]["mayor100"], 2, 101, 1025000)
+                        and x["carrito"]["mayor100"]["aviso"] == "Precio por mayor"),
+         f"Cardenal ×99: ${c0['mayor99']['total']:,}; ×100: ${c0['mayor100']['total']:,} con «Precio por mayor»".replace(",", "."))
+    caso("CP-40", todos(lambda x: tot(x["carrito"]["botonMayor"], 1, 100, 1250000) and x["carrito"]["botonMayor"]["cantidad"] == "100"
+                        and tot(x["carrito"]["botonMayorQuitar"], 1, 99, 2475000)),
+         f"«Comprar por mayor» carga 100 Carpinteros (${c0['botonMayor']['total']:,}); con 99 vuelve el precio individual "
+         f"(${c0['botonMayorQuitar']['total']:,})".replace(",", "."))
+    # Entrega (17/11): retiro sin cargo y sin dirección; envío $5.900, gratis desde $30.000 de subtotal
+    caso("CP-41", todos(lambda x: tot(x["carrito"]["retiro"], 1, 1, 20000) and x["carrito"]["retiro"]["direccionOculta"]
+                        and tot(x["carrito"]["envio"], 1, 1, 25900) and x["carrito"]["envio"]["direccionVisible"]
+                        and tot(x["carrito"]["inicial"], 2, 2, 45000)),
+         f"Cardenal con retiro: ${c0['retiro']['total']:,} («{c0['retiro']['etiqueta']}», sin dirección); con envío: "
+         f"${c0['envio']['total']:,}; Cardenal + Carpintero ($45.000): envío gratis".replace(",", "."))
     v = c0["vacio"]
     # Con el carrito vacío tampoco se muestra el formulario de datos: el paso actual es «Carrito»
     caso("CP-16", todos(lambda x: (lambda v: v["tablaOculta"] and v["contadorOculto"] and v["mensajeVisible"] and v["total"] == 0
@@ -106,6 +130,14 @@ def evaluar(datos):
          "«Continuar» muestra el formulario (paso «Datos»); redirige a Mercado Pago (paso «Pago»), borra formulario y carrito "
          "y rehabilita el botón al volver con «Atrás»; a la vuelta: «"
          + vu.get("aprobado", {}).get("confirmacion", "sin datos")[:90] + "…»")
+    # Comprobante (17/11): con el pedido que el checkout deja en sessionStorage, la vuelta muestra el ticket
+    ca, cp_ = (vu.get("aprobado") or {}).get("comprobante") or {}, (vu.get("pendiente") or {}).get("comprobante") or {}
+    caso("CP-42", ca.get("total") == 1000000 and "Castelli" in ca.get("texto", "") and "precio por mayor" in ca.get("texto", "")
+                  and cp_.get("total") == 20900 and "Av. Sarmiento 123" in cp_.get("texto", "")
+                  and (vu.get("rechazado") or {}).get("comprobante") is None
+                  and not ca.get("desborde") and all(v.get("almacenado") == 0 for v in vu.values()),
+         f"Aprobado: 100 Cardenales por mayor con retiro en Castelli, total ${ca.get('total', 0):,}; pendiente: Picaflor "
+         f"con envío, total ${cp_.get('total', 0):,}; rechazado: sin comprobante; sessionStorage vacío después".replace(",", "."))
     caso("CP-22", todos(lambda x: str(x["checkout"]["carritoVacioBloquea"]).startswith("Tu carrito está vacío")), k0["carritoVacioBloquea"])
     caso("CP-23", todos(lambda x: x["legales"]["checkout"]["terminosObligatorio"] and "terminos" in x["checkout"]["invalidos"]),
          "#terminos required y marcado inválido")
@@ -115,9 +147,11 @@ def evaluar(datos):
         if len(envios) != 1 or "crear-preferencia" not in envios[0]["url"]:
             return False
         cuerpo = json.loads(envios[0]["cuerpo"] or "{}")
-        return list(cuerpo) == ["items"] and all(set(i) == {"id", "cantidad"} for i in cuerpo["items"])
+        # Desde el 17/11 viaja también la forma de entrega («envio» o «retiro»), que no es un dato personal
+        return (list(cuerpo) == ["items", "entrega"] and cuerpo["entrega"] in ("envio", "retiro")
+                and all(set(i) == {"id", "cantidad"} for i in cuerpo["items"]))
     caso("CP-24", todos(sin_datos),
-         "1 petición durante la compra, a la función de pago, sólo con ids y cantidades: "
+         "1 petición durante la compra, a la función de pago, sólo con ids, cantidades y forma de entrega: "
          + next((p["cuerpo"] for p in k0["peticionesDuranteCompra"] if p["metodo"] == "POST"), "sin datos"))
 
     paginas = sorted({x["pagina"] for x in r})
@@ -227,6 +261,7 @@ def informe(filas):
 
     doc.add_heading("3. Resultados de los casos automáticos", level=1)
     nombres = {c[0]: c for _, casos in CASOS for c in casos}
+    nombres.update(NUEVOS)
     t = [(id_, nombres[id_][1], *[("Cumple" if filas[n][id_][0] else "NO CUMPLE") for n in navs], filas[navs[0]][id_][1])
          for id_ in automaticos]
     tabla(doc, ["Caso", "Prueba", *[NAVEGADORES[n].split(" (")[0] for n in navs], "Evidencia medida"], t,

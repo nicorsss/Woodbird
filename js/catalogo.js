@@ -4,7 +4,7 @@
 // © 2026 Reiss Jorge Nicolás
 // SPDX-License-Identifier: GPL-3.0-or-later (ver LICENSE)
 
-import { el, normalizar, precio } from "./utilidades.js";
+import { el, normalizar, precio, pesos, MAYOR_DESDE } from "./utilidades.js";
 
 const listaCatalogo = document.getElementById("lista-catalogo");
 const listaRecientes = document.getElementById("lista-recientes");
@@ -17,7 +17,7 @@ const campoBusqueda = document.getElementById("buscar");
 const FILTROS = {
   "todas": () => true,
   "palo-santo": (p) => p.categoria === "Palo santo",
-  "hasta-25000": (p) => p.precio_simulado <= 25000,
+  "hasta-20000": (p) => p.precio_simulado <= 20000,
 };
 
 const RECIENTES = 4;
@@ -58,12 +58,15 @@ function tarjeta(producto, conBoton) {
     figura(producto, conBoton),
     el("h3", {}, producto.nombre),
     el("p", {}, `${producto.categoria} · ${producto.medida_cm} cm`),
-    el("p", { class: "precio" }, precio(producto.precio_simulado)));
+    el("p", { class: "precio" }, precio(producto.precio_simulado)),
+    el("p", { class: "por-mayor" }, `Por mayor: ${pesos(producto.precio_mayor)} c/u desde ${MAYOR_DESDE} unidades`));
 
   if (conBoton) {
-    articulo.append(producto.stock
-      ? el("button", { type: "button", "data-agregar": producto.id, "aria-label": `Agregar ${producto.nombre} al carrito` }, "Agregar")
-      : el("button", { type: "button", disabled: true }, "Sin stock"));
+    articulo.append(...(producto.stock
+      ? [el("button", { type: "button", "data-agregar": producto.id, "aria-label": `Agregar ${producto.nombre} al carrito` }, "Agregar"),
+        el("button", { type: "button", class: "mayor", "data-mayor": producto.id,
+          "aria-label": `Comprar ${MAYOR_DESDE} ${producto.nombre} por mayor` }, "Comprar por mayor")]
+      : [el("button", { type: "button", disabled: true }, "Sin stock")]));
   }
   return el("li", {}, articulo);
 }
@@ -88,7 +91,7 @@ function dibujarCatalogo(productos) {
   }
 }
 
-export function iniciarCatalogo(productos, { alAgregar }) {
+export function iniciarCatalogo(productos, { alAgregar, alComprarPorMayor }) {
   // Las piezas más nuevas son las de id más alto
   const recientes = productos.filter((p) => p.stock).slice(-RECIENTES).reverse();
   listaRecientes.replaceChildren(...recientes.map((p) => tarjeta(p, false)));
@@ -99,6 +102,11 @@ export function iniciarCatalogo(productos, { alAgregar }) {
 
   // Un solo oyente para todos los botones, aunque la grilla se vuelva a dibujar
   listaCatalogo.addEventListener("click", (evento) => {
+    const mayor = evento.target.closest("[data-mayor]");
+    if (mayor) {
+      alComprarPorMayor(Number(mayor.dataset.mayor));
+      return;
+    }
     const boton = evento.target.closest("[data-agregar]");
     if (!boton) return;
     alAgregar(Number(boton.dataset.agregar));
